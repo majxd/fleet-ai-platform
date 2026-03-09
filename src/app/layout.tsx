@@ -1,5 +1,18 @@
 import type { Metadata } from "next";
+import { Cairo, Inter } from "next/font/google";
 import "./globals.css";
+
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  variable: "--font-cairo",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "FleetAI — منصة إدارة الأساطيل الذكية",
@@ -12,5 +25,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return (
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <body
+        className={`${cairo.variable} ${inter.variable} font-sans antialiased`}
+      >
+        {children}
+      </body>
+    </html>
+  );
 }
