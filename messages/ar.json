@@ -1,0 +1,136 @@
+{
+  "common": {
+    "appName": "FleetAI",
+    "switchLanguage": "تغيير اللغة",
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "add": "إضافة",
+    "search": "بحث",
+    "filter": "تصفية",
+    "export": "تصدير",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "confirm": "تأكيد",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "أدخل بياناتك للوصول إلى لوحة التحكم",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "submit": "دخول",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "noAccount": "ليس لديك حساب؟",
+      "signUpLink": "إنشاء حساب جديد",
+      "googleLogin": "تسجيل الدخول بـ Google"
+    },
+    "register": {
+      "title": "إنشاء حساب",
+      "subtitle": "أنشئ حسابك لبدء إدارة أسطولك",
+      "companyName": "اسم الشركة",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "submit": "إنشاء حساب",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول"
+    }
+  },
+  "nav": {
+    "title": "FleetAI",
+    "dashboard": "لوحة التحكم",
+    "vehicles": "المركبات",
+    "alerts": "التنبيهات",
+    "reports": "التقارير",
+    "settings": "الإعدادات",
+    "notifications": "الإشعارات",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج"
+  },
+  "dashboard": {
+    "title": "لوحة التحكم",
+    "subtitle": "نظرة عامة على حالة الأسطول",
+    "stats": {
+      "totalVehicles": "إجمالي المركبات",
+      "activeAlerts": "التنبيهات النشطة",
+      "averageHealth": "متوسط الحالة الصحية"
+    }
+  },
+  "vehicles": {
+    "title": "المركبات",
+    "subtitle": "إدارة مركبات الأسطول",
+    "addVehicle": "إضافة مركبة",
+    "status": "الحالة",
+    "statuses": {
+      "active": "نشطة",
+      "maintenance": "صيانة",
+      "inactive": "غير نشطة",
+      "idle": "متوقفة"
+    },
+    "plateNumber": "رقم اللوحة",
+    "make": "الشركة المصنعة",
+    "model": "الموديل",
+    "year": "سنة الصنع",
+    "vin": "رقم الهيكل",
+    "healthScore": "درجة الحالة الصحية",
+    "obdDevice": "جهاز OBD",
+    "linkDevice": "ربط جهاز",
+    "unlinkDevice": "فصل جهاز"
+  },
+  "alerts": {
+    "title": "التنبيهات",
+    "subtitle": "مراقبة تنبيهات الأسطول والإشعارات",
+    "severity": {
+      "critical": "حرج",
+      "warning": "تحذير",
+      "info": "معلومات"
+    },
+    "status": {
+      "active": "نشط",
+      "acknowledged": "تم الاطلاع",
+      "resolved": "تم الحل"
+    }
+  },
+  "reports": {
+    "title": "التقارير",
+    "subtitle": "ملخصات وتقارير أداء الأسطول",
+    "weeklyReport": "التقرير الأسبوعي",
+    "downloadPdf": "تحميل PDF",
+    "generateReport": "إنشاء تقرير"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "إعدادات الشركة وإدارة الفريق",
+    "company": {
+      "title": "إعدادات الشركة",
+      "name": "اسم الشركة",
+      "phone": "رقم الهاتف",
+      "address": "العنوان"
+    },
+    "team": {
+      "title": "إدارة الفريق",
+      "addMember": "إضافة عضو",
+      "role": "الدور",
+      "roles": {
+        "owner": "مالك",
+        "manager": "مدير",
+        "technician": "فني",
+        "viewer": "مشاهد"
+      }
+    }
+  },
+  "healthScore": {
+    "label": "درجة الحالة الصحية",
+    "green": "جيدة",
+    "yellow": "متوسطة",
+    "red": "حرجة"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "common": {
+    "appName": "FleetAI",
+    "switchLanguage": "Switch Language",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Enter your credentials to access the dashboard",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Create an account",
+      "googleLogin": "Sign in with Google"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Create your account to start managing your fleet",
+      "companyName": "Company Name",
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign In"
+    }
+  },
+  "nav": {
+    "title": "FleetAI",
+    "dashboard": "Dashboard",
+    "vehicles": "Vehicles",
+    "alerts": "Alerts",
+    "reports": "Reports",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "logout": "Sign Out"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Fleet health overview",
+    "stats": {
+      "totalVehicles": "Total Vehicles",
+      "activeAlerts": "Active Alerts",
+      "averageHealth": "Average Health"
+    }
+  },
+  "vehicles": {
+    "title": "Vehicles",
+    "subtitle": "Manage your fleet vehicles",
+    "addVehicle": "Add Vehicle",
+    "status": "Status",
+    "statuses": {
+      "active": "Active",
+      "maintenance": "Maintenance",
+      "inactive": "Inactive",
+      "idle": "Idle"
+    },
+    "plateNumber": "Plate Number",
+    "make": "Make",
+    "model": "Model",
+    "year": "Year",
+    "vin": "VIN",
+    "healthScore": "Health Score",
+    "obdDevice": "OBD Device",
+    "linkDevice": "Link Device",
+    "unlinkDevice": "Unlink Device"
+  },
+  "alerts": {
+    "title": "Alerts",
+    "subtitle": "Monitor fleet alerts and notifications",
+    "severity": {
+      "critical": "Critical",
+      "warning": "Warning",
+      "info": "Info"
+    },
+    "status": {
+      "active": "Active",
+      "acknowledged": "Acknowledged",
+      "resolved": "Resolved"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "subtitle": "Fleet performance summaries and reports",
+    "weeklyReport": "Weekly Report",
+    "downloadPdf": "Download PDF",
+    "generateReport": "Generate Report"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Company settings and team management",
+    "company": {
+      "title": "Company Settings",
+      "name": "Company Name",
+      "phone": "Phone Number",
+      "address": "Address"
+    },
+    "team": {
+      "title": "Team Management",
+      "addMember": "Add Member",
+      "role": "Role",
+      "roles": {
+        "owner": "Owner",
+        "manager": "Manager",
+        "technician": "Technician",
+        "viewer": "Viewer"
+      }
+    }
+  },
+  "healthScore": {
+    "label": "Health Score",
+    "green": "Good",
+    "yellow": "Fair",
+    "red": "Critical"
+  }
+}
