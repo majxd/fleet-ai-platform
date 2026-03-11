@@ -80,3 +80,11 @@ messages/
 
 ## GitHub Repository
 https://github.com/majxd/fleet-ai-platform.git
+
+## Current Progress
+- ✅ Session 1: Project scaffold, folder structure, Git setup
+- ✅ Session 2: Dashboard Layout + Fleet Dashboard + Auth system
+- 🔲 Next: Vehicle detail page (/vehicles/[id])
+- 🔲 Then: Alerts system + WhatsApp notifications
+- 🔲 Then: Reports (PDF weekly summary)
+- 🔲 Then: Settings (company + team management)

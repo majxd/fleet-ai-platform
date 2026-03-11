@@ -20,11 +20,13 @@ export default function LanguageSwitcher() {
     <button
       type="button"
       onClick={toggleLocale}
-      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
+      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
       aria-label={t("switchLanguage")}
     >
-      <Globe className="h-4 w-4" />
-      <span>{locale === "ar" ? "English" : "العربية"}</span>
+      <Globe className="h-4 w-4 text-muted-foreground" />
+      <span className="text-muted-foreground">
+        {locale === "ar" ? "EN" : "عربي"}
+      </span>
     </button>
   );
 }

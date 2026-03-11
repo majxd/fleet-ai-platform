@@ -24,10 +24,14 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
+  const dir = locale === "ar" ? "rtl" : "ltr";
+  const fontClass = locale === "ar" ? "font-[var(--font-cairo)]" : "font-[var(--font-inter)]";
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      {children}
-    </NextIntlClientProvider>
+    <div lang={locale} dir={dir} className={fontClass}>
+      <NextIntlClientProvider messages={messages}>
+        {children}
+      </NextIntlClientProvider>
+    </div>
   );
 }

@@ -24,28 +24,64 @@
       "title": "تسجيل الدخول",
       "subtitle": "أدخل بياناتك للوصول إلى لوحة التحكم",
       "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
       "password": "كلمة المرور",
-      "submit": "دخول",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "submit": "تسجيل الدخول",
+      "or": "أو",
       "forgotPassword": "نسيت كلمة المرور؟",
       "noAccount": "ليس لديك حساب؟",
-      "signUpLink": "إنشاء حساب جديد",
-      "googleLogin": "تسجيل الدخول بـ Google"
+      "signUpLink": "سجّل الآن",
+      "googleLogin": "المتابعة مع Google",
+      "errors": {
+        "emailRequired": "يرجى إدخال البريد الإلكتروني",
+        "passwordRequired": "يرجى إدخال كلمة المرور",
+        "generic": "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى."
+      }
     },
     "register": {
-      "title": "إنشاء حساب",
+      "title": "إنشاء حساب جديد",
       "subtitle": "أنشئ حسابك لبدء إدارة أسطولك",
       "companyName": "اسم الشركة",
-      "fullName": "الاسم الكامل",
+      "companyPlaceholder": "أدخل اسم الشركة",
+      "managerName": "اسم المدير",
+      "managerPlaceholder": "أدخل اسم المدير",
       "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل البريد الإلكتروني",
       "password": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور (٨ أحرف على الأقل)",
       "confirmPassword": "تأكيد كلمة المرور",
-      "submit": "إنشاء حساب",
+      "confirmPlaceholder": "أعد إدخال كلمة المرور",
+      "fleetSize": "عدد المركبات",
+      "fleetSizePlaceholder": "اختر عدد المركبات",
+      "fleetSizes": {
+        "small": "١ - ١٠ مركبات",
+        "medium": "١١ - ٥٠ مركبة",
+        "large": "٥١ - ١٠٠ مركبة",
+        "enterprise": "أكثر من ١٠٠ مركبة"
+      },
+      "agreeToTerms": "أوافق على شروط الاستخدام وسياسة الخصوصية",
+      "submit": "إنشاء الحساب",
       "hasAccount": "لديك حساب بالفعل؟",
-      "loginLink": "تسجيل الدخول"
+      "loginLink": "سجّل دخول",
+      "errors": {
+        "companyRequired": "يرجى إدخال اسم الشركة",
+        "nameRequired": "يرجى إدخال اسم المدير",
+        "emailRequired": "يرجى إدخال البريد الإلكتروني",
+        "emailInvalid": "البريد الإلكتروني غير صالح",
+        "passwordRequired": "يرجى إدخال كلمة المرور",
+        "passwordMin": "كلمة المرور يجب أن تكون ٨ أحرف على الأقل",
+        "confirmRequired": "يرجى تأكيد كلمة المرور",
+        "passwordMismatch": "كلمتا المرور غير متطابقتين",
+        "fleetSizeRequired": "يرجى اختيار عدد المركبات",
+        "termsRequired": "يجب الموافقة على الشروط والأحكام",
+        "generic": "حدث خطأ أثناء إنشاء الحساب. حاول مرة أخرى."
+      }
     }
   },
   "nav": {
     "title": "FleetAI",
+    "companyName": "شركة الأسطول الذكي",
     "dashboard": "لوحة التحكم",
     "vehicles": "المركبات",
     "alerts": "التنبيهات",
@@ -60,9 +96,22 @@
     "subtitle": "نظرة عامة على حالة الأسطول",
     "stats": {
       "totalVehicles": "إجمالي المركبات",
+      "healthy": "سليمة",
+      "warning": "تحذير",
+      "critical": "حرجة",
       "activeAlerts": "التنبيهات النشطة",
       "averageHealth": "متوسط الحالة الصحية"
-    }
+    },
+    "statuses": {
+      "healthy": "سليمة",
+      "warning": "تحذير",
+      "critical": "خطر"
+    },
+    "recentAlerts": "آخر التنبيهات",
+    "viewAll": "عرض الكل",
+    "noData": "لا توجد بيانات",
+    "lastUpdated": "آخر تحديث",
+    "fleetOverview": "نظرة عامة على الأسطول"
   },
   "vehicles": {
     "title": "المركبات",

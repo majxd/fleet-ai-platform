@@ -24,28 +24,64 @@
       "title": "Sign In",
       "subtitle": "Enter your credentials to access the dashboard",
       "email": "Email",
+      "emailPlaceholder": "Enter your email",
       "password": "Password",
+      "passwordPlaceholder": "Enter your password",
       "submit": "Sign In",
+      "or": "or",
       "forgotPassword": "Forgot password?",
       "noAccount": "Don't have an account?",
-      "signUpLink": "Create an account",
-      "googleLogin": "Sign in with Google"
+      "signUpLink": "Sign up now",
+      "googleLogin": "Continue with Google",
+      "errors": {
+        "emailRequired": "Please enter your email",
+        "passwordRequired": "Please enter your password",
+        "generic": "An error occurred during sign in. Please try again."
+      }
     },
     "register": {
       "title": "Create Account",
       "subtitle": "Create your account to start managing your fleet",
       "companyName": "Company Name",
-      "fullName": "Full Name",
+      "companyPlaceholder": "Enter company name",
+      "managerName": "Manager Name",
+      "managerPlaceholder": "Enter manager name",
       "email": "Email",
+      "emailPlaceholder": "Enter your email",
       "password": "Password",
+      "passwordPlaceholder": "Enter password (min 8 characters)",
       "confirmPassword": "Confirm Password",
+      "confirmPlaceholder": "Re-enter your password",
+      "fleetSize": "Fleet Size",
+      "fleetSizePlaceholder": "Select fleet size",
+      "fleetSizes": {
+        "small": "1 - 10 vehicles",
+        "medium": "11 - 50 vehicles",
+        "large": "51 - 100 vehicles",
+        "enterprise": "100+ vehicles"
+      },
+      "agreeToTerms": "I agree to the Terms of Service and Privacy Policy",
       "submit": "Create Account",
       "hasAccount": "Already have an account?",
-      "loginLink": "Sign In"
+      "loginLink": "Sign in",
+      "errors": {
+        "companyRequired": "Please enter company name",
+        "nameRequired": "Please enter manager name",
+        "emailRequired": "Please enter your email",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordRequired": "Please enter a password",
+        "passwordMin": "Password must be at least 8 characters",
+        "confirmRequired": "Please confirm your password",
+        "passwordMismatch": "Passwords do not match",
+        "fleetSizeRequired": "Please select fleet size",
+        "termsRequired": "You must agree to the terms and conditions",
+        "generic": "An error occurred during registration. Please try again."
+      }
     }
   },
   "nav": {
     "title": "FleetAI",
+    "companyName": "Smart Fleet Company",
     "dashboard": "Dashboard",
     "vehicles": "Vehicles",
     "alerts": "Alerts",
@@ -60,9 +96,22 @@
     "subtitle": "Fleet health overview",
     "stats": {
       "totalVehicles": "Total Vehicles",
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "critical": "Critical",
       "activeAlerts": "Active Alerts",
       "averageHealth": "Average Health"
-    }
+    },
+    "statuses": {
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "recentAlerts": "Recent Alerts",
+    "viewAll": "View All",
+    "noData": "No data",
+    "lastUpdated": "Last updated",
+    "fleetOverview": "Fleet Overview"
   },
   "vehicles": {
     "title": "Vehicles",

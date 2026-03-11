@@ -20,15 +20,15 @@ export const metadata: Metadata = {
     "منصة عربية لمراقبة أساطيل تأجير السيارات في الوقت الفعلي باستخدام أجهزة OBD",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body
-        className={`${cairo.variable} ${inter.variable} font-sans antialiased`}
+        className={`${cairo.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>

@@ -6,6 +6,7 @@ export interface Alert {
   id: string;
   company_id: string;
   vehicle_id: string;
+  vehicle_plate: string;
   title: string;
   message: string;
   severity: AlertSeverity;
