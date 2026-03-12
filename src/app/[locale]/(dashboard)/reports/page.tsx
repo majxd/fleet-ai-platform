@@ -1,6 +1,6 @@
 "use client";
 
-import { use } from "react";
+import { useState, use } from "react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateWeeklyReport } from "@/lib/generate-report";
 
 // Mock data for recent reports
 const mockRecentReports = [
@@ -101,6 +102,7 @@ export default function ReportsPage({ params }: { params: Promise<{ locale: stri
   const { locale } = use(params);
   const t = useTranslations("reports");
   const isRtl = locale === "ar";
+  const [isGenerating, setIsGenerating] = useState(false);
   
   // Calculate summary stats
   const totalVehicles = mockVehicles.length;
@@ -118,6 +120,27 @@ export default function ReportsPage({ params }: { params: Promise<{ locale: stri
       month: 'short', 
       day: 'numeric'
     }).format(new Date(dateString));
+  };
+
+  const handleGenerateWeeklyReport = async () => {
+    try {
+      setIsGenerating(true);
+      // Simulate network wait for better UX
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      generateWeeklyReport({
+        locale: locale as "ar" | "en",
+        companyName: t("title") === "التقارير" ? "شركة الأسطول الذكي" : "Smart Fleet Company", // Fallback for demo
+        dateRange: formatDate(new Date().toISOString()),
+      });
+      
+      // Native fallback alert since shadcn toast failed fetching
+      window.alert(isRtl ? "تم استخراج تقرير الأسطول الأسبوعي" : "Weekly Fleet Summary generated successfully");
+    } catch (error) {
+      window.alert(isRtl ? "فشل إنشاء التقرير" : "Failed to generate report");
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -216,8 +239,16 @@ export default function ReportsPage({ params }: { params: Promise<{ locale: stri
                 <Calendar className="h-4 w-4" />
                 <span dir="ltr">Mar 3 - Mar 9, 2026</span>
               </div>
-              <Button className="w-full sm:w-auto bg-[#2471A3] hover:bg-[#1a5276]">
-                <FileText className={cn("h-4 w-4", isRtl ? "ml-2" : "mr-2")} />
+              <Button 
+                className="w-full sm:w-auto bg-[#2471A3] hover:bg-[#1a5276]"
+                onClick={handleGenerateWeeklyReport}
+                disabled={isGenerating}
+              >
+                {isGenerating ? (
+                  <Loader2 className={cn("h-4 w-4 animate-spin", isRtl ? "ml-2" : "mr-2")} />
+                ) : (
+                  <FileText className={cn("h-4 w-4", isRtl ? "ml-2" : "mr-2")} />
+                )}
                 {t("generateReport")}
               </Button>
             </div>
