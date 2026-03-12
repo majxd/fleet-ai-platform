@@ -86,7 +86,7 @@ https://github.com/majxd/fleet-ai-platform.git
 - ✅ Session 2: Dashboard Layout + Fleet Dashboard + Auth system
 - ✅ Session 3: Locale routing fix (middleware + routing.ts), Cairo/Inter fonts, hydration fix
 - ✅ Session 4: Vehicles list page + Vehicle detail page (/vehicles/[id]) with 5 sections (header, OBD, chart, DTC, maintenance)
-- 🔲 Next: Alerts system + WhatsApp notifications
-- 🔲 Then: Reports (PDF weekly summary)
+- ✅ Session 5: Alerts system (database migration, TypeScript types, alerts page with severity/status filters, locale-aware titles, synced badge count in Sidebar and Navbar, RTL sidebar fix)
+- 🔲 Next: Reports (PDF weekly summary)
 - 🔲 Then: Settings (company + team management)
 
