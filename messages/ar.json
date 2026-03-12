@@ -197,84 +197,128 @@
   "settings": {
     "title": "الإعدادات",
     "subtitle": "إعدادات الشركة وإدارة الفريق",
+    "saveChanges": "حفظ التغييرات",
+    "savePreferences": "حفظ التفضيلات",
     "company": {
-      "title": "إعدادات الشركة",
+      "title": "تفاصيل الشركة",
+      "description": "قم بإدارة معلومات شركتك وجهات الاتصال الخاصة بك",
       "name": "اسم الشركة",
+      "namePlaceholder": "أدخل اسم الشركة",
+      "email": "البريد الإلكتروني للشركة",
+      "emailPlaceholder": "أدخل البريد الإلكتروني",
       "phone": "رقم الهاتف",
-      "address": "العنوان"
-    },
-    "team": {
-      "title": "إدارة الفريق",
-      "addMember": "إضافة عضو",
-      "role": "الدور",
-      "roles": {
-        "owner": "مالك",
-        "manager": "مدير",
-        "technician": "فني",
-        "viewer": "مشاهد"
-      }
-    }
-  },
-  "healthScore": {
-    "label": "درجة الحالة الصحية",
-    "green": "جيدة",
-    "yellow": "متوسطة",
-    "red": "حرجة"
-  },
-  "vehicleDetail": {
-    "backToVehicles": "العودة للمركبات",
-    "vehicleInfo": "معلومات المركبة",
-    "statusBadge": {
-      "healthy": "صحي",
-      "warning": "تحذير",
-      "critical": "خطر"
-    },
-    "obd": {
-      "title": "بيانات OBD المباشرة",
-      "lastUpdate": "آخر تحديث",
-      "engineTemp": "حرارة المحرك",
-      "rpm": "عدد الدورات",
-      "fuelLevel": "مستوى الوقود",
-      "battery": "جهد البطارية",
-      "unitCelsius": "°م",
-      "unitRpm": "د/د",
-      "unitPercent": "٪",
-      "unitVolt": "فولت",
-      "normal": "طبيعي",
-      "warning": "تحذير",
-      "critical": "حرج"
-    },
-    "healthHistory": {
-      "title": "سجل الحالة الصحية",
-      "subtitle": "آخر ٣٠ يوم",
-      "score": "الدرجة",
-      "date": "التاريخ"
-    },
-    "dtc": {
-      "title": "أكواد الأعطال (DTC)",
-      "code": "الكود",
-      "description": "الوصف",
-      "severity": "الخطورة",
-      "date": "تاريخ الاكتشاف",
-      "critical": "حرج",
-      "warning": "تحذير",
-      "empty": "لا توجد أكواد أعطال نشطة ✅"
-    },
-    "maintenance": {
-      "title": "سجل الصيانة",
-      "mileage": "المسافة المقطوعة",
-      "cost": "التكلفة",
-      "km": "كم",
-      "sar": "ر.س",
-      "types": {
-        "oil_change": "تغيير الزيت",
-        "tire_rotation": "تدوير الإطارات",
-        "brake_inspection": "فحص الفرامل",
-        "filter_replacement": "تغيير الفلاتر",
-        "battery_replacement": "تغيير البطارية",
-        "general_inspection": "فحص شامل"
+      "phonePlaceholder": "أدخل رقم الهاتف",
+      "size": "حجم الشركة",
+      "sizeOptions": {
+        "micro": "١ - ١٠ مركبات",
+        "small": "١١ - ٥٠ مركبة",
+        "medium": "٥١ - ١٠٠ مركبة",
+        "large": "أكثر من ١٠٠ مركبة"
       },
-      "empty": "لا يوجد سجل صيانة سابق"
+      "city": "المدينة",
+      "cityOptions": {
+        "riyadh": "الرياض",
+        "jeddah": "جدة",
+        "dammam": "الدمام",
+        "makkah": "مكة المكرّمة",
+        "madinah": "المدينة المنورة"
+      }
+    },
+    "notifications": {
+      "title": "تفضيلات الإشعارات",
+      "description": "اختر كيف ومتى تريد تلقي التنبيهات",
+      "email": {
+        "label": "إشعارات البريد الإلكتروني",
+        "description": "تلقي تقارير وتنبيهات يومية عبر البريد الإلكتروني"
+      },
+      "whatsapp": {
+        "label": "إشعارات واتساب",
+        "description": "تلقي تنبيهات فورية عن الحالات الحرجة"
+      },
+      "sms": {
+        "label": "رسائل نصية قصيرة (SMS)",
+        "description": "تلقي رسائل نصية للتنبيهات العاجلة جدًا"
+      },
+      "threshold": {
+        "label": "حد التنبيهات الحرجة",
+        "description": "سيتم إرسال تنبيه إذا انخفضت درجة الحالة الصحية للمركبة عن هذا الحد المنصوص عليه"
+      }
+    },
+    "subscription": {
+      "title": "الاشتراك والفوترة",
+      "description": "إدارة تفاصيل اشتراكك بـ FleetAI",
+      "currentPlan": "الخطة الحالية",
+      "starter": "الخطة الأساسية (Starter)",
+      "price": "السعر",
+      "priceValue": "٦٠ ر.س / للمركبة / شهرياً",
+      "activeVehicles": "المركبات النشطة",
+      "vehiclesCount": "١٢ مركبة نشطة",
+      "nextBilling": "تاريخ الفاتورة القادمة",
+      "billingDate": "١ أبريل ٢٠٢٦",
+      "upgradePlan": "ترقية الخطة",
+      "comingSoon": "قريباً!"
+    },
+    "healthScore": {
+      "label": "درجة الحالة الصحية",
+      "green": "جيدة",
+      "yellow": "متوسطة",
+      "red": "حرجة"
+    },
+    "vehicleDetail": {
+      "backToVehicles": "العودة للمركبات",
+      "vehicleInfo": "معلومات المركبة",
+      "statusBadge": {
+        "healthy": "صحي",
+        "warning": "تحذير",
+        "critical": "خطر"
+      },
+      "obd": {
+        "title": "بيانات OBD المباشرة",
+        "lastUpdate": "آخر تحديث",
+        "engineTemp": "حرارة المحرك",
+        "rpm": "عدد الدورات",
+        "fuelLevel": "مستوى الوقود",
+        "battery": "جهد البطارية",
+        "unitCelsius": "°م",
+        "unitRpm": "د/د",
+        "unitPercent": "٪",
+        "unitVolt": "فولت",
+        "normal": "طبيعي",
+        "warning": "تحذير",
+        "critical": "حرج"
+      },
+      "healthHistory": {
+        "title": "سجل الحالة الصحية",
+        "subtitle": "آخر ٣٠ يوم",
+        "score": "الدرجة",
+        "date": "التاريخ"
+      },
+      "dtc": {
+        "title": "أكواد الأعطال (DTC)",
+        "code": "الكود",
+        "description": "الوصف",
+        "severity": "الخطورة",
+        "date": "تاريخ الاكتشاف",
+        "critical": "حرج",
+        "warning": "تحذير",
+        "empty": "لا توجد أكواد أعطال نشطة ✅"
+      },
+      "maintenance": {
+        "title": "سجل الصيانة",
+        "mileage": "المسافة المقطوعة",
+        "cost": "التكلفة",
+        "km": "كم",
+        "sar": "ر.س",
+        "types": {
+          "oil_change": "تغيير الزيت",
+          "tire_rotation": "تدوير الإطارات",
+          "brake_inspection": "فحص الفرامل",
+          "filter_replacement": "تغيير الفلاتر",
+          "battery_replacement": "تغيير البطارية",
+          "general_inspection": "فحص شامل"
+        },
+        "empty": "لا يوجد سجل صيانة سابق"
+      }
     }
   }
 }

@@ -197,84 +197,128 @@
   "settings": {
     "title": "Settings",
     "subtitle": "Company settings and team management",
+    "saveChanges": "Save Changes",
+    "savePreferences": "Save Preferences",
     "company": {
-      "title": "Company Settings",
+      "title": "Company Profile",
+      "description": "Manage your company information and contact details",
       "name": "Company Name",
+      "namePlaceholder": "Enter company name",
+      "email": "Company Email",
+      "emailPlaceholder": "Enter company email",
       "phone": "Phone Number",
-      "address": "Address"
-    },
-    "team": {
-      "title": "Team Management",
-      "addMember": "Add Member",
-      "role": "Role",
-      "roles": {
-        "owner": "Owner",
-        "manager": "Manager",
-        "technician": "Technician",
-        "viewer": "Viewer"
-      }
-    }
-  },
-  "healthScore": {
-    "label": "Health Score",
-    "green": "Good",
-    "yellow": "Fair",
-    "red": "Critical"
-  },
-  "vehicleDetail": {
-    "backToVehicles": "Back to Vehicles",
-    "vehicleInfo": "Vehicle Information",
-    "statusBadge": {
-      "healthy": "Healthy",
-      "warning": "Warning",
-      "critical": "Critical"
-    },
-    "obd": {
-      "title": "Live OBD Data",
-      "lastUpdate": "Last update",
-      "engineTemp": "Engine Temperature",
-      "rpm": "RPM",
-      "fuelLevel": "Fuel Level",
-      "battery": "Battery Voltage",
-      "unitCelsius": "°C",
-      "unitRpm": "RPM",
-      "unitPercent": "%",
-      "unitVolt": "V",
-      "normal": "Normal",
-      "warning": "Warning",
-      "critical": "Critical"
-    },
-    "healthHistory": {
-      "title": "Health History",
-      "subtitle": "Last 30 days",
-      "score": "Score",
-      "date": "Date"
-    },
-    "dtc": {
-      "title": "DTC Fault Codes",
-      "code": "Code",
-      "description": "Description",
-      "severity": "Severity",
-      "date": "Detected",
-      "critical": "Critical",
-      "warning": "Warning",
-      "empty": "No active fault codes ✅"
-    },
-    "maintenance": {
-      "title": "Maintenance History",
-      "mileage": "Mileage",
-      "cost": "Cost",
-      "km": "km",
-      "sar": "SAR",
-      "types": {
-        "oil_change": "Oil Change",
-        "tire_rotation": "Tire Rotation",
-        "brake_inspection": "Brake Inspection",
-        "filter_replacement": "Filter Replacement",
-        "battery_replacement": "Battery Replacement",
-        "general_inspection": "General Inspection"
+      "phonePlaceholder": "Enter phone number",
+      "size": "Company Size",
+      "sizeOptions": {
+        "micro": "1 - 10 vehicles",
+        "small": "11 - 50 vehicles",
+        "medium": "51 - 100 vehicles",
+        "large": "100+ vehicles"
       },
-      "empty": "No maintenance history"
+      "city": "City",
+      "cityOptions": {
+        "riyadh": "Riyadh",
+        "jeddah": "Jeddah",
+        "dammam": "Dammam",
+        "makkah": "Makkah",
+        "madinah": "Madinah"
+      }
+    },
+    "notifications": {
+      "title": "Notification Preferences",
+      "description": "Choose how and when you want to be notified",
+      "email": {
+        "label": "Email Notifications",
+        "description": "Receive daily reports and alerts via email"
+      },
+      "whatsapp": {
+        "label": "WhatsApp Notifications",
+        "description": "Get instant messages for critical alerts"
+      },
+      "sms": {
+        "label": "SMS Notifications",
+        "description": "Receive text messages for highly urgent alerts"
+      },
+      "threshold": {
+        "label": "Critical Alert Threshold",
+        "description": "Trigger an alert when a vehicle's health score drops below this number"
+      }
+    },
+    "subscription": {
+      "title": "Subscription & Billing",
+      "description": "Manage your FleetAI subscription details",
+      "currentPlan": "Current Plan",
+      "starter": "Starter",
+      "price": "Price",
+      "priceValue": "60 SAR / vehicle / month",
+      "activeVehicles": "Active Vehicles",
+      "vehiclesCount": "12 active",
+      "nextBilling": "Next Billing Date",
+      "billingDate": "Apr 1, 2026",
+      "upgradePlan": "Upgrade Plan",
+      "comingSoon": "Coming Soon!"
+    },
+    "healthScore": {
+      "label": "Health Score",
+      "green": "Good",
+      "yellow": "Fair",
+      "red": "Critical"
+    },
+    "vehicleDetail": {
+      "backToVehicles": "Back to Vehicles",
+      "vehicleInfo": "Vehicle Information",
+      "statusBadge": {
+        "healthy": "Healthy",
+        "warning": "Warning",
+        "critical": "Critical"
+      },
+      "obd": {
+        "title": "Live OBD Data",
+        "lastUpdate": "Last update",
+        "engineTemp": "Engine Temperature",
+        "rpm": "RPM",
+        "fuelLevel": "Fuel Level",
+        "battery": "Battery Voltage",
+        "unitCelsius": "°C",
+        "unitRpm": "RPM",
+        "unitPercent": "%",
+        "unitVolt": "V",
+        "normal": "Normal",
+        "warning": "Warning",
+        "critical": "Critical"
+      },
+      "healthHistory": {
+        "title": "Health History",
+        "subtitle": "Last 30 days",
+        "score": "Score",
+        "date": "Date"
+      },
+      "dtc": {
+        "title": "DTC Fault Codes",
+        "code": "Code",
+        "description": "Description",
+        "severity": "Severity",
+        "date": "Detected",
+        "critical": "Critical",
+        "warning": "Warning",
+        "empty": "No active fault codes ✅"
+      },
+      "maintenance": {
+        "title": "Maintenance History",
+        "mileage": "Mileage",
+        "cost": "Cost",
+        "km": "km",
+        "sar": "SAR",
+        "types": {
+          "oil_change": "Oil Change",
+          "tire_rotation": "Tire Rotation",
+          "brake_inspection": "Brake Inspection",
+          "filter_replacement": "Filter Replacement",
+          "battery_replacement": "Battery Replacement",
+          "general_inspection": "General Inspection"
+        },
+        "empty": "No maintenance history"
+      }
     }
   }
 }
