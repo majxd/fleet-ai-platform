@@ -87,6 +87,8 @@ https://github.com/majxd/fleet-ai-platform.git
 - ✅ Session 3: Locale routing fix (middleware + routing.ts), Cairo/Inter fonts, hydration fix
 - ✅ Session 4: Vehicles list page + Vehicle detail page (/vehicles/[id]) with 5 sections (header, OBD, chart, DTC, maintenance)
 - ✅ Session 5: Alerts system (database migration, TypeScript types, alerts page with severity/status filters, locale-aware titles, synced badge count in Sidebar and Navbar, RTL sidebar fix)
-- 🔲 Next: Reports (PDF weekly summary)
-- 🔲 Then: Settings (company + team management)
+- ✅ Session 6: Reports page (stats overview, report cards, recent reports table, PDF generation with jsPDF — known issue: Arabic text encoding in PDF needs custom font)
+- Next: Settings (company + team management)
 
+## Known Issues
+- PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.
