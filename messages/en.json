@@ -147,10 +147,24 @@
       "info": "Info"
     },
     "status": {
-      "active": "Active",
-      "acknowledged": "Acknowledged",
+      "new": "New",
+      "in_progress": "In Progress",
       "resolved": "Resolved"
-    }
+    },
+    "filterBySeverity": "Filter by Severity",
+    "filterByStatus": "Filter by Status",
+    "allSeverities": "All Severities",
+    "allStatuses": "All Statuses",
+    "vehiclePlate": "Plate Number",
+    "alertType": "Alert Type",
+    "severityLevel": "Severity",
+    "statusLabel": "Status",
+    "time": "Time",
+    "assignedTo": "Assigned To",
+    "actions": "Actions",
+    "markResolved": "Mark as Resolved",
+    "unassigned": "Unassigned",
+    "emptyState": "No alerts match the selected filters"
   },
   "reports": {
     "title": "Reports",

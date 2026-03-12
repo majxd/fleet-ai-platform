@@ -7,8 +7,12 @@ import { useTranslations } from "next-intl";
 import { AlertTriangle, XCircle, Info, ArrowLeft, ArrowRight, Clock } from "lucide-react";
 import type { Alert, AlertSeverity } from "@/types/alert";
 
+interface AlertDisplay extends Alert {
+  vehicle_plate?: string;
+}
+
 interface RecentAlertsProps {
-  alerts: Alert[];
+  alerts: AlertDisplay[];
 }
 
 function getSeverityIcon(severity: AlertSeverity) {
@@ -125,10 +129,10 @@ export default function RecentAlerts({ alerts }: RecentAlertsProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-foreground">
-                  {alert.message}
+                  {isRtl ? alert.title_ar : alert.title_en}
                 </p>
                 <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="font-medium">{alert.vehicle_plate}</span>
+                  <span className="font-medium">{alert.vehicle_plate || alert.vehicle_id}</span>
                   <span>•</span>
                   <div className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />

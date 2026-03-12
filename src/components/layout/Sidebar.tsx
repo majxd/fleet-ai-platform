@@ -30,11 +30,14 @@ const navItems: NavItem[] = [
   { key: "settings", href: "/settings", icon: Settings },
 ];
 
+import { mockAlertsData } from "@/data/mock-alerts";
+
 interface SidebarProps {
-  unreadAlerts?: number;
+  // props can be added here if needed
 }
 
-export default function Sidebar({ unreadAlerts = 3 }: SidebarProps) {
+export default function Sidebar(_props: SidebarProps) {
+  const unreadAlertsCount = mockAlertsData.filter(alert => alert.status === "new").length;
   const t = useTranslations("nav");
   const pathname = usePathname();
   const params = useParams();
@@ -62,7 +65,7 @@ export default function Sidebar({ unreadAlerts = 3 }: SidebarProps) {
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
-          const showBadge = item.key === "alerts" && unreadAlerts > 0;
+          const showBadge = item.key === "alerts" && unreadAlertsCount > 0;
 
           return (
             <Link
@@ -80,7 +83,7 @@ export default function Sidebar({ unreadAlerts = 3 }: SidebarProps) {
               <span className="flex-1">{t(item.key)}</span>
               {showBadge && (
                 <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#EF4444] px-1.5 text-[10px] font-bold text-white">
-                  {unreadAlerts}
+                  {unreadAlertsCount}
                 </span>
               )}
             </Link>

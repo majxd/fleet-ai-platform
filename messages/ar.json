@@ -147,10 +147,24 @@
       "info": "معلومات"
     },
     "status": {
-      "active": "نشط",
-      "acknowledged": "تم الاطلاع",
+      "new": "جديد",
+      "in_progress": "قيد المعالجة",
       "resolved": "تم الحل"
-    }
+    },
+    "filterBySeverity": "تصفية حسب الخطورة",
+    "filterByStatus": "تصفية حسب الحالة",
+    "allSeverities": "جميع مستويات الخطورة",
+    "allStatuses": "جميع الحالات",
+    "vehiclePlate": "رقم اللوحة",
+    "alertType": "نوع التنبيه",
+    "severityLevel": "الخطورة",
+    "statusLabel": "الحالة",
+    "time": "الوقت",
+    "assignedTo": "مُسند إلى",
+    "actions": "الإجراءات",
+    "markResolved": "تحديد كـ محلول",
+    "unassigned": "غير مُسند",
+    "emptyState": "لا توجد تنبيهات تطابق الفلاتر المحددة"
   },
   "reports": {
     "title": "التقارير",

@@ -4,11 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Bell, User, LogOut, ChevronDown } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { mockAlertsData } from "@/data/mock-alerts";
 
 export default function Navbar() {
   const t = useTranslations("nav");
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const unreadAlertsCount = mockAlertsData.filter(alert => alert.status === "new").length;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -43,9 +45,11 @@ export default function Navbar() {
           aria-label={t("notifications")}
         >
           <Bell className="h-5 w-5 text-muted-foreground" />
-          <span className="absolute -top-0.5 -end-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#EF4444] px-1 text-[9px] font-bold text-white">
-            3
-          </span>
+          {unreadAlertsCount > 0 && (
+            <span className="absolute -top-0.5 -end-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#EF4444] px-1 text-[9px] font-bold text-white">
+              {unreadAlertsCount}
+            </span>
+          )}
         </button>
 
         {/* User dropdown */}
