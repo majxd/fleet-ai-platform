@@ -258,67 +258,100 @@
       "upgradePlan": "Upgrade Plan",
       "comingSoon": "Coming Soon!"
     },
-    "healthScore": {
-      "label": "Health Score",
-      "green": "Good",
-      "yellow": "Fair",
-      "red": "Critical"
-    },
-    "vehicleDetail": {
-      "backToVehicles": "Back to Vehicles",
-      "vehicleInfo": "Vehicle Information",
-      "statusBadge": {
-        "healthy": "Healthy",
-        "warning": "Warning",
-        "critical": "Critical"
+    "team": {
+      "title": "Team Management",
+      "addMember": "Add Member",
+      "table": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "actions": "Actions"
       },
-      "obd": {
-        "title": "Live OBD Data",
-        "lastUpdate": "Last update",
-        "engineTemp": "Engine Temperature",
-        "rpm": "RPM",
-        "fuelLevel": "Fuel Level",
-        "battery": "Battery Voltage",
-        "unitCelsius": "°C",
-        "unitRpm": "RPM",
-        "unitPercent": "%",
-        "unitVolt": "V",
-        "normal": "Normal",
-        "warning": "Warning",
-        "critical": "Critical"
+      "roles": {
+        "owner": "Owner",
+        "manager": "Manager",
+        "technician": "Technician",
+        "viewer": "Viewer"
       },
-      "healthHistory": {
-        "title": "Health History",
-        "subtitle": "Last 30 days",
-        "score": "Score",
-        "date": "Date"
+      "statuses": {
+        "active": "Active",
+        "invited": "Invited"
       },
-      "dtc": {
-        "title": "DTC Fault Codes",
-        "code": "Code",
-        "description": "Description",
-        "severity": "Severity",
-        "date": "Detected",
-        "critical": "Critical",
-        "warning": "Warning",
-        "empty": "No active fault codes ✅"
+      "actions": {
+        "editRole": "Edit Role",
+        "remove": "Remove",
+        "cannotRemoveOwner": "Cannot remove owner"
       },
-      "maintenance": {
-        "title": "Maintenance History",
-        "mileage": "Mileage",
-        "cost": "Cost",
-        "km": "km",
-        "sar": "SAR",
-        "types": {
-          "oil_change": "Oil Change",
-          "tire_rotation": "Tire Rotation",
-          "brake_inspection": "Brake Inspection",
-          "filter_replacement": "Filter Replacement",
-          "battery_replacement": "Battery Replacement",
-          "general_inspection": "General Inspection"
-        },
-        "empty": "No maintenance history"
+      "addForm": {
+        "namePlaceholder": "Member name",
+        "emailPlaceholder": "Email address",
+        "rolePlaceholder": "Select role",
+        "sendInvite": "Send Invite",
+        "cancel": "Cancel"
       }
+    }
+  },
+  "healthScore": {
+    "label": "Health Score",
+    "green": "Good",
+    "yellow": "Fair",
+    "red": "Critical"
+  },
+  "vehicleDetail": {
+    "backToVehicles": "Back to Vehicles",
+    "vehicleInfo": "Vehicle Information",
+    "statusBadge": {
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "obd": {
+      "title": "Live OBD Data",
+      "lastUpdate": "Last update",
+      "engineTemp": "Engine Temperature",
+      "rpm": "RPM",
+      "fuelLevel": "Fuel Level",
+      "battery": "Battery Voltage",
+      "unitCelsius": "°C",
+      "unitRpm": "RPM",
+      "unitPercent": "%",
+      "unitVolt": "V",
+      "normal": "Normal",
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "healthHistory": {
+      "title": "Health History",
+      "subtitle": "Last 30 days",
+      "score": "Score",
+      "date": "Date"
+    },
+    "dtc": {
+      "title": "DTC Fault Codes",
+      "code": "Code",
+      "description": "Description",
+      "severity": "Severity",
+      "date": "Detected",
+      "critical": "Critical",
+      "warning": "Warning",
+      "empty": "No active fault codes ✅"
+    },
+    "maintenance": {
+      "title": "Maintenance History",
+      "mileage": "Mileage",
+      "cost": "Cost",
+      "km": "km",
+      "sar": "SAR",
+      "types": {
+        "oil_change": "Oil Change",
+        "tire_rotation": "Tire Rotation",
+        "brake_inspection": "Brake Inspection",
+        "filter_replacement": "Filter Replacement",
+        "battery_replacement": "Battery Replacement",
+        "general_inspection": "General Inspection"
+      },
+      "empty": "No maintenance history"
     }
   }
 }

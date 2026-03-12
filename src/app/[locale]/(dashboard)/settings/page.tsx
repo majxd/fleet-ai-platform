@@ -15,7 +15,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Building2, Bell, CreditCard, Save, Crown, Car } from "lucide-react";
+import { 
+  Building2, 
+  Bell, 
+  CreditCard, 
+  Save, 
+  Crown, 
+  Car, 
+  Users, 
+  UserPlus, 
+  MoreHorizontal,
+  Mail,
+  User
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
 export default function SettingsPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -26,6 +54,34 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
   // Mock form state
   const [isSaving, setIsSaving] = useState(false);
   const [isSavingPrefs, setIsSavingPrefs] = useState(false);
+  const [isAddingMember, setIsAddingMember] = useState(false);
+
+  // Mock team members data
+  const [teamMembers, setTeamMembers] = useState([
+    { id: 1, name: "Mohammed", email: "mohammed@smartfleet.com", role: "owner", status: "active" },
+    { id: 2, name: "Khaled", email: "khaled@smartfleet.com", role: "manager", status: "active" },
+    { id: 3, name: "Ahmed", email: "ahmed@smartfleet.com", role: "technician", status: "active" },
+    { id: 4, name: "Sara", email: "sara@smartfleet.com", role: "viewer", status: "active" },
+    { id: 5, name: "Omar", email: "omar@smartfleet.com", role: "technician", status: "invited" },
+  ]);
+
+  const getRoleBadge = (role: string) => {
+    switch (role) {
+      case "owner": return <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-100 border-purple-200">{t(`team.roles.owner`)}</Badge>;
+      case "manager": return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200">{t(`team.roles.manager`)}</Badge>;
+      case "technician": return <Badge className="bg-green-100 text-green-800 hover:bg-green-100 border-green-200">{t(`team.roles.technician`)}</Badge>;
+      case "viewer": return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100 border-gray-200">{t(`team.roles.viewer`)}</Badge>;
+      default: return null;
+    }
+  };
+
+  const handleRemoveMember = (id: number, role: string) => {
+    if (role === "owner") {
+      window.alert(isRtl ? "لا يمكن حذف المالك" : "Cannot remove owner");
+      return;
+    }
+    setTeamMembers(teamMembers.filter(m => m.id !== id));
+  };
 
   const mockSaveCompany = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -236,6 +292,126 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
               {t("subscription.comingSoon")}
             </p>
           </CardFooter>
+        </Card>
+        {/* Team Management */}
+        <Card>
+          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-[#2471A3]" />
+                <CardTitle>{t("team.title")}</CardTitle>
+              </div>
+            </div>
+            <Button 
+              className="bg-[#2471A3] hover:bg-[#1a5276]"
+              onClick={() => setIsAddingMember(!isAddingMember)}
+            >
+              <UserPlus className={cn("h-4 w-4", isRtl ? "ml-2" : "mr-2")} />
+              {t("team.addMember")}
+            </Button>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            {/* Add Member Form (Inline) */}
+            {isAddingMember && (
+              <div className="bg-slate-50 border p-4 rounded-lg grid md:grid-cols-4 gap-4 items-end">
+                <div className="space-y-2">
+                  <Label>{t("team.table.name")}</Label>
+                  <div className="relative">
+                    <User className={cn("absolute top-3 h-4 w-4 text-muted-foreground", isRtl ? "right-3" : "left-3")} />
+                    <Input className={cn(isRtl ? "pr-9" : "pl-9")} placeholder={t("team.addForm.namePlaceholder")} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>{t("team.table.email")}</Label>
+                  <div className="relative">
+                    <Mail className={cn("absolute top-3 h-4 w-4 text-muted-foreground", isRtl ? "right-3" : "left-3")} />
+                    <Input dir="ltr" className={cn(isRtl ? "pr-9 text-right" : "pl-9")} placeholder={t("team.addForm.emailPlaceholder")} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>{t("team.table.role")}</Label>
+                  <Select defaultValue="viewer">
+                    <SelectTrigger dir={isRtl ? "rtl" : "ltr"}>
+                      <SelectValue placeholder={t("team.addForm.rolePlaceholder")} />
+                    </SelectTrigger>
+                    <SelectContent dir={isRtl ? "rtl" : "ltr"}>
+                      <SelectItem value="manager">{t("team.roles.manager")}</SelectItem>
+                      <SelectItem value="technician">{t("team.roles.technician")}</SelectItem>
+                      <SelectItem value="viewer">{t("team.roles.viewer")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button className="w-full bg-[#2471A3] hover:bg-[#1a5276]" onClick={() => setIsAddingMember(false)}>
+                    {t("team.addForm.sendInvite")}
+                  </Button>
+                  <Button variant="outline" className="w-full" onClick={() => setIsAddingMember(false)}>
+                    {t("team.addForm.cancel")}
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {/* Team Members List */}
+            <div className="border rounded-lg overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className={cn(isRtl && "text-right")}>{t("team.table.name")}</TableHead>
+                    <TableHead className={cn(isRtl && "text-right")}>{t("team.table.email")}</TableHead>
+                    <TableHead className={cn(isRtl && "text-right")}>{t("team.table.role")}</TableHead>
+                    <TableHead className={cn(isRtl && "text-right")}>{t("team.table.status")}</TableHead>
+                    <TableHead className={cn(isRtl && "text-right", "w-[100px]")}>{t("team.table.actions")}</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {teamMembers.map((member) => (
+                    <TableRow key={member.id}>
+                      <TableCell className="font-medium">{member.name}</TableCell>
+                      <TableCell dir="ltr" className={cn(isRtl && "text-right")}>{member.email}</TableCell>
+                      <TableCell>{getRoleBadge(member.role)}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <div className={cn(
+                            "h-2 w-2 rounded-full",
+                            member.status === "active" ? "bg-green-500" : "bg-yellow-500"
+                          )} />
+                          <span className="text-sm">
+                            {member.status === "active" ? t("team.statuses.active") : t("team.statuses.invited")}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                              <span className="sr-only">Open menu</span>
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align={isRtl ? "start" : "end"}>
+                            <DropdownMenuLabel>{t("team.table.actions")}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem disabled={member.role === "owner"}>
+                              {t("team.actions.editRole")}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="text-red-600 focus:text-red-600 focus:bg-red-50"
+                              disabled={member.role === "owner"}
+                              onClick={() => handleRemoveMember(member.id, member.role)}
+                            >
+                              {t("team.actions.remove")}
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
         </Card>
       </div>
     </div>

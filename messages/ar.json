@@ -258,67 +258,100 @@
       "upgradePlan": "ترقية الخطة",
       "comingSoon": "قريباً!"
     },
-    "healthScore": {
-      "label": "درجة الحالة الصحية",
-      "green": "جيدة",
-      "yellow": "متوسطة",
-      "red": "حرجة"
-    },
-    "vehicleDetail": {
-      "backToVehicles": "العودة للمركبات",
-      "vehicleInfo": "معلومات المركبة",
-      "statusBadge": {
-        "healthy": "صحي",
-        "warning": "تحذير",
-        "critical": "خطر"
+    "team": {
+      "title": "إدارة الفريق",
+      "addMember": "إضافة عضو",
+      "table": {
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "role": "الدور",
+        "status": "الحالة",
+        "actions": "الإجراءات"
       },
-      "obd": {
-        "title": "بيانات OBD المباشرة",
-        "lastUpdate": "آخر تحديث",
-        "engineTemp": "حرارة المحرك",
-        "rpm": "عدد الدورات",
-        "fuelLevel": "مستوى الوقود",
-        "battery": "جهد البطارية",
-        "unitCelsius": "°م",
-        "unitRpm": "د/د",
-        "unitPercent": "٪",
-        "unitVolt": "فولت",
-        "normal": "طبيعي",
-        "warning": "تحذير",
-        "critical": "حرج"
+      "roles": {
+        "owner": "مالك",
+        "manager": "مدير",
+        "technician": "فني",
+        "viewer": "مشاهد"
       },
-      "healthHistory": {
-        "title": "سجل الحالة الصحية",
-        "subtitle": "آخر ٣٠ يوم",
-        "score": "الدرجة",
-        "date": "التاريخ"
+      "statuses": {
+        "active": "نشط",
+        "invited": "تمت الدعوة"
       },
-      "dtc": {
-        "title": "أكواد الأعطال (DTC)",
-        "code": "الكود",
-        "description": "الوصف",
-        "severity": "الخطورة",
-        "date": "تاريخ الاكتشاف",
-        "critical": "حرج",
-        "warning": "تحذير",
-        "empty": "لا توجد أكواد أعطال نشطة ✅"
+      "actions": {
+        "editRole": "تعديل الدور",
+        "remove": "حذف مستخدم",
+        "cannotRemoveOwner": "لا يمكن حذف المالك"
       },
-      "maintenance": {
-        "title": "سجل الصيانة",
-        "mileage": "المسافة المقطوعة",
-        "cost": "التكلفة",
-        "km": "كم",
-        "sar": "ر.س",
-        "types": {
-          "oil_change": "تغيير الزيت",
-          "tire_rotation": "تدوير الإطارات",
-          "brake_inspection": "فحص الفرامل",
-          "filter_replacement": "تغيير الفلاتر",
-          "battery_replacement": "تغيير البطارية",
-          "general_inspection": "فحص شامل"
-        },
-        "empty": "لا يوجد سجل صيانة سابق"
+      "addForm": {
+        "namePlaceholder": "اسم المستخدم",
+        "emailPlaceholder": "البريد الإلكتروني المستخدم",
+        "rolePlaceholder": "اختر الدور",
+        "sendInvite": "إرسال دعوة",
+        "cancel": "إلغاء"
       }
+    }
+  },
+  "healthScore": {
+    "label": "درجة الحالة الصحية",
+    "green": "جيدة",
+    "yellow": "متوسطة",
+    "red": "حرجة"
+  },
+  "vehicleDetail": {
+    "backToVehicles": "العودة للمركبات",
+    "vehicleInfo": "معلومات المركبة",
+    "statusBadge": {
+      "healthy": "صحي",
+      "warning": "تحذير",
+      "critical": "خطر"
+    },
+    "obd": {
+      "title": "بيانات OBD المباشرة",
+      "lastUpdate": "آخر تحديث",
+      "engineTemp": "حرارة المحرك",
+      "rpm": "عدد الدورات",
+      "fuelLevel": "مستوى الوقود",
+      "battery": "جهد البطارية",
+      "unitCelsius": "°م",
+      "unitRpm": "د/د",
+      "unitPercent": "٪",
+      "unitVolt": "فولت",
+      "normal": "طبيعي",
+      "warning": "تحذير",
+      "critical": "حرج"
+    },
+    "healthHistory": {
+      "title": "سجل الحالة الصحية",
+      "subtitle": "آخر ٣٠ يوم",
+      "score": "الدرجة",
+      "date": "التاريخ"
+    },
+    "dtc": {
+      "title": "أكواد الأعطال (DTC)",
+      "code": "الكود",
+      "description": "الوصف",
+      "severity": "الخطورة",
+      "date": "تاريخ الاكتشاف",
+      "critical": "حرج",
+      "warning": "تحذير",
+      "empty": "لا توجد أكواد أعطال نشطة ✅"
+    },
+    "maintenance": {
+      "title": "سجل الصيانة",
+      "mileage": "المسافة المقطوعة",
+      "cost": "التكلفة",
+      "km": "كم",
+      "sar": "ر.س",
+      "types": {
+        "oil_change": "تغيير الزيت",
+        "tire_rotation": "تدوير الإطارات",
+        "brake_inspection": "فحص الفرامل",
+        "filter_replacement": "تغيير الفلاتر",
+        "battery_replacement": "تغيير البطارية",
+        "general_inspection": "فحص شامل"
+      },
+      "empty": "لا يوجد سجل صيانة سابق"
     }
   }
 }
