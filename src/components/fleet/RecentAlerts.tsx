@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -56,6 +57,34 @@ function getRelativeTimeEn(dateString: string): string {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
+/**
+ * Hook that defers relative time computation to the client
+ * to avoid SSR/client hydration mismatch from Date.now().
+ */
+function useRelativeTime(dateString: string, locale: string): string {
+  const [time, setTime] = useState("...");
+
+  useEffect(() => {
+    const compute = () =>
+      locale === "ar"
+        ? getRelativeTimeAr(dateString)
+        : getRelativeTimeEn(dateString);
+
+    setTime(compute());
+
+    // Update every 60 seconds for live feel
+    const interval = setInterval(() => setTime(compute()), 60000);
+    return () => clearInterval(interval);
+  }, [dateString, locale]);
+
+  return time;
+}
+
+function AlertTimeDisplay({ dateString, locale }: { dateString: string; locale: string }) {
+  const relativeTime = useRelativeTime(dateString, locale);
+  return <span>{relativeTime}</span>;
+}
+
 export default function RecentAlerts({ alerts }: RecentAlertsProps) {
   const t = useTranslations("dashboard");
   const params = useParams();
@@ -82,9 +111,6 @@ export default function RecentAlerts({ alerts }: RecentAlertsProps) {
         {alerts.map((alert) => {
           const Icon = getSeverityIcon(alert.severity);
           const color = getSeverityColor(alert.severity);
-          const relativeTime = isRtl
-            ? getRelativeTimeAr(alert.created_at)
-            : getRelativeTimeEn(alert.created_at);
 
           return (
             <div
@@ -106,7 +132,7 @@ export default function RecentAlerts({ alerts }: RecentAlertsProps) {
                   <span>•</span>
                   <div className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />
-                    <span>{relativeTime}</span>
+                    <AlertTimeDisplay dateString={alert.created_at} locale={locale} />
                   </div>
                 </div>
               </div>

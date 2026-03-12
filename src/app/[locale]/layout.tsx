@@ -25,7 +25,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
   const dir = locale === "ar" ? "rtl" : "ltr";
-  const fontClass = locale === "ar" ? "font-[var(--font-cairo)]" : "font-[var(--font-inter)]";
+  const fontClass = locale === "ar" ? "font-cairo" : "font-inter";
 
   return (
     <div lang={locale} dir={dir} className={fontClass}>

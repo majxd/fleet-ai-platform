@@ -1,11 +1,9 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { locales, defaultLocale } from "@/i18n/config";
+import { routing } from "@/i18n/routing";
+import { defaultLocale } from "@/i18n/config";
 
-const intlMiddleware = createMiddleware({
-  locales,
-  defaultLocale,
-});
+const intlMiddleware = createMiddleware(routing);
 
 /** Auth-related path patterns */
 const authPages = ["/login", "/register"];

@@ -28,6 +28,7 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${cairo.variable} ${inter.variable} antialiased`}
       >
         {children}
