@@ -170,8 +170,29 @@
     "title": "Reports",
     "subtitle": "Fleet performance summaries and reports",
     "weeklyReport": "Weekly Report",
+    "monthlyReport": "Monthly Report",
     "downloadPdf": "Download PDF",
-    "generateReport": "Generate Report"
+    "generateReport": "Generate Report",
+    "fleetSummary": "Fleet Summary",
+    "totalVehicles": "Total Vehicles",
+    "averageHealth": "Average Health",
+    "alertsThisWeek": "Alerts This Week",
+    "needsAttention": "Needs Attention",
+    "availableReports": "Available Reports",
+    "weeklyDesc": "Weekly summary of fleet health, alerts, and maintenance",
+    "monthlyDesc": "Comprehensive monthly report of fleet performance",
+    "dateRange": "Date Range",
+    "recentReports": "Recent Reports",
+    "reportName": "Report Name",
+    "generatedDate": "Generated Date",
+    "status": "Status",
+    "actions": "Actions",
+    "statuses": {
+      "ready": "Ready",
+      "generating": "Generating",
+      "failed": "Failed"
+    },
+    "download": "Download"
   },
   "settings": {
     "title": "Settings",

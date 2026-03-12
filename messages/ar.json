@@ -170,8 +170,29 @@
     "title": "التقارير",
     "subtitle": "ملخصات وتقارير أداء الأسطول",
     "weeklyReport": "التقرير الأسبوعي",
+    "monthlyReport": "التقرير الشهري",
     "downloadPdf": "تحميل PDF",
-    "generateReport": "إنشاء تقرير"
+    "generateReport": "إنشاء تقرير",
+    "fleetSummary": "ملخص الأسطول",
+    "totalVehicles": "عدد المركبات",
+    "averageHealth": "متوسط الحالة الصحية",
+    "alertsThisWeek": "تنبيهات هذا الأسبوع",
+    "needsAttention": "مركبات تحتاج اهتمام",
+    "availableReports": "التقارير المتاحة",
+    "weeklyDesc": "ملخص أسبوعي لحالة الأسطول والتنبيهات والصيانة",
+    "monthlyDesc": "تقرير شهري شامل لأداء وصيانة الأسطول",
+    "dateRange": "الفترة",
+    "recentReports": "أحدث التقارير المُنْشَأة",
+    "reportName": "اسم التقرير",
+    "generatedDate": "تاريخ الإنشاء",
+    "status": "الحالة",
+    "actions": "الإجراءات",
+    "statuses": {
+      "ready": "جاهز",
+      "generating": "جاري الإنشاء",
+      "failed": "فشل"
+    },
+    "download": "تحميل"
   },
   "settings": {
     "title": "الإعدادات",
