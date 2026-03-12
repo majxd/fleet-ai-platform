@@ -121,14 +121,14 @@ export default function Sidebar({ unreadAlerts = 3 }: SidebarProps) {
       {/* Mobile drawer */}
       <aside
         className={cn(
-          "fixed inset-y-0 end-0 z-50 w-72 transform bg-white shadow-2xl transition-transform duration-300 lg:hidden",
-          mobileOpen ? "translate-x-0" : "ltr:translate-x-full rtl:-translate-x-full"
+          "fixed inset-y-0 start-0 z-50 w-72 transform bg-white shadow-2xl transition-transform duration-300 lg:hidden",
+          mobileOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
         )}
       >
         <button
           type="button"
           onClick={() => setMobileOpen(false)}
-          className="absolute top-4 start-4 rounded-lg p-1.5 hover:bg-accent"
+          className="absolute top-4 end-4 rounded-lg p-1.5 hover:bg-accent"
           aria-label="Close menu"
         >
           <X className="h-5 w-5" />
