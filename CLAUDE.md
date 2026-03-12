@@ -85,7 +85,8 @@ https://github.com/majxd/fleet-ai-platform.git
 - ✅ Session 1: Project scaffold, folder structure, Git setup
 - ✅ Session 2: Dashboard Layout + Fleet Dashboard + Auth system
 - ✅ Session 3: Locale routing fix (middleware + routing.ts), Cairo/Inter fonts, hydration fix
-- 🔲 Next: Vehicle detail page (/vehicles/[id])
-- 🔲 Then: Alerts system + WhatsApp notifications
+- ✅ Session 4: Vehicles list page + Vehicle detail page (/vehicles/[id]) with 5 sections (header, OBD, chart, DTC, maintenance)
+- 🔲 Next: Alerts system + WhatsApp notifications
 - 🔲 Then: Reports (PDF weekly summary)
 - 🔲 Then: Settings (company + team management)
+

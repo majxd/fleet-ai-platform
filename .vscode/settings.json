@@ -1,0 +1,8 @@
+{
+  "css.customData": [],
+  "css.validate": false,
+  "tailwindCSS.experimental.classRegex": [],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

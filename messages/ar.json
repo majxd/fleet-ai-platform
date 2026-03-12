@@ -132,7 +132,11 @@
     "healthScore": "درجة الحالة الصحية",
     "obdDevice": "جهاز OBD",
     "linkDevice": "ربط جهاز",
-    "unlinkDevice": "فصل جهاز"
+    "unlinkDevice": "فصل جهاز",
+    "searchPlaceholder": "ابحث برقم اللوحة أو الموديل...",
+    "lastUpdated": "آخر تحديث",
+    "noResults": "لا توجد مركبات مطابقة للبحث",
+    "totalVehicles": "{count} مركبة"
   },
   "alerts": {
     "title": "التنبيهات",
@@ -181,5 +185,61 @@
     "green": "جيدة",
     "yellow": "متوسطة",
     "red": "حرجة"
+  },
+  "vehicleDetail": {
+    "backToVehicles": "العودة للمركبات",
+    "vehicleInfo": "معلومات المركبة",
+    "statusBadge": {
+      "healthy": "صحي",
+      "warning": "تحذير",
+      "critical": "خطر"
+    },
+    "obd": {
+      "title": "بيانات OBD المباشرة",
+      "lastUpdate": "آخر تحديث",
+      "engineTemp": "حرارة المحرك",
+      "rpm": "عدد الدورات",
+      "fuelLevel": "مستوى الوقود",
+      "battery": "جهد البطارية",
+      "unitCelsius": "°م",
+      "unitRpm": "د/د",
+      "unitPercent": "٪",
+      "unitVolt": "فولت",
+      "normal": "طبيعي",
+      "warning": "تحذير",
+      "critical": "حرج"
+    },
+    "healthHistory": {
+      "title": "سجل الحالة الصحية",
+      "subtitle": "آخر ٣٠ يوم",
+      "score": "الدرجة",
+      "date": "التاريخ"
+    },
+    "dtc": {
+      "title": "أكواد الأعطال (DTC)",
+      "code": "الكود",
+      "description": "الوصف",
+      "severity": "الخطورة",
+      "date": "تاريخ الاكتشاف",
+      "critical": "حرج",
+      "warning": "تحذير",
+      "empty": "لا توجد أكواد أعطال نشطة ✅"
+    },
+    "maintenance": {
+      "title": "سجل الصيانة",
+      "mileage": "المسافة المقطوعة",
+      "cost": "التكلفة",
+      "km": "كم",
+      "sar": "ر.س",
+      "types": {
+        "oil_change": "تغيير الزيت",
+        "tire_rotation": "تدوير الإطارات",
+        "brake_inspection": "فحص الفرامل",
+        "filter_replacement": "تغيير الفلاتر",
+        "battery_replacement": "تغيير البطارية",
+        "general_inspection": "فحص شامل"
+      },
+      "empty": "لا يوجد سجل صيانة سابق"
+    }
   }
 }

@@ -132,7 +132,11 @@
     "healthScore": "Health Score",
     "obdDevice": "OBD Device",
     "linkDevice": "Link Device",
-    "unlinkDevice": "Unlink Device"
+    "unlinkDevice": "Unlink Device",
+    "searchPlaceholder": "Search by plate number or model...",
+    "lastUpdated": "Last updated",
+    "noResults": "No vehicles match your search",
+    "totalVehicles": "{count} vehicles"
   },
   "alerts": {
     "title": "Alerts",
@@ -181,5 +185,61 @@
     "green": "Good",
     "yellow": "Fair",
     "red": "Critical"
+  },
+  "vehicleDetail": {
+    "backToVehicles": "Back to Vehicles",
+    "vehicleInfo": "Vehicle Information",
+    "statusBadge": {
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "obd": {
+      "title": "Live OBD Data",
+      "lastUpdate": "Last update",
+      "engineTemp": "Engine Temperature",
+      "rpm": "RPM",
+      "fuelLevel": "Fuel Level",
+      "battery": "Battery Voltage",
+      "unitCelsius": "°C",
+      "unitRpm": "RPM",
+      "unitPercent": "%",
+      "unitVolt": "V",
+      "normal": "Normal",
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "healthHistory": {
+      "title": "Health History",
+      "subtitle": "Last 30 days",
+      "score": "Score",
+      "date": "Date"
+    },
+    "dtc": {
+      "title": "DTC Fault Codes",
+      "code": "Code",
+      "description": "Description",
+      "severity": "Severity",
+      "date": "Detected",
+      "critical": "Critical",
+      "warning": "Warning",
+      "empty": "No active fault codes ✅"
+    },
+    "maintenance": {
+      "title": "Maintenance History",
+      "mileage": "Mileage",
+      "cost": "Cost",
+      "km": "km",
+      "sar": "SAR",
+      "types": {
+        "oil_change": "Oil Change",
+        "tire_rotation": "Tire Rotation",
+        "brake_inspection": "Brake Inspection",
+        "filter_replacement": "Filter Replacement",
+        "battery_replacement": "Battery Replacement",
+        "general_inspection": "General Inspection"
+      },
+      "empty": "No maintenance history"
+    }
   }
 }

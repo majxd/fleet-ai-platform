@@ -32,3 +32,43 @@ export interface HealthScoreResult {
   issues: string[];
   recommendations: string[];
 }
+
+export type MaintenanceType =
+  | "oil_change"
+  | "tire_rotation"
+  | "brake_inspection"
+  | "filter_replacement"
+  | "battery_replacement"
+  | "general_inspection";
+
+export interface MaintenanceEvent {
+  id: string;
+  vehicle_id: string;
+  type: MaintenanceType;
+  date: string;
+  mileage: number;
+  cost: number;
+  notes_ar: string;
+  notes_en: string;
+}
+
+export interface HealthHistoryPoint {
+  date: string;
+  score: number;
+}
+
+export interface DTCFault {
+  code: string;
+  description_ar: string;
+  description_en: string;
+  severity: "critical" | "warning";
+  detected_at: string;
+}
+
+export interface VehicleDetailData {
+  vehicle: Vehicle;
+  rpm: number;
+  healthHistory: HealthHistoryPoint[];
+  dtcFaults: DTCFault[];
+  maintenanceHistory: MaintenanceEvent[];
+}
