@@ -1,4 +1,4 @@
-export default function DashboardLoading() {
+export default function Loading() {
   return (
     <div className="space-y-6 animate-pulse">
       {/* Page header skeleton */}
