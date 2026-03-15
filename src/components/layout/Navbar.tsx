@@ -5,9 +5,11 @@ import { useTranslations } from "next-intl";
 import { Bell, User, LogOut, ChevronDown } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { mockAlertsData } from "@/data/mock-alerts";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Navbar() {
   const t = useTranslations("nav");
+  const { profile, company, signOut } = useAuth();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const unreadAlertsCount = mockAlertsData.filter(alert => alert.status === "new").length;
@@ -28,7 +30,7 @@ export default function Navbar() {
       {/* Company name — visible on desktop, hidden on mobile for space */}
       <div className="hidden lg:block">
         <h1 className="text-lg font-bold text-foreground">
-          {t("companyName")}
+          {company?.name || t("companyName")}
         </h1>
       </div>
       {/* Spacer for mobile (push items to end) */}
@@ -59,8 +61,8 @@ export default function Navbar() {
             onClick={() => setUserMenuOpen(!userMenuOpen)}
             className="flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-accent"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2471A3] text-xs font-bold text-white">
-              م
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#2471A3] text-xs font-bold text-white uppercase">
+              {profile?.full_name?.charAt(0) || "U"}
             </div>
             <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${userMenuOpen ? "rotate-180" : ""}`} />
           </button>
@@ -80,7 +82,10 @@ export default function Navbar() {
               <button
                 type="button"
                 className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-[#EF4444] transition-colors hover:bg-red-50"
-                onClick={() => setUserMenuOpen(false)}
+                onClick={() => {
+                  setUserMenuOpen(false);
+                  signOut();
+                }}
               >
                 <LogOut className="h-4 w-4" />
                 <span>{t("logout")}</span>

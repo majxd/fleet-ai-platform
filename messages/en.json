@@ -33,8 +33,10 @@
       "noAccount": "Don't have an account?",
       "signUpLink": "Sign up now",
       "googleLogin": "Continue with Google",
+      "resetEmailSent": "Password reset email sent. Please check your inbox.",
       "errors": {
         "emailRequired": "Please enter your email",
+        "emailRequiredForReset": "Please enter your email to reset your password",
         "passwordRequired": "Please enter your password",
         "generic": "An error occurred during sign in. Please try again."
       }

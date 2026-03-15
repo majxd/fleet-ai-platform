@@ -16,7 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { signUpWithEmail } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/client";
+import { createCompanyAndUser } from "./actions";
 import type { RegisterFormData } from "@/types/auth";
 
 interface FormErrors {
@@ -100,13 +101,40 @@ export default function RegisterPage() {
 
     setIsLoading(true);
     try {
-      const result = await signUpWithEmail(formData);
+      const supabase = createClient();
+      
+      // 1. Sign up the user via Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (authError) {
+        setGlobalError(authError.message);
+        setIsLoading(false);
+        return;
+      }
+
+      if (!authData.user) {
+        setGlobalError(t("register.errors.generic"));
+        setIsLoading(false);
+        return;
+      }
+
+      // 2. Insert company and owner profile
+      const result = await createCompanyAndUser(
+        authData.user,
+        formData.companyName,
+        formData.managerName,
+        formData.fleetSize
+      );
+
       if (result.success) {
         router.push(`/${locale}/dashboard`);
       } else {
-        setGlobalError(result.error?.message ?? t("register.errors.generic"));
+        setGlobalError(result.error || t("register.errors.generic"));
       }
-    } catch {
+    } catch (err: any) {
       setGlobalError(t("register.errors.generic"));
     } finally {
       setIsLoading(false);

@@ -45,6 +45,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SettingsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = use(params);
@@ -55,10 +56,11 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
   const [isSaving, setIsSaving] = useState(false);
   const [isSavingPrefs, setIsSavingPrefs] = useState(false);
   const [isAddingMember, setIsAddingMember] = useState(false);
+  const { company, profile } = useAuth();
 
-  // Mock team members data
+  // Mock team members data (falling back to the current user as primary for MVP display)
   const [teamMembers, setTeamMembers] = useState([
-    { id: 1, name: "Mohammed", email: "mohammed@smartfleet.com", role: "owner", status: "active" },
+    { id: profile?.id || 1, name: profile?.full_name || "Mohammed", email: profile?.email || "mohammed@smartfleet.com", role: profile?.role || "owner", status: "active" },
     { id: 2, name: "Khaled", email: "khaled@smartfleet.com", role: "manager", status: "active" },
     { id: 3, name: "Ahmed", email: "ahmed@smartfleet.com", role: "technician", status: "active" },
     { id: 4, name: "Sara", email: "sara@smartfleet.com", role: "viewer", status: "active" },
@@ -75,7 +77,7 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
     }
   };
 
-  const handleRemoveMember = (id: number, role: string) => {
+  const handleRemoveMember = (id: number | string, role: string) => {
     if (role === "owner") {
       window.alert(isRtl ? "لا يمكن حذف المالك" : "Cannot remove owner");
       return;
@@ -126,7 +128,7 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
                   <Label htmlFor="companyName">{t("company.name")}</Label>
                   <Input 
                     id="companyName" 
-                    defaultValue={isRtl ? "شركة الأسطول الذكي" : "Smart Fleet Company"} 
+                    defaultValue={company?.name || (isRtl ? "شركة الأسطول الذكي" : "Smart Fleet Company")} 
                     placeholder={t("company.namePlaceholder")}
                   />
                 </div>
@@ -135,7 +137,7 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
                   <Input 
                     id="companyEmail" 
                     type="email" 
-                    defaultValue="admin@smartfleet.com" 
+                    defaultValue={company?.email || ""} 
                     dir="ltr"
                     className={cn(isRtl && "text-right")}
                     placeholder={t("company.emailPlaceholder")}
@@ -146,7 +148,7 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
                   <Input 
                     id="companyPhone" 
                     type="tel" 
-                    defaultValue="+966 50 123 4567" 
+                    defaultValue={company?.phone || ""} 
                     dir="ltr"
                     className={cn(isRtl && "text-right")}
                     placeholder={t("company.phonePlaceholder")}

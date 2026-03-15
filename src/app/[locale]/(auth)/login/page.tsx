@@ -8,7 +8,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { signInWithEmail, signInWithGoogle } from "@/lib/auth";
+import { createClient } from "@/lib/supabase/client";
 import type { LoginFormData } from "@/types/auth";
 
 export default function LoginPage() {
@@ -25,11 +25,13 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [error, setError] = useState("");
+  const [resetMessage, setResetMessage] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setError("");
+    setResetMessage("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,13 +49,19 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      const result = await signInWithEmail(formData);
-      if (result.success) {
-        router.push(`/${locale}/dashboard`);
+      const supabase = createClient();
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (authError) {
+        setError(authError.message);
       } else {
-        setError(result.error?.message ?? t("login.errors.generic"));
+        router.push(`/${locale}/dashboard`);
+        router.refresh();
       }
-    } catch {
+    } catch (err: any) {
       setError(t("login.errors.generic"));
     } finally {
       setIsLoading(false);
@@ -63,12 +71,41 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
     try {
-      await signInWithGoogle();
-      router.push(`/${locale}/dashboard`);
-    } catch {
+      const supabase = createClient();
+      await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/${locale}/dashboard`,
+        },
+      });
+    } catch (err: any) {
+      setError(t("login.errors.generic"));
+      setIsGoogleLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!formData.email) {
+      setError(t("login.errors.emailRequiredForReset"));
+      return;
+    }
+    setError("");
+    setResetMessage("");
+    setIsLoading(true);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.resetPasswordForEmail(formData.email, {
+        redirectTo: `${window.location.origin}/${locale}/reset-password`,
+      });
+      if (error) {
+        setError(error.message);
+      } else {
+        setResetMessage(t("login.resetEmailSent"));
+      }
+    } catch (err: any) {
       setError(t("login.errors.generic"));
     } finally {
-      setIsGoogleLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -87,10 +124,15 @@ export default function LoginPage() {
         </p>
       </div>
 
-      {/* Error message */}
+      {/* Error & Success messages */}
       {error && (
         <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600">
           {error}
+        </div>
+      )}
+      {resetMessage && (
+        <div className="mb-4 rounded-lg bg-green-50 p-3 text-sm text-green-600">
+          {resetMessage}
         </div>
       )}
 
@@ -190,7 +232,12 @@ export default function LoginPage() {
 
       {/* Forgot password */}
       <div className="mt-4 text-center">
-        <button type="button" className="text-sm text-[#2471A3] hover:underline">
+        <button 
+          type="button" 
+          onClick={handleForgotPassword}
+          className="text-sm text-[#2471A3] hover:underline"
+          disabled={isLoading}
+        >
           {t("login.forgotPassword")}
         </button>
       </div>

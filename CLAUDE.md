@@ -95,7 +95,14 @@ https://github.com/majxd/fleet-ai-platform.git
   - Supabase client (browser + server + middleware)
   - TypeScript database types with full type safety
   - Seed data for demo company
-  - Next: Part 2 — Auth flow (login/register with real Supabase Auth)
+- ✅ Session 9: Real Supabase Auth (Part 2/3)
+  - Registration: creates auth user + company + user profile
+  - Login: email/password + Google OAuth button
+  - Logout: clears session and redirects
+  - useAuth hook for user/company data
+  - Protected dashboard routes
+  - Real user data in Navbar, Sidebar, Settings
+  - Next: Part 3 — Replace mock data with real Supabase queries
 
 ## Known Issues
 - PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.

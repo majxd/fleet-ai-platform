@@ -31,12 +31,14 @@ const navItems: NavItem[] = [
 ];
 
 import { mockAlertsData } from "@/data/mock-alerts";
+import { useAuth } from "@/hooks/useAuth";
 
 interface SidebarProps {
   // props can be added here if needed
 }
 
 export default function Sidebar(_props: SidebarProps) {
+  const { company } = useAuth();
   const unreadAlertsCount = mockAlertsData.filter(alert => alert.status === "new").length;
   const t = useTranslations("nav");
   const pathname = usePathname();
@@ -52,11 +54,11 @@ export default function Sidebar(_props: SidebarProps) {
     <>
       {/* Logo */}
       <div className="flex h-16 items-center gap-3 border-b border-border/50 px-6">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#2471A3] text-white font-bold text-sm">
+        <div className="flex shrink-0 h-9 w-9 items-center justify-center rounded-lg bg-[#2471A3] text-white font-bold text-sm">
           FA
         </div>
-        <span className="text-xl font-bold" style={{ color: "#2471A3" }}>
-          {t("title")}
+        <span className="text-xl font-bold truncate" style={{ color: "#2471A3" }}>
+          {company?.name || t("title")}
         </span>
       </div>
 
