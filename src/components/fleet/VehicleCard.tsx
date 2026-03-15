@@ -6,7 +6,8 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import type { Vehicle, HealthStatus } from "@/types/vehicle";
+import type { Vehicle } from "@/types/database";
+import type { HealthStatus } from "@/types/vehicle";
 import HealthGauge from "./HealthGauge";
 
 interface VehicleCardProps {
@@ -80,7 +81,8 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
     computeTime();
   }, [vehicle.last_obd_reading_at, locale, t]);
 
-  const statusKey = vehicle.health_status;
+  const statusKey: HealthStatus = 
+    vehicle.health_score > 70 ? "healthy" : vehicle.health_score >= 40 ? "warning" : "critical";
   const statusColor = getStatusColor(statusKey);
 
   return (

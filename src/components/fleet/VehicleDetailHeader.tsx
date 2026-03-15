@@ -6,7 +6,8 @@ import { useTranslations } from "next-intl";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import HealthGauge from "./HealthGauge";
-import type { Vehicle, HealthStatus } from "@/types/vehicle";
+import type { Vehicle } from "@/types/database";
+import type { HealthStatus } from "@/types/vehicle";
 
 interface VehicleDetailHeaderProps {
   vehicle: Vehicle;
@@ -34,8 +35,9 @@ export default function VehicleDetailHeader({
   const params = useParams();
   const locale = params.locale as string;
   const isRtl = locale === "ar";
-
-  const statusStyle = getStatusStyle(vehicle.health_status);
+  
+  const healthStatus: HealthStatus = vehicle.health_score > 70 ? "healthy" : vehicle.health_score >= 40 ? "warning" : "critical";
+  const statusStyle = getStatusStyle(healthStatus);
   const BackArrow = isRtl ? ArrowRight : ArrowLeft;
 
   return (
@@ -70,7 +72,7 @@ export default function VehicleDetailHeader({
                 borderColor: statusStyle.border,
               }}
             >
-              {t(`statusBadge.${vehicle.health_status}`)}
+              {t(`statusBadge.${healthStatus}`)}
             </Badge>
           </div>
         </div>

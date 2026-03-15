@@ -10,7 +10,7 @@ import {
   BatteryMedium,
   Clock,
 } from "lucide-react";
-import type { Vehicle } from "@/types/vehicle";
+import type { OBDReading } from "@/types/database";
 
 type MetricStatus = "normal" | "warning" | "critical";
 
@@ -24,8 +24,7 @@ interface OBDMetric {
 }
 
 interface OBDMetricsGridProps {
-  vehicle: Vehicle;
-  rpm: number;
+  obdReading: OBDReading | null;
 }
 
 function getEngineStatus(temp: number): MetricStatus {
@@ -94,32 +93,37 @@ function getRelativeTimeEn(dateString: string): string {
   return `${Math.floor(hours / 24)}d ago`;
 }
 
-export default function OBDMetricsGrid({ vehicle, rpm }: OBDMetricsGridProps) {
+export default function OBDMetricsGrid({ obdReading }: OBDMetricsGridProps) {
   const t = useTranslations("vehicleDetail.obd");
   const params = useParams();
   const locale = params.locale as string;
   const [relativeTime, setRelativeTime] = useState("—");
 
   useEffect(() => {
-    if (!vehicle.last_obd_reading_at) {
+    if (!obdReading || !obdReading.timestamp) {
       setRelativeTime("—");
       return;
     }
     setRelativeTime(
       locale === "ar"
-        ? getRelativeTimeAr(vehicle.last_obd_reading_at)
-        : getRelativeTimeEn(vehicle.last_obd_reading_at)
+        ? getRelativeTimeAr(obdReading.timestamp)
+        : getRelativeTimeEn(obdReading.timestamp)
     );
-  }, [vehicle.last_obd_reading_at, locale]);
+  }, [obdReading, locale]);
+
+  const engineTemp = obdReading?.engine_temp || 0;
+  const rpm = obdReading?.rpm || 0;
+  const fuelLevel = obdReading?.fuel_level || 0;
+  const batteryVoltage = obdReading?.battery_voltage || 0;
 
   const metrics: OBDMetric[] = [
     {
       key: "engineTemp",
       icon: <Thermometer className="h-5 w-5" />,
       labelKey: "engineTemp",
-      value: vehicle.engine_temp,
+      value: engineTemp,
       unitKey: "unitCelsius",
-      status: getEngineStatus(vehicle.engine_temp),
+      status: getEngineStatus(engineTemp),
     },
     {
       key: "rpm",
@@ -133,17 +137,17 @@ export default function OBDMetricsGrid({ vehicle, rpm }: OBDMetricsGridProps) {
       key: "fuelLevel",
       icon: <Fuel className="h-5 w-5" />,
       labelKey: "fuelLevel",
-      value: vehicle.fuel_level,
+      value: fuelLevel,
       unitKey: "unitPercent",
-      status: getFuelStatus(vehicle.fuel_level),
+      status: getFuelStatus(fuelLevel),
     },
     {
       key: "battery",
       icon: <BatteryMedium className="h-5 w-5" />,
       labelKey: "battery",
-      value: vehicle.battery_voltage,
+      value: batteryVoltage,
       unitKey: "unitVolt",
-      status: getBatteryStatus(vehicle.battery_voltage),
+      status: getBatteryStatus(batteryVoltage),
     },
   ];
 

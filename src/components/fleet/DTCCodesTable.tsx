@@ -4,18 +4,23 @@ import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, CheckCircle } from "lucide-react";
-import type { DTCFault } from "@/types/vehicle";
+import type { DTCCode } from "@/types/database";
+
+export interface DTCFaultDisplay extends DTCCode {
+  detected_at?: string;
+}
 
 interface DTCCodesTableProps {
-  faults: DTCFault[];
+  faults: DTCFaultDisplay[];
 }
 
 const severityStyles: Record<
-  "critical" | "warning",
+  string, // DB returns "critical" | "warning" | "info"
   { bg: string; text: string; border: string }
 > = {
   critical: { bg: "#EF444415", text: "#EF4444", border: "#EF444430" },
   warning: { bg: "#EAB30815", text: "#EAB308", border: "#EAB30830" },
+  info: { bg: "#3B82F615", text: "#3B82F6", border: "#3B82F630" },
 };
 
 export default function DTCCodesTable({ faults }: DTCCodesTableProps) {

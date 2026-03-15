@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Car, CheckCircle, AlertTriangle, XCircle } from "lucide-react";
-import type { Vehicle } from "@/types/vehicle";
+import type { Vehicle } from "@/types/database";
 
 interface StatCardConfig {
   labelKey: string;
