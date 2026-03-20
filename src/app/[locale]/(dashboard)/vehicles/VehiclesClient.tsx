@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { Search, Plus, Clock, Car } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import HealthGauge from "@/components/fleet/HealthGauge";
+import AddVehicleDialog from "@/components/fleet/AddVehicleDialog";
 import type { Vehicle, VehicleStatus } from "@/types/database";
 import type { HealthStatus } from "@/types/vehicle";
 
@@ -109,10 +110,9 @@ export default function VehiclesClient({ initialVehicles }: VehiclesClientProps)
           </h1>
           <p className="mt-1 text-muted-foreground">{t("subtitle")}</p>
         </div>
-        <button className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 active:bg-blue-800 self-start sm:self-auto">
-          <Plus className="h-4 w-4" />
-          {t("addVehicle")}
-        </button>
+        <div className="self-start sm:self-auto">
+          <AddVehicleDialog />
+        </div>
       </div>
 
       {/* Search bar + count */}

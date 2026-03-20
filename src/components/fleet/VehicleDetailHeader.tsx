@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import HealthGauge from "./HealthGauge";
+import EditVehicleDialog from "./EditVehicleDialog";
+import DeleteVehicleDialog from "./DeleteVehicleDialog";
 import type { Vehicle } from "@/types/database";
 import type { HealthStatus } from "@/types/vehicle";
 
@@ -80,7 +82,11 @@ export default function VehicleDetailHeader({
         </div>
 
         {/* Right: Large health gauge */}
-        <div className="flex items-center justify-center sm:justify-end">
+        <div className="flex flex-col items-center justify-center sm:items-end gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 mb-2 sm:mb-0">
+            <EditVehicleDialog vehicle={vehicle} />
+            <DeleteVehicleDialog vehicle={vehicle} redirectAfterDelete={true} />
+          </div>
           <HealthGauge score={vehicle.health_score} size={120} />
         </div>
       </div>

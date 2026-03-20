@@ -5,10 +5,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Clock } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import type { Vehicle } from "@/types/database";
 import type { HealthStatus } from "@/types/vehicle";
 import HealthGauge from "./HealthGauge";
+import EditVehicleDialog from "./EditVehicleDialog";
+import DeleteVehicleDialog from "./DeleteVehicleDialog";
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -63,6 +66,7 @@ function getRelativeTimeEn(dateString: string): string {
 export default function VehicleCard({ vehicle }: VehicleCardProps) {
   const t = useTranslations("dashboard");
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as string;
   const [relativeTime, setRelativeTime] = useState("—");
 
@@ -86,10 +90,12 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
   const statusColor = getStatusColor(statusKey);
 
   return (
-    <Link href={`/${locale}/vehicles/${vehicle.id}`}>
-      <div className="group rounded-xl bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
-        {/* Top row: plate + gauge */}
-        <div className="flex items-start justify-between">
+    <div 
+      onClick={() => router.push(`/${locale}/vehicles/${vehicle.id}`)}
+      className="group rounded-xl bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-lg hover:scale-[1.02] cursor-pointer"
+    >
+      {/* Top row: plate + gauge */}
+      <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-foreground tracking-wide">
               {locale === "ar" && vehicle.plate_number_ar
@@ -116,12 +122,17 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
           >
             {t(`statuses.${statusKey}`)}
           </Badge>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-2 sm:mt-0">
             <Clock className="h-3.5 w-3.5" />
             <span>{relativeTime}</span>
           </div>
         </div>
+        
+        {/* Actions row */}
+        <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+          <EditVehicleDialog vehicle={vehicle} />
+          <DeleteVehicleDialog vehicle={vehicle} />
+        </div>
       </div>
-    </Link>
   );
 }

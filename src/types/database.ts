@@ -112,6 +112,7 @@ export interface Database {
           fuel_type: FuelType | null
           insurance_expiry: string | null
           registration_expiry: string | null
+          notes: string | null
           created_at: string
           updated_at: string
         }
@@ -133,6 +134,7 @@ export interface Database {
           fuel_type?: FuelType | null
           insurance_expiry?: string | null
           registration_expiry?: string | null
+          notes?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -154,6 +156,7 @@ export interface Database {
           fuel_type?: FuelType | null
           insurance_expiry?: string | null
           registration_expiry?: string | null
+          notes?: string | null
           created_at?: string
           updated_at?: string
         }
