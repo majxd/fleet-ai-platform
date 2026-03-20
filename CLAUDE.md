@@ -102,7 +102,12 @@ https://github.com/majxd/fleet-ai-platform.git
   - useAuth hook for user/company data
   - Protected dashboard routes
   - Real user data in Navbar, Sidebar, Settings
-  - Next: Part 3 — Replace mock data with real Supabase queries
+- ✅ Session 10: Replace mock data with real Supabase queries (Part 3/3)
+  - Backend fetching layer (`lib/queries`) for Dashboard, Vehicles, and vehicle details
+  - Full Vehicle CRUD (Create, Read, Update, Delete) with strictly typed Supabase browser client
+  - Integrated bilingual Add/Edit/Delete dialogs with `react-hook-form` and `zod`
+  - Fixed localization keys and bypassed overzealous Supabase TS type generic inferences
+  - Next: Reports and Settings live data integration, plus notification systems.
 
 ## Known Issues
 - PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.
