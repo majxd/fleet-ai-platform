@@ -92,7 +92,9 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-foreground tracking-wide">
-              {vehicle.plate_number}
+              {locale === "ar" && vehicle.plate_number_ar
+                ? vehicle.plate_number_ar
+                : vehicle.plate_number}
             </h3>
             <p className="mt-1 text-sm text-muted-foreground">
               {vehicle.make} {vehicle.model} — {vehicle.year}

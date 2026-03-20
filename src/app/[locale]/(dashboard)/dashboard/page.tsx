@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getVehicles, getVehicleStats } from "@/lib/queries/vehicles";
 import { getRecentAlerts } from "@/lib/queries/alerts";
+import { getLatestOBDTimestampsForVehicles } from "@/lib/queries/obd";
 import FleetStats from "@/components/fleet/FleetStats";
 import VehicleCard from "@/components/fleet/VehicleCard";
 import RecentAlerts from "@/components/fleet/RecentAlerts";
@@ -13,7 +14,7 @@ export default async function DashboardPage() {
 
   const { data: userData } = await authSupabase.auth.getUser();
   if (!userData.user) {
-    return null; // Handle unauthenticated state if needed
+    return null;
   }
 
   // Get user's company ID
@@ -30,16 +31,22 @@ export default async function DashboardPage() {
     return <div>Error loading user data</div>;
   }
 
-  // Fetch all necessary data via server components
-  // Utilizing Promise.all for concurrent requests
+  // Fetch all necessary data concurrently
   const [vehicles, stats, alerts] = await Promise.all([
     getVehicles(companyId),
     getVehicleStats(companyId),
     getRecentAlerts(companyId, 5),
   ]);
 
-  // Map the new vehicles from Database schema mapping to expected by VehicleCard
-  const mappedVehicles = vehicles as unknown as Vehicle[];
+  // Fetch latest OBD timestamps for all vehicles in a single query (fixes "لا توجد بيانات")
+  const vehicleIds = (vehicles as unknown as Vehicle[]).map((v) => v.id);
+  const obdTimestamps = await getLatestOBDTimestampsForVehicles(vehicleIds);
+
+  // Merge OBD timestamps into vehicles — backfills last_obd_reading_at if DB column is null
+  const mappedVehicles: Vehicle[] = (vehicles as unknown as Vehicle[]).map((v) => ({
+    ...v,
+    last_obd_reading_at: obdTimestamps[v.id] ?? v.last_obd_reading_at,
+  }));
 
   return (
     <div className="space-y-6">

@@ -20,9 +20,9 @@ export default async function middleware(request: NextRequest) {
   // 3. Run next-intl middleware for locale routing
   const intlResponse = intlMiddleware(request);
 
-  // 4. Preserve Supabase cookies in the final response
+  // 4. Preserve Supabase cookies in the final response (with full options)
   supabaseResponse.cookies.getAll().forEach((cookie) => {
-    intlResponse.cookies.set(cookie.name, cookie.value);
+    intlResponse.cookies.set(cookie);
   });
 
   return intlResponse;

@@ -56,7 +56,9 @@ export default function VehicleDetailHeader({
         {/* Left: Vehicle info */}
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
-            {vehicle.plate_number}
+            {isRtl && vehicle.plate_number_ar
+              ? vehicle.plate_number_ar
+              : vehicle.plate_number}
           </h1>
           <p className="mt-1 text-base text-muted-foreground">
             {vehicle.make} {vehicle.model} — {vehicle.year}

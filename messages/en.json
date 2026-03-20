@@ -112,6 +112,7 @@
     "recentAlerts": "Recent Alerts",
     "viewAll": "View All",
     "noData": "No data",
+    "noVehicles": "No vehicles in fleet",
     "lastUpdated": "Last updated",
     "fleetOverview": "Fleet Overview"
   },

@@ -20,6 +20,37 @@ export async function getLatestOBDReading(vehicleId: string) {
   return data as import('@/types/database').OBDReading | null;
 }
 
+/**
+ * Fetch the latest OBD timestamp for each vehicle ID in a single query.
+ * Returns a map of vehicleId → ISO timestamp string (or null).
+ */
+export async function getLatestOBDTimestampsForVehicles(vehicleIds: string[]): Promise<Record<string, string | null>> {
+  if (vehicleIds.length === 0) return {};
+
+  const supabase = await createClient();
+
+  // Fetch all readings for these vehicles ordered newest first, then deduplicate in JS
+  const { data, error } = await supabase
+    .from('obd_readings')
+    .select('vehicle_id, timestamp')
+    .in('vehicle_id', vehicleIds)
+    .order('timestamp', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching OBD timestamps:', error);
+    return {};
+  }
+
+  // Keep only the first (latest) record per vehicle
+  const map: Record<string, string | null> = {};
+  for (const row of (data as { vehicle_id: string; timestamp: string }[])) {
+    if (!map[row.vehicle_id]) {
+      map[row.vehicle_id] = row.timestamp;
+    }
+  }
+  return map;
+}
+
 export async function getLatestOBDReadingsForVehicles(vehicleIds: string[]) {
   const supabase = await createClient();
 
