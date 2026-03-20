@@ -120,6 +120,12 @@
     "title": "المركبات",
     "subtitle": "إدارة مركبات الأسطول",
     "addVehicle": "إضافة مركبة",
+    "editVehicle": "تعديل مركبة",
+    "deleteVehicle": "حذف مركبة",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "delete": "حذف",
     "status": "الحالة",
     "statuses": {
       "active": "نشطة",

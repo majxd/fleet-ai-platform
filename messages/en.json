@@ -120,6 +120,12 @@
     "title": "Vehicles",
     "subtitle": "Manage your fleet vehicles",
     "addVehicle": "Add Vehicle",
+    "editVehicle": "Edit Vehicle",
+    "deleteVehicle": "Delete Vehicle",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
     "status": "Status",
     "statuses": {
       "active": "Active",
