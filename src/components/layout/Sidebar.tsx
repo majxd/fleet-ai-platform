@@ -58,7 +58,7 @@ export default function Sidebar(_props: SidebarProps) {
           FA
         </div>
         <span className="text-xl font-bold truncate" style={{ color: "#2471A3" }}>
-          {company?.name || t("title")}
+          {(locale === "ar" ? (company?.name_ar || company?.name) : (company?.name || company?.name_ar)) || t("title")}
         </span>
       </div>
 

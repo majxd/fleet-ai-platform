@@ -179,7 +179,7 @@ export default function VehiclesClient({ initialVehicles }: VehiclesClientProps)
                         className="border-b border-gray-50 last:border-0 cursor-pointer transition-colors hover:bg-blue-50/40"
                       >
                         <td className="px-5 py-4 font-bold text-foreground">
-                          {vehicle.plate_number}
+                          {locale === "ar" && vehicle.plate_number_ar ? vehicle.plate_number_ar : vehicle.plate_number}
                         </td>
                         <td className="px-5 py-4 text-muted-foreground">
                           {vehicle.make} {vehicle.model}
@@ -248,7 +248,7 @@ export default function VehiclesClient({ initialVehicles }: VehiclesClientProps)
                     <div className="flex items-start justify-between">
                       <div className="flex-1 min-w-0">
                         <h3 className="text-base font-bold text-foreground">
-                          {vehicle.plate_number}
+                          {locale === "ar" && vehicle.plate_number_ar ? vehicle.plate_number_ar : vehicle.plate_number}
                         </h3>
                         <p className="mt-0.5 text-sm text-muted-foreground">
                           {vehicle.make} {vehicle.model} — {vehicle.year}

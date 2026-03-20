@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Bell, User, LogOut, ChevronDown } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -9,6 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function Navbar() {
   const t = useTranslations("nav");
+  const locale = useParams().locale as string;
   const { profile, company, signOut } = useAuth();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -30,7 +32,7 @@ export default function Navbar() {
       {/* Company name — visible on desktop, hidden on mobile for space */}
       <div className="hidden lg:block">
         <h1 className="text-lg font-bold text-foreground">
-          {company?.name || t("companyName")}
+          {(locale === "ar" ? (company?.name_ar || company?.name) : (company?.name || company?.name_ar)) || t("companyName")}
         </h1>
       </div>
       {/* Spacer for mobile (push items to end) */}
