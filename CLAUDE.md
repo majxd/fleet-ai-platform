@@ -121,5 +121,12 @@ https://github.com/majxd/fleet-ai-platform.git
 - ✅ Session 13: UI Refinements & Translation Fixes
   - Fixed button stylings across Add/Edit/Delete vehicle dialogs to appropriately match the primary Navy Blue design system (#2471A3).
   - Added missing Arabic and English status translations for the Reports page.
+- ✅ Session 14: Cleanup, Automation, and RTL Input Fixes
+  - Fixed alert status updates (in-progress/resolved) by passing the company ID from the user session.
+  - Implemented an automated Supabase PG trigger (`004_auto_alerts_trigger.sql`) to spawn fleet alerts when health scores drop.
+  - Fully deleted old mock data from `src/data/` and updated `generateWeeklyReport` to use live props.
+  - Conducted a codebase-wide audit of translations, resolving missing `reports` keys (`vehiclePlate`, `noData`).
+  - Adjusted form fields codebase-wide (CRUD Dialogs, Search Inputs, Auth, Settings) to properly respect RTL/LTR input direction based on the user's locale.
+  - Next steps: Real Settings data bindings and fixing PDF generation Arabic font encoding.
 ## Known Issues
 - PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.

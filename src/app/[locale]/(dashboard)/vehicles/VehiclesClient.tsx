@@ -121,6 +121,7 @@ export default function VehiclesClient({ initialVehicles }: VehiclesClientProps)
           <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
+            dir={locale === "ar" ? "rtl" : "ltr"}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t("searchPlaceholder")}

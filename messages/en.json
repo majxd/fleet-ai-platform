@@ -239,6 +239,8 @@
     "topVehiclesNeedingAttention": "Top Vehicles Needing Attention",
     "recentMaintenance": "Recent Maintenance",
     "activeAlerts": "Active Alerts",
+    "vehiclePlate": "Plate Number",
+    "noData": "No data available",
     "vehicle": "Vehicle",
     "type": "Type",
     "date": "Date",

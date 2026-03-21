@@ -137,7 +137,7 @@ export default function LoginPage() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
         <div className="space-y-2">
           <Label htmlFor="email">{t("login.email")}</Label>
           <Input

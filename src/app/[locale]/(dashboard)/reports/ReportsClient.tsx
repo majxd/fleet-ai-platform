@@ -104,7 +104,8 @@ export default function ReportsClient({
         locale: locale as "ar" | "en",
         companyName,
         dateRange: formatDate(new Date().toISOString()),
-        // In a real app we'd pass the actual data here to jsPDF
+        summary,
+        topVehicles,
       });
       
       window.alert(isRtl ? "تم استخراج تقرير الأسطول الأسبوعي" : "Weekly Fleet Summary generated successfully");

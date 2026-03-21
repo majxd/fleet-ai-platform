@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CalendarIcon, Loader2, Edit, Pencil } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -34,6 +34,7 @@ export default function EditVehicleDialog({ vehicle }: EditVehicleDialogProps) {
   const tCommon = useTranslations("common");
   const tForm = useTranslations("vehicles.form");
   const tActions = useTranslations("vehicles.actions");
+  const locale = useLocale();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -131,7 +132,7 @@ export default function EditVehicleDialog({ vehicle }: EditVehicleDialogProps) {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
                 control={form.control}

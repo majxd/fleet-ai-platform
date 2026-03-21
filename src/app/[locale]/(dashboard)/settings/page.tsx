@@ -114,7 +114,7 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
       <div className="grid gap-6">
         {/* Company Settings */}
         <Card>
-          <form onSubmit={mockSaveCompany}>
+          <form onSubmit={mockSaveCompany} dir={isRtl ? "rtl" : "ltr"}>
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Building2 className="h-5 w-5 text-[#2471A3]" />
@@ -196,7 +196,7 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
 
         {/* Notifications */}
         <Card>
-          <form onSubmit={mockSavePreferences}>
+          <form onSubmit={mockSavePreferences} dir={isRtl ? "rtl" : "ltr"}>
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Bell className="h-5 w-5 text-[#2471A3]" />
@@ -316,7 +316,7 @@ export default function SettingsPage({ params }: { params: Promise<{ locale: str
           <CardContent className="space-y-6">
             {/* Add Member Form (Inline) */}
             {isAddingMember && (
-              <div className="bg-slate-50 border p-4 rounded-lg grid md:grid-cols-4 gap-4 items-end">
+              <div className="bg-slate-50 border p-4 rounded-lg grid md:grid-cols-4 gap-4 items-end" dir={isRtl ? "rtl" : "ltr"}>
                 <div className="space-y-2">
                   <Label>{t("team.table.name")}</Label>
                   <div className="relative">

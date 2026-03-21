@@ -1,14 +1,13 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { mockVehicles } from "@/data/mock-vehicles";
-import { mockAlertsData } from "@/data/mock-alerts";
-
 type LocaleOption = "ar" | "en";
 
 interface ReportOptions {
   locale: LocaleOption;
   companyName: string;
   dateRange: string;
+  summary: any;
+  topVehicles: any[];
 }
 
 // English localization mapping for PDF elements
@@ -69,7 +68,7 @@ const dict = {
   }
 };
 
-export function generateWeeklyReport({ locale, companyName, dateRange }: ReportOptions) {
+export function generateWeeklyReport({ locale, companyName, dateRange, summary, topVehicles }: ReportOptions) {
   // Use 'en' dictionary exclusively as requested due to Arabic font limitation in standard jsPDF
   const text = dict[locale === "ar" ? "ar" : "en"]; 
   
@@ -111,10 +110,10 @@ export function generateWeeklyReport({ locale, companyName, dateRange }: ReportO
   currentY += 15;
 
   // --- COMPUTE STATS ---
-  const totalVehicles = mockVehicles.length;
-  const avgHealth = Math.round(mockVehicles.reduce((sum, v) => sum + v.health_score, 0) / totalVehicles);
-  const criticalVehicles = mockVehicles.filter(v => v.health_score < 40).length;
-  const totalAlerts = mockAlertsData.filter(a => a.status === "new").length;
+  const totalVehicles = summary.totalVehicles;
+  const avgHealth = summary.averageHealth;
+  const criticalVehicles = summary.vehiclesNeedingAttention;
+  const totalAlerts = summary.alertsThisMonth.total;
 
   const getStatusText = (score: number) => {
     if (score >= 70) return "Good";
@@ -159,12 +158,11 @@ export function generateWeeklyReport({ locale, companyName, dateRange }: ReportO
   doc.text(text.attention, marginX, currentY);
   currentY += 8;
 
-  const topCritical = [...mockVehicles]
-    .sort((a, b) => a.health_score - b.health_score)
+  const topCritical = [...topVehicles]
     .slice(0, 5)
     .map(v => [
-      v.plate_number, 
-      `${v.make} ${v.model}`, 
+      locale === "ar" && v.plate_number_ar ? v.plate_number_ar : v.plate_number, 
+      v.model || '-', 
       v.health_score.toString(), 
       getStatusText(v.health_score)
     ]);
@@ -205,14 +203,9 @@ export function generateWeeklyReport({ locale, companyName, dateRange }: ReportO
   doc.text(text.alertsSummary, marginX, currentY);
   currentY += 8;
 
-  let criticalAlerts = 0, warningAlerts = 0, infoAlerts = 0;
-  mockAlertsData.forEach(a => {
-    if (a.status === "new") {
-      if (a.severity === "critical") criticalAlerts++;
-      else if (a.severity === "warning") warningAlerts++;
-      else infoAlerts++;
-    }
-  });
+  const criticalAlerts = summary.alertsThisMonth.critical || 0;
+  const warningAlerts = summary.alertsThisMonth.warning || 0;
+  const infoAlerts = summary.alertsThisMonth.info || 0;
 
   autoTable(doc, {
     startY: currentY,

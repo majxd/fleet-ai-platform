@@ -239,6 +239,8 @@
     "topVehiclesNeedingAttention": "أكثر المركبات احتياجاً للاهتمام",
     "recentMaintenance": "الصيانة الحديثة",
     "activeAlerts": "التنبيهات النشطة",
+    "vehiclePlate": "رقم اللوحة",
+    "noData": "لا توجد بيانات",
     "vehicle": "المركبة",
     "type": "النوع",
     "date": "التاريخ",

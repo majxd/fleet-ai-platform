@@ -171,7 +171,7 @@ export default function RegisterPage() {
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
         {/* Company name */}
         <div className="space-y-2">
           <Label htmlFor="companyName">{t("register.companyName")}</Label>

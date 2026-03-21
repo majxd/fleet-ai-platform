@@ -117,7 +117,7 @@ export default function AlertsClient({
         </Card>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6" dir={isRtl ? "rtl" : "ltr"}>
         <div className="w-full sm:w-[200px]">
           <Select value={severityFilter} onValueChange={setSeverityFilter}>
             <SelectTrigger>
