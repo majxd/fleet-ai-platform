@@ -118,6 +118,8 @@ https://github.com/majxd/fleet-ai-platform.git
   - Synced Notification badges in Sidebar and Navbar with actual database counts.
   - Fixed TypeScript interface errors, resolved Supabase query issues (like selecting non-existent columns), and ensured 0 build errors.
   - Next steps: Implement Settings page data integration and fix jsPDF Arabic fonts.
-
+- ✅ Session 13: UI Refinements & Translation Fixes
+  - Fixed button stylings across Add/Edit/Delete vehicle dialogs to appropriately match the primary Navy Blue design system (#2471A3).
+  - Added missing Arabic and English status translations for the Reports page.
 ## Known Issues
 - PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.
