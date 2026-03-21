@@ -112,6 +112,12 @@ https://github.com/majxd/fleet-ai-platform.git
   - Mitigated Supabase auth dropping HTTP cookies within Next.js parallel query renders on the Arabic locale by extracting the `user` evaluation higher within the async scope.
   - Safely unwrapped `Promise` values for Next.js 15 dynamic routing parameters (`params.id`, `params.locale`).
   - Next steps: Live implementation of the Reports (PDF exports) and Settings data integration using Supabase.
+- ✅ Session 12: Connect Alerts and Reports to Supabase Data
+  - Implemented `lib/queries/alerts.ts` and `lib/queries/reports.ts` for real-time dashboard data.
+  - Re-architected Alerts and Reports to use Server Components for data fetching and Client Components (`AlertsClient`, `ReportsClient`) for interactivity.
+  - Synced Notification badges in Sidebar and Navbar with actual database counts.
+  - Fixed TypeScript interface errors, resolved Supabase query issues (like selecting non-existent columns), and ensured 0 build errors.
+  - Next steps: Implement Settings page data integration and fix jsPDF Arabic fonts.
 
 ## Known Issues
 - PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.

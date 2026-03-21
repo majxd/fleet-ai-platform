@@ -5,16 +5,18 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Bell, User, LogOut, ChevronDown } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { mockAlertsData } from "@/data/mock-alerts";
 import { useAuth } from "@/hooks/useAuth";
 
-export default function Navbar() {
+interface NavbarProps {
+  unreadAlertsCount?: number;
+}
+
+export default function Navbar({ unreadAlertsCount = 0 }: NavbarProps) {
   const t = useTranslations("nav");
   const locale = useParams().locale as string;
   const { profile, company, signOut } = useAuth();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const unreadAlertsCount = mockAlertsData.filter(alert => alert.status === "new").length;
 
   // Close dropdown when clicking outside
   useEffect(() => {

@@ -16,13 +16,19 @@ export interface Alert {
   vehicle_id: string;
   type: AlertType;
   severity: AlertSeverity;
+  title: string;
   title_ar: string;
-  title_en: string;
-  description_ar: string | null;
-  description_en: string | null;
+  message: string | null;
+  message_ar: string | null;
   status: AlertStatus;
   assigned_to: string | null;
   resolved_at: string | null;
+  resolved_by: string | null;
+  metadata: any | null;
   created_at: string;
   updated_at: string;
+  vehicles?: {
+    plate_number: string;
+    plate_number_ar?: string;
+  };
 }

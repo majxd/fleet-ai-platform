@@ -129,7 +129,7 @@ export default function RecentAlerts({ alerts }: RecentAlertsProps) {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-foreground">
-                  {isRtl ? alert.title_ar : alert.title_en}
+                  {isRtl ? alert.title_ar : alert.title}
                 </p>
                 <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
                   <span className="font-medium">{alert.vehicle_plate || alert.vehicle_id}</span>

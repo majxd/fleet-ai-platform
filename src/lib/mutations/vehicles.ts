@@ -11,10 +11,14 @@ export type UpdateVehicleInput = Partial<AddVehicleInput> & {
 };
 
 export async function addVehicle(data: AddVehicleInput, companyId: string) {
+  console.log('addVehicle starting...', { companyId, data });
   const supabase = createClient();
+  
+  console.log('Getting user...');
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   if (userError || !userData?.user) {
+    console.error('Auth error:', userError);
     throw new Error('Not authenticated');
   }
 
@@ -22,6 +26,7 @@ export async function addVehicle(data: AddVehicleInput, companyId: string) {
     throw new Error('Company ID is required');
   }
 
+  console.log('Inserting into Supabase...');
   const { data: newVehicle, error } = await supabase
     .from('vehicles')
     // @ts-ignore - Bypass strict never inference from Supabase generic Table type
@@ -34,9 +39,11 @@ export async function addVehicle(data: AddVehicleInput, companyId: string) {
     .select()
     .single();
 
+  console.log('Insert response:', { newVehicle, error });
+
   if (error) {
     console.error('Error adding vehicle:', error);
-    throw error;
+    throw new Error(error.message || 'Failed to add vehicle');
   }
 
   return newVehicle;

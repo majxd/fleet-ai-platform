@@ -30,16 +30,14 @@ const navItems: NavItem[] = [
   { key: "settings", href: "/settings", icon: Settings },
 ];
 
-import { mockAlertsData } from "@/data/mock-alerts";
 import { useAuth } from "@/hooks/useAuth";
 
 interface SidebarProps {
-  // props can be added here if needed
+  unreadAlertsCount?: number;
 }
 
-export default function Sidebar(_props: SidebarProps) {
+export default function Sidebar({ unreadAlertsCount = 0 }: SidebarProps) {
   const { company } = useAuth();
-  const unreadAlertsCount = mockAlertsData.filter(alert => alert.status === "new").length;
   const t = useTranslations("nav");
   const pathname = usePathname();
   const params = useParams();

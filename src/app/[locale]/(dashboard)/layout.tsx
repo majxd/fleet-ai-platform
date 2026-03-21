@@ -42,15 +42,26 @@ export default async function DashboardLayout({ children, params }: DashboardLay
       company = companyData;
     }
   }
+
+  // Fetch unread alerts count
+  let unreadAlertsCount = 0;
+  if (company) {
+    const { count } = await supabase
+      .from("alerts")
+      .select("*", { count: "exact", head: true })
+      .eq("company_id", (company as any).id)
+      .eq("status", "new");
+    unreadAlertsCount = count || 0;
+  }
   return (
     <AuthProvider initialUser={user} initialProfile={profile} initialCompany={company}>
       <div className="flex h-screen bg-[#F8FAFC]">
         {/* Sidebar — appears on right side in RTL */}
-        <Sidebar />
+        <Sidebar unreadAlertsCount={unreadAlertsCount} />
 
         {/* Main content area */}
         <div className="flex flex-1 flex-col overflow-hidden">
-          <Navbar />
+          <Navbar unreadAlertsCount={unreadAlertsCount} />
           <main className="flex-1 overflow-y-auto p-4 lg:p-6">
             {children}
           </main>
