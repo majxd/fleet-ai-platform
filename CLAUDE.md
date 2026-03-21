@@ -107,8 +107,11 @@ https://github.com/majxd/fleet-ai-platform.git
   - Full Vehicle CRUD (Create, Read, Update, Delete) with strictly typed Supabase browser client
   - Integrated bilingual Add/Edit/Delete dialogs with `react-hook-form` and `zod`
   - Fixed localization keys and bypassed overzealous Supabase TS type generic inferences
-  - Next: Reports and Settings live data integration, plus notification systems.
+- ✅ Session 11: Vehicle Detail Page Fixes & Next.js 15 Async Params
+  - Fixed routing behavior in AddVehicleDialog to appropriately redirect to localized URLs.
+  - Mitigated Supabase auth dropping HTTP cookies within Next.js parallel query renders on the Arabic locale by extracting the `user` evaluation higher within the async scope.
+  - Safely unwrapped `Promise` values for Next.js 15 dynamic routing parameters (`params.id`, `params.locale`).
+  - Next steps: Live implementation of the Reports (PDF exports) and Settings data integration using Supabase.
 
 ## Known Issues
 - PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.
-- params.locale Promise warning in some pages (Next.js 15+ async params)
