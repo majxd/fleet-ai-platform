@@ -15,14 +15,14 @@ import type { HealthHistoryPoint } from "@/types/vehicle";
 export default async function VehicleDetailPage({
   params,
 }: {
-  params: { id: string; locale: string };
+  params: Promise<{ id: string; locale: string }>;
 }) {
+  const { id: vehicleId, locale } = await params;
+
   const t = await getTranslations({
-    locale: params.locale,
+    locale,
     namespace: "common",
   });
-  
-  const vehicleId = params.id;
 
   // IMPORTANT: evaluate cookies before Promise.all
   const supabase = await createClient();
@@ -61,7 +61,7 @@ export default async function VehicleDetailPage({
   const mappedDtcCodes: DTCFaultDisplay[] = dtcCodes.map(code => ({
     ...code,
     detected_at: OBDTimestamp 
-      ? new Date(OBDTimestamp).toLocaleDateString(params.locale === "ar" ? "ar-SA" : "en-US")
+      ? new Date(OBDTimestamp).toLocaleDateString(locale === "ar" ? "ar-SA" : "en-US")
       : undefined
   }));
 
