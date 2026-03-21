@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { createClient } from "@/lib/supabase/server";
 import { getVehicleById } from "@/lib/queries/vehicles";
 import { getLatestOBDReading, getOBDHistory } from "@/lib/queries/obd";
 import { getActiveDTCCodes } from "@/lib/queries/dtc";
@@ -22,6 +23,10 @@ export default async function VehicleDetailPage({
   });
   
   const vehicleId = params.id;
+
+  // IMPORTANT: evaluate cookies before Promise.all
+  const supabase = await createClient();
+  await supabase.auth.getUser();
 
   // Fetch all concurrent data
   const [vehicle, obdReading, obdHistory, dtcCodes, maintenanceLogs] = await Promise.all([

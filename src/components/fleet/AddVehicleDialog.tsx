@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CalendarIcon, Loader2, Plus } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -31,6 +31,7 @@ export default function AddVehicleDialog() {
   const tForm = useTranslations("vehicles.form");
   const tActions = useTranslations("vehicles.actions");
   const router = useRouter();
+  const locale = useLocale();
   const { company } = useAuth();
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,7 +72,7 @@ export default function AddVehicleDialog() {
     try {
       if (!company?.id) throw new Error("No company found in session");
       
-      await addVehicle({
+      const newVehicle = await addVehicle({
         ...values,
         year: parseInt(values.year),
         plate_number_ar: values.plate_number_ar || null,
@@ -82,11 +83,12 @@ export default function AddVehicleDialog() {
         insurance_expiry: values.insurance_expiry ? values.insurance_expiry.toISOString().split('T')[0] : null,
         registration_expiry: values.registration_expiry ? values.registration_expiry.toISOString().split('T')[0] : null,
         notes: values.notes || null,
-      }, company.id);
+      }, company.id) as { id: string };
       
       toast.success(tActions("successAdd"));
       setOpen(false);
       form.reset();
+      router.push(`/${locale}/vehicles/${newVehicle.id}`);
       router.refresh();
     } catch (error) {
       console.error(error);
