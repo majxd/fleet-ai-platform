@@ -257,7 +257,10 @@
     "statuses": {
       "ready": "جاهز",
       "generating": "جاري الإنشاء",
-      "failed": "فشل"
+      "failed": "فشل",
+      "healthy": "سليمة",
+      "warning": "تحذير",
+      "critical": "حرجة"
     },
     "download": "تحميل"
   },

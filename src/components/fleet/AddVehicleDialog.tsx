@@ -101,7 +101,7 @@ export default function AddVehicleDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2">
+        <Button className="gap-2 bg-[#2471A3] hover:bg-[#1a5276] text-white">
           <Plus className="h-4 w-4" />
           {t("addVehicle")}
         </Button>
@@ -359,7 +359,7 @@ export default function AddVehicleDialog() {
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 {t("cancel" /* wait, the common cancel is accessible via t("../../common") - actually I map it here from another namespace or just use common */)}
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting} className="bg-[#2471A3] hover:bg-[#1a5276] text-white">
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {tActions("addTitle")}
               </Button>

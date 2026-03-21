@@ -257,7 +257,10 @@
     "statuses": {
       "ready": "Ready",
       "generating": "Generating",
-      "failed": "Failed"
+      "failed": "Failed",
+      "healthy": "Healthy",
+      "warning": "Warning",
+      "critical": "Critical"
     },
     "download": "Download"
   },

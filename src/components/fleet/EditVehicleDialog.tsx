@@ -376,7 +376,7 @@ export default function EditVehicleDialog({ vehicle }: EditVehicleDialogProps) {
               <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                 {tCommon("cancel")}
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting} className="bg-[#2471A3] hover:bg-[#1a5276] text-white">
                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {tActions("saveChanges")}
               </Button>
