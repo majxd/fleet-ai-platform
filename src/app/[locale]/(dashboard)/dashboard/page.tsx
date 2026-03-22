@@ -7,6 +7,7 @@ import FleetStats from "@/components/fleet/FleetStats";
 import VehicleCard from "@/components/fleet/VehicleCard";
 import RecentAlerts from "@/components/fleet/RecentAlerts";
 import type { Vehicle } from "@/types/database";
+import DashboardRealtime from "./DashboardRealtime";
 
 export default async function DashboardPage() {
   const t = await getTranslations("dashboard");
@@ -50,6 +51,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <DashboardRealtime />
       {/* Page header */}
       <div>
         <h1 className="text-2xl font-bold text-foreground lg:text-3xl">

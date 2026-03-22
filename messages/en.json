@@ -17,7 +17,8 @@
     "previous": "Previous",
     "confirm": "Confirm",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "dataUpdated": "Data updated"
   },
   "auth": {
     "login": {
@@ -220,7 +221,9 @@
     "markInProgress": "Mark as In Progress",
     "markResolved": "Mark as Resolved",
     "unassigned": "Unassigned",
-    "emptyState": "No alerts match the selected filters"
+    "emptyState": "No alerts match the selected filters",
+    "successUpdate": "Alert updated successfully",
+    "errorUpdate": "Failed to update alert"
   },
   "reports": {
     "title": "Reports",

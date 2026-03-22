@@ -13,9 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { AlertCircle, Clock, CheckCircle2, User, Car, Activity } from "lucide-react";
+import { AlertCircle, Clock, CheckCircle2, User, Car, Activity, Loader2 } from "lucide-react";
 import type { Alert } from "@/types/alert";
-import { updateAlertStatus } from "@/lib/queries/alerts.client";
+import { updateAlertStatusAction } from "./actions";
+import { toast } from "sonner";
+import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
 
 function getSeverityColor(severity: string) {
   switch (severity) {
@@ -64,6 +66,13 @@ export default function AlertsClient({
   const isRtl = locale === "ar";
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [updatingAction, setUpdatingAction] = useState<"in_progress" | "resolved" | null>(null);
+
+  useRealtimeSubscription(['alerts'], () => {
+    router.refresh();
+    toast.success(t("dataUpdated"));
+  });
 
   const [severityFilter, setSeverityFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -75,13 +84,20 @@ export default function AlertsClient({
   });
 
   const handleUpdateStatus = async (id: string, status: "in_progress" | "resolved") => {
+    setUpdatingId(id);
+    setUpdatingAction(status);
     try {
-      await updateAlertStatus(id, status);
-      startTransition(() => {
-        router.refresh();
-      });
-    } catch (e) {
-      console.error(e);
+      const result = await updateAlertStatusAction(id, status);
+      if (result.success) {
+        toast.success(t("successUpdate"));
+      } else {
+        toast.error(`${t("errorUpdate")}: ${result.error}`);
+      }
+    } catch {
+      toast.error(t("errorUpdate"));
+    } finally {
+      setUpdatingId(null);
+      setUpdatingAction(null);
     }
   };
 
@@ -216,10 +232,15 @@ export default function AlertsClient({
                         <Button
                           variant="outline"
                           size="sm"
+                          disabled={updatingId === alert.id || isPending}
                           onClick={() => handleUpdateStatus(alert.id, "in_progress")}
                           className="h-8 inline-flex gap-1"
                         >
-                          <Activity className="h-3.5 w-3.5" />
+                          {updatingId === alert.id && updatingAction === "in_progress" ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Activity className="h-3.5 w-3.5" />
+                          )}
                           <span>{t("markInProgress")}</span>
                         </Button>
                       )}
@@ -227,10 +248,15 @@ export default function AlertsClient({
                         <Button
                           variant="outline"
                           size="sm"
+                          disabled={updatingId === alert.id || isPending}
                           onClick={() => handleUpdateStatus(alert.id, "resolved")}
                           className="h-8 inline-flex gap-1"
                         >
-                          <CheckCircle2 className="h-3.5 w-3.5" />
+                          {updatingId === alert.id && updatingAction === "resolved" ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                          )}
                           <span>{t("markResolved")}</span>
                         </Button>
                       ) : (

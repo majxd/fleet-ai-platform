@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname, useParams } from "next/navigation";
+import { usePathname, useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
   LayoutDashboard,
@@ -31,6 +31,7 @@ const navItems: NavItem[] = [
 ];
 
 import { useAuth } from "@/hooks/useAuth";
+import { useRealtimeSubscription } from "@/hooks/useRealtimeSubscription";
 
 interface SidebarProps {
   unreadAlertsCount?: number;
@@ -41,8 +42,32 @@ export default function Sidebar({ unreadAlertsCount = 0 }: SidebarProps) {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const params = useParams();
+  const router = useRouter();
   const locale = params.locale as string;
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const [liveAlertsCount, setLiveAlertsCount] = useState(unreadAlertsCount);
+
+  useEffect(() => {
+    setLiveAlertsCount(unreadAlertsCount);
+  }, [unreadAlertsCount]);
+
+  useRealtimeSubscription(['alerts'], (table, payload) => {
+    if (payload.eventType === 'INSERT') {
+      setLiveAlertsCount((prev) => prev + 1);
+    } else if (payload.eventType === 'UPDATE') {
+      if (payload.new.status === 'resolved' && payload.old.status !== 'resolved') {
+        setLiveAlertsCount((prev) => Math.max(0, prev - 1));
+      } else if (payload.new.status !== 'resolved' && payload.old.status === 'resolved') {
+        setLiveAlertsCount((prev) => prev + 1);
+      }
+    } else if (payload.eventType === 'DELETE') {
+      if (payload.old.status !== 'resolved') {
+        setLiveAlertsCount((prev) => Math.max(0, prev - 1));
+      }
+    }
+    router.refresh();
+  });
 
   const isActive = (href: string): boolean => {
     return pathname.includes(href);
@@ -65,7 +90,7 @@ export default function Sidebar({ unreadAlertsCount = 0 }: SidebarProps) {
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
-          const showBadge = item.key === "alerts" && unreadAlertsCount > 0;
+          const showBadge = item.key === "alerts" && liveAlertsCount > 0;
 
           return (
             <Link
@@ -83,7 +108,7 @@ export default function Sidebar({ unreadAlertsCount = 0 }: SidebarProps) {
               <span className="flex-1">{t(item.key)}</span>
               {showBadge && (
                 <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[#EF4444] px-1.5 text-[10px] font-bold text-white">
-                  {unreadAlertsCount}
+                  {liveAlertsCount}
                 </span>
               )}
             </Link>

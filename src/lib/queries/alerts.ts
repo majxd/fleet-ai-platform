@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server';
-import { createBrowserClient } from '@supabase/ssr';
 import { Alert, AlertSeverity, AlertStatus } from '@/types/alert';
 
 export async function getRecentAlerts(companyId: string, limit: number = 5) {
