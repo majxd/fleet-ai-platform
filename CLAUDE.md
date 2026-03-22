@@ -82,17 +82,37 @@ messages/
 https://github.com/majxd/fleet-ai-platform.git
 
 ## الوضع الحالي
-المشروع أنهى Part 3 بالكامل (100%).
-المتبقي: Deploy على Vercel.
+المشروع أنهى Part 3 بالكامل (100%) وتم Deploy على Vercel.
+الرابط الحي: https://fleet-ai-platform.vercel.app
 
-## ما تم إنجازه في هذه الجلسة
-- تشغيل Auto-Alerts SQL Trigger في Supabase
-- إصلاح تحديث حالة التنبيهات (نقل من browser client إلى Server Action بسبب auth lock bug)
-- إضافة Supabase Realtime subscriptions (Dashboard + Alerts + Sidebar badge)
-- Singleton Supabase browser client لمنع auth lock contention
+## ما تم إنجازه
+### Part 3 — ربط البيانات الحقيقية (مكتمل 100%)
+- P3-01: Dashboard + Vehicles → Supabase ✅
+- P3-02: إضافة / تعديل / حذف المركبات ✅
+- P3-03: Alerts + Reports → Supabase ✅
+- P3-04: تنبيهات تلقائية + Cleanup ✅
+- P3-05: Supabase Realtime ✅
+- Auto-Alerts SQL Trigger: تم تشغيله في Supabase ✅
+- Alert status update: تم إصلاحه (Server Action بدل browser client) ✅
+- Deploy على Vercel ✅
 
-## المتبقي
-- Deploy على Vercel (ربط GitHub repo + environment variables + اختبار Production)
+## الإعدادات المهمة
+- Vercel Project: fleet-ai-platform
+- Live URL: https://fleet-ai-platform.vercel.app
+- Supabase Realtime مفعّل على: vehicles, alerts
+- Supabase Auth Site URL: https://fleet-ai-platform.vercel.app
+- Redirect URLs: https://fleet-ai-platform.vercel.app/** و http://localhost:3000/**
+
+## ملاحظات تقنية مهمة
+- لا تستخدم Supabase browser client للـ mutations — استخدم Server Actions (بسبب auth lock bug)
+- Supabase browser client يجب أن يكون singleton (lib/supabase-browser.ts)
+- Realtime subscriptions لا تستخدم filter مع company_id — RLS يتكفل بالأمان
+
+## المرحلة القادمة
+Phase 2 — Pilot مع 3-5 شركات حقيقية:
+- جمع ملاحظات المستخدمين
+- إصلاح أي bugs تظهر
+- تحسين الأداء والتصميم
 
 ## Current Progress
 - ✅ Session 1: Project scaffold, folder structure, Git setup
