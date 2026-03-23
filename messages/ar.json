@@ -450,5 +450,31 @@
       },
       "empty": "لا يوجد سجل صيانة سابق"
     }
+  },
+  "smartDiagnosis": {
+    "title": "التشخيص الذكي",
+    "level2": "المستوى 2",
+    "analyzing": "جاري تحليل ربط الأكواد...",
+    "noCorrelations": "لم يتم اكتشاف أنماط مترابطة بين الأكواد الحالية",
+    "diagnosis": "التشخيص",
+    "fixOrder": "ترتيب الإصلاح",
+    "normalCost": "التكلفة العادية:",
+    "smartCost": "التكلفة الذكية:",
+    "sensorConfirmation": "تأكيد من الحساسات",
+    "uncorrelatedCodes": "أكواد بدون ربط:",
+    "checkIndividual": "راجع التشخيص الفردي لكل كود",
+    "commonIn": "شائع في:",
+    "confidence": {
+      "high": "ثقة عالية",
+      "medium": "ثقة متوسطة",
+      "low": "ثقة منخفضة"
+    },
+    "risk": {
+      "critical": "حرج",
+      "high": "عالي",
+      "medium": "متوسط",
+      "low": "منخفض"
+    }
   }
 }
+

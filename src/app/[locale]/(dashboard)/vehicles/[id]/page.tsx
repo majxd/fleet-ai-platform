@@ -10,7 +10,9 @@ import OBDMetricsGrid from "@/components/fleet/OBDMetricsGrid";
 import HealthHistoryChart from "@/components/fleet/HealthHistoryChart";
 import DTCCodesTable, { DTCFaultDisplay } from "@/components/fleet/DTCCodesTable";
 import MaintenanceTimeline from "@/components/fleet/MaintenanceTimeline";
+import SmartDiagnosis from "@/components/fleet/SmartDiagnosis";
 import type { HealthHistoryPoint } from "@/types/vehicle";
+import type { Vehicle, MaintenanceLog } from "@/types/database";
 
 export default async function VehicleDetailPage({
   params,
@@ -78,6 +80,21 @@ export default async function VehicleDetailPage({
 
       {/* Section 4: DTC Fault Codes */}
       <DTCCodesTable faults={mappedDtcCodes} />
+
+      {/* Section 4.5: Smart Diagnosis */}
+      <SmartDiagnosis
+        activeDtcCodes={dtcCodes.map(c => c.code)}
+        sensorData={{
+          engine_temp: obdReading?.engine_temp ?? undefined,
+          battery_voltage: obdReading?.battery_voltage ?? undefined,
+          fuel_level: obdReading?.fuel_level ?? undefined,
+          days_since_maintenance: (maintenanceLogs as MaintenanceLog[]).length > 0 
+            ? Math.floor((new Date().getTime() - Math.max(...(maintenanceLogs as MaintenanceLog[]).map(l => new Date(l.performed_at).getTime()))) / (1000 * 60 * 60 * 24))
+            : undefined,
+        }}
+        vehicleModel={(vehicle as Vehicle).model}
+        locale={locale as 'ar' | 'en'}
+      />
 
       {/* Section 5: Maintenance Timeline */}
       <MaintenanceTimeline events={maintenanceLogs} />

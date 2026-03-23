@@ -450,5 +450,31 @@
       },
       "empty": "No maintenance history"
     }
+  },
+  "smartDiagnosis": {
+    "title": "Smart Diagnosis",
+    "level2": "Level 2",
+    "analyzing": "Analyzing code correlations...",
+    "noCorrelations": "No correlated patterns detected between current codes",
+    "diagnosis": "Diagnosis",
+    "fixOrder": "Fix Order",
+    "normalCost": "Normal Cost:",
+    "smartCost": "Smart Cost:",
+    "sensorConfirmation": "Sensor Confirmation",
+    "uncorrelatedCodes": "Uncorrelated codes:",
+    "checkIndividual": "Check individual diagnosis for each code",
+    "commonIn": "Common in:",
+    "confidence": {
+      "high": "High Confidence",
+      "medium": "Medium Confidence",
+      "low": "Low Confidence"
+    },
+    "risk": {
+      "critical": "Critical",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    }
   }
 }
+

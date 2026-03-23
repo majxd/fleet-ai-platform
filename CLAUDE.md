@@ -161,7 +161,8 @@ Phase 2 — Pilot مع 3-5 شركات حقيقية:
   - Conducted a codebase-wide audit of translations, resolving missing `reports` keys (`vehiclePlate`, `noData`).
   - Adjusted form fields codebase-wide (CRUD Dialogs, Search Inputs, Auth, Settings) to properly respect RTL/LTR input direction based on the user's locale.
   - Next steps: Real Settings data bindings and fixing PDF generation Arabic font encoding.
-- ✅ Session 15: DTC Recommendations
+- ✅ Session 15: DTC Recommendations & Smart Diagnosis
   - DTC Repair Recommendations: 47 codes with step-by-step Arabic diagnosis, estimated costs, urgency levels, and copy-to-clipboard feature
+  - Level 2 Smart Diagnosis: Integrated dtc_correlations pattern matching engine, risk calculation, multi-code sensor validations, and smart cost savings estimation.
 ## Known Issues
 - PDF Arabic text: jsPDF doesn't support Arabic glyphs natively. Needs embedded Arabic font (e.g. Amiri or Cairo) via addFileToVFS(). Will fix in polish phase.
