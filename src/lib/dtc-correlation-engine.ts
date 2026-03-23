@@ -96,6 +96,8 @@ export async function analyzeCorrelations(
   sensorData: SensorData = {},
   locale: 'ar' | 'en' = 'ar'
 ): Promise<DiagnosisResult> {
+  console.log('[DEBUG] Correlation Engine received activeCodes:', activeCodes);
+
   if (activeCodes.length === 0) {
     return {
       has_correlations: false,
@@ -116,9 +118,15 @@ export async function analyzeCorrelations(
     };
   }
 
-  const normalizedCodes = activeCodes.map((code) => code.trim().toUpperCase());
+  const normalizedCodes = activeCodes.map((c) => {
+    if (typeof c === 'object' && c !== null && 'code' in c) {
+      return String((c as any).code).trim().toUpperCase();
+    }
+    return String(c).trim().toUpperCase();
+  });
 
   const patterns = await fetchCorrelationPatterns(supabase);
+  console.log(`[DEBUG] Fetched ${patterns.length} patterns from Supabase dtc_correlations.`);
 
   if (patterns.length === 0) {
     return {
@@ -198,11 +206,23 @@ function matchPatterns(
   const activeCodesSet = new Set(activeCodes);
 
   for (const pattern of patterns) {
-    const matchedCodes = pattern.code_pattern.filter((code) =>
+    const patternCodeArray = Array.isArray(pattern.code_pattern) 
+      ? pattern.code_pattern 
+      : typeof pattern.code_pattern === 'string'
+        ? JSON.parse((pattern.code_pattern as string).replace(/'/g, '"'))
+        : [];
+        
+    const normalizedPatternCodes = patternCodeArray.map((c: any) => {
+      if (typeof c === 'object' && c !== null && 'code' in c) return String(c.code).trim().toUpperCase();
+      return String(c).trim().toUpperCase();
+    });
+
+    console.log(`[DEBUG] Evaluating normalized pattern code_pattern:`, normalizedPatternCodes);
+    const matchedCodes = normalizedPatternCodes.filter((code: string) =>
       activeCodesSet.has(code)
     );
 
-    const matchRatio = matchedCodes.length / pattern.code_pattern.length;
+    const matchRatio = matchedCodes.length / Math.max(1, normalizedPatternCodes.length);
     const isFullMatch = matchRatio === 1;
     const isPartialMatch = matchedCodes.length >= 2 && matchRatio >= 0.6;
 
@@ -222,8 +242,8 @@ function matchPatterns(
         ? 'medium'
         : 'low';
 
-    const unmatchedCodes = pattern.code_pattern.filter(
-      (code) => !activeCodesSet.has(code)
+    const unmatchedCodes = normalizedPatternCodes.filter(
+      (code: string) => !activeCodesSet.has(code)
     );
 
     diagnoses.push({

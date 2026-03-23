@@ -18,11 +18,24 @@ export async function getActiveDTCCodes(vehicleId: string) {
     return [];
   }
 
+  // Fix data transformation: obd_readings.dtc_codes may be stored as objects [{code: "P0301"}]
+  const rawCodes = reading.dtc_codes || [];
+  const normalizedPlainCodes = rawCodes.map(c => {
+    if (typeof c === 'object' && c !== null && 'code' in c) {
+      return String((c as any).code).trim().toUpperCase();
+    }
+    return String(c).trim().toUpperCase();
+  }).filter(c => c !== '');
+
+  if (normalizedPlainCodes.length === 0) {
+    return [];
+  }
+
   // Then fetch the details from dtc_library
   const { data: dtcDetails, error: dtcError } = await supabase
     .from('dtc_library')
     .select('*')
-    .in('code', reading.dtc_codes);
+    .in('code', normalizedPlainCodes);
 
   if (dtcError) {
     console.error('Error fetching DTC library details:', dtcError);
