@@ -46,6 +46,11 @@ FleetAI is an Arabic-first SaaS platform for car rental fleet monitoring.
 - ✅ Bilingual AR/EN full support
 - ✅ Reports (PDF weekly summary)
 - ✅ Settings (company + team management)
+- ✅ Smart Diagnosis (Level 2): DTC Correlation Engine with 32 patterns across 15 categories. Shows root cause analysis, fix order, cost savings, and sensor confirmation. Bilingual AR/EN. Table: dtc_correlations (shared, no company_id). Files: lib/dtc-correlation-engine.ts, lib/queries/correlations.ts, components/fleet/SmartDiagnosis.tsx
+
+## Database Tables
+- dtc_correlations: 32 correlation patterns, shared reference table (like dtc_library), RLS read-only for authenticated users
+
 
 ## Folder Structure
 ```
@@ -113,6 +118,9 @@ Phase 2 — Pilot مع 3-5 شركات حقيقية:
 - جمع ملاحظات المستخدمين
 - إصلاح أي bugs تظهر
 - تحسين الأداء والتصميم
+
+## Recent Changes
+- March 23, 2026: Level 2 Smart Diagnosis completed and deployed.
 
 ## Current Progress
 - ✅ Session 1: Project scaffold, folder structure, Git setup
