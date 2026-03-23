@@ -92,8 +92,6 @@ export function analyzeCorrelations(
   sensorData: SensorData = {},
   locale: 'ar' | 'en' = 'ar'
 ): DiagnosisResult {
-  console.log('[DEBUG] Correlation Engine received activeCodes:', activeCodes);
-
   if (activeCodes.length === 0) {
     return {
       has_correlations: false,
@@ -192,7 +190,6 @@ function matchPatterns(
       return String(c).trim().toUpperCase();
     });
 
-    console.log(`[DEBUG] Evaluating normalized pattern code_pattern:`, normalizedPatternCodes);
     const matchedCodes = normalizedPatternCodes.filter((code: string) =>
       activeCodesSet.has(code)
     );
