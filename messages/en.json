@@ -410,7 +410,25 @@
       "date": "Detected",
       "critical": "Critical",
       "warning": "Warning",
-      "empty": "No active fault codes ✅"
+      "empty": "No active fault codes ✅",
+      "repairRecommendation": "Repair Recommendation",
+      "estimatedCost": "Estimated Cost",
+      "urgency": "Urgency",
+      "copyRecommendation": "Copy Recommendation",
+      "noRecommendation": "No recommendation available for this code yet",
+      "copied": "Copied!",
+      "urgencyHigh": "High",
+      "urgencyMedium": "Medium",
+      "urgencyLow": "Low",
+      "categoryEngine": "Engine",
+      "categoryFuel": "Fuel",
+      "categoryTransmission": "Transmission",
+      "categoryCooling": "Cooling",
+      "categoryElectrical": "Electrical",
+      "categoryEmissions": "Emissions",
+      "categoryBrakes": "Brakes",
+      "categoryAc": "AC",
+      "categorySafety": "Safety"
     },
     "maintenance": {
       "title": "Maintenance History",
@@ -419,12 +437,16 @@
       "km": "km",
       "sar": "SAR",
       "types": {
+        "brake_service": "Brake Service",
         "oil_change": "Oil Change",
         "tire_rotation": "Tire Rotation",
-        "brake_inspection": "Brake Inspection",
         "filter_replacement": "Filter Replacement",
         "battery_replacement": "Battery Replacement",
-        "general_inspection": "General Inspection"
+        "transmission_service": "Transmission Service",
+        "coolant_flush": "Coolant Flush",
+        "spark_plugs": "Spark Plugs",
+        "general_inspection": "General Inspection",
+        "ac_service": "A/C Service"
       },
       "empty": "No maintenance history"
     }

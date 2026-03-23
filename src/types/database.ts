@@ -338,6 +338,8 @@ export interface Database {
           category: string | null
           recommended_action_en: string | null
           recommended_action_ar: string | null
+          estimated_cost_sar: string | null
+          urgency: string | null
         }
         Insert: {
           code: string
@@ -347,6 +349,8 @@ export interface Database {
           category?: string | null
           recommended_action_en?: string | null
           recommended_action_ar?: string | null
+          estimated_cost_sar?: string | null
+          urgency?: string | null
         }
         Update: {
           code?: string
@@ -356,6 +360,8 @@ export interface Database {
           category?: string | null
           recommended_action_en?: string | null
           recommended_action_ar?: string | null
+          estimated_cost_sar?: string | null
+          urgency?: string | null
         }
       }
       subscriptions: {

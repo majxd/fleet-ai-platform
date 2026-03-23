@@ -410,7 +410,25 @@
       "date": "تاريخ الاكتشاف",
       "critical": "حرج",
       "warning": "تحذير",
-      "empty": "لا توجد أكواد أعطال نشطة ✅"
+      "empty": "لا توجد أكواد أعطال نشطة ✅",
+      "repairRecommendation": "توصية الإصلاح",
+      "estimatedCost": "التكلفة التقريبية",
+      "urgency": "الأهمية",
+      "copyRecommendation": "نسخ التوصية",
+      "noRecommendation": "لا تتوفر توصية لهذا الكود حالياً",
+      "copied": "تم النسخ!",
+      "urgencyHigh": "عالية",
+      "urgencyMedium": "متوسطة",
+      "urgencyLow": "منخفضة",
+      "categoryEngine": "المحرك",
+      "categoryFuel": "الوقود",
+      "categoryTransmission": "ناقل الحركة",
+      "categoryCooling": "التبريد",
+      "categoryElectrical": "الكهرباء",
+      "categoryEmissions": "الانبعاثات",
+      "categoryBrakes": "الفرامل",
+      "categoryAc": "التكييف",
+      "categorySafety": "أنظمة السلامة"
     },
     "maintenance": {
       "title": "سجل الصيانة",
@@ -419,12 +437,16 @@
       "km": "كم",
       "sar": "ر.س",
       "types": {
+        "brake_service": "خدمة الفرامل",
         "oil_change": "تغيير الزيت",
-        "tire_rotation": "تدوير الإطارات",
-        "brake_inspection": "فحص الفرامل",
-        "filter_replacement": "تغيير الفلاتر",
-        "battery_replacement": "تغيير البطارية",
-        "general_inspection": "فحص شامل"
+        "tire_rotation": "تبديل الإطارات",
+        "filter_replacement": "تبديل الفلتر",
+        "battery_replacement": "تبديل البطارية",
+        "transmission_service": "خدمة القير",
+        "coolant_flush": "تغيير سائل التبريد",
+        "spark_plugs": "تغيير البواجي",
+        "general_inspection": "فحص عام",
+        "ac_service": "صيانة التكييف"
       },
       "empty": "لا يوجد سجل صيانة سابق"
     }
