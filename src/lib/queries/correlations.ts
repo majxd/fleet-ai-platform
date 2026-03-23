@@ -2,7 +2,7 @@
 // FleetAI Level 2: Database queries for dtc_correlations table
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { CorrelationPattern } from '@/lib/dtc-correlation-engine';
+import type { CorrelationPattern } from '../dtc-correlation-engine';
 
 export async function getAllCorrelationPatterns(
   supabase: SupabaseClient

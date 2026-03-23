@@ -28,7 +28,7 @@ import {
   type DiagnosisResult,
   type SmartDiagnosis as SmartDiagnosisType,
   type SensorData,
-} from '@/lib/dtc-correlation-engine';
+} from '../../lib/dtc-correlation-engine';
 
 // ============================================================
 // PROPS
