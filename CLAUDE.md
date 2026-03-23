@@ -121,6 +121,11 @@ Phase 2 — Pilot مع 3-5 شركات حقيقية:
 
 ## Recent Changes
 - March 23, 2026: Level 2 Smart Diagnosis completed and deployed.
+  - Session 16: Level 2 Smart Diagnosis — Production Fix
+  - Fixed correlation engine to use Server Action instead of browser client (auth lock issue)
+  - Added anon RLS policy for dtc_correlations
+  - Added English columns (fix_order_en, individual_cost_en, smart_cost_en, sensor_conditions_en)
+  - Smart Diagnosis now works on production (Vercel) with full bilingual support
 
 ## Current Progress
 - ✅ Session 1: Project scaffold, folder structure, Git setup
