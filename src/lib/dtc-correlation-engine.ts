@@ -2,11 +2,7 @@
 // FleetAI Level 2: Smart Diagnosis — Correlation Engine
 // Takes a list of active DTC codes + sensor data → returns root cause diagnosis
 
-import type { SupabaseClient } from '@supabase/supabase-js';
 
-// ============================================================
-// TYPES
-// ============================================================
 
 export interface SensorData {
   engine_temp?: number | null;
@@ -90,12 +86,12 @@ const RISK_PRIORITY: Record<string, number> = {
 // MAIN ENGINE
 // ============================================================
 
-export async function analyzeCorrelations(
-  supabase: SupabaseClient,
+export function analyzeCorrelations(
+  patterns: CorrelationPattern[],
   activeCodes: string[],
   sensorData: SensorData = {},
   locale: 'ar' | 'en' = 'ar'
-): Promise<DiagnosisResult> {
+): DiagnosisResult {
   console.log('[DEBUG] Correlation Engine received activeCodes:', activeCodes);
 
   if (activeCodes.length === 0) {
@@ -125,8 +121,7 @@ export async function analyzeCorrelations(
     return String(c).trim().toUpperCase();
   });
 
-  const patterns = await fetchCorrelationPatterns(supabase);
-  console.log(`[DEBUG] Fetched ${patterns.length} patterns from Supabase dtc_correlations.`);
+
 
   if (patterns.length === 0) {
     return {
@@ -170,26 +165,6 @@ export async function analyzeCorrelations(
     overall_risk: overallRisk,
     total_potential_savings_ar: calculateTotalSavings(diagnoses, locale),
   };
-}
-
-// ============================================================
-// PATTERN FETCHING
-// ============================================================
-
-async function fetchCorrelationPatterns(
-  supabase: SupabaseClient
-): Promise<CorrelationPattern[]> {
-  const { data, error } = await supabase
-    .from('dtc_correlations')
-    .select('*')
-    .order('risk_level', { ascending: true });
-
-  if (error) {
-    console.error('Error fetching correlation patterns:', error);
-    return [];
-  }
-
-  return (data ?? []) as CorrelationPattern[];
 }
 
 // ============================================================

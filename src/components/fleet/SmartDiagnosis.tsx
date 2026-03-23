@@ -22,7 +22,7 @@ import {
   XCircle,
   Info,
 } from 'lucide-react';
-import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
+import { fetchCorrelationPatterns } from '@/lib/actions/correlations';
 import {
   analyzeCorrelations,
   type DiagnosisResult,
@@ -111,9 +111,9 @@ export default function SmartDiagnosis({
       try {
         setLoading(true);
         setError(null);
-        const supabase = getSupabaseBrowserClient();
-        const diagnosis = await analyzeCorrelations(
-          supabase,
+        const patterns = await fetchCorrelationPatterns();
+        const diagnosis = analyzeCorrelations(
+          patterns,
           activeDtcCodes,
           sensorData,
           locale
