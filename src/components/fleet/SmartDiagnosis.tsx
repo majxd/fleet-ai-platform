@@ -115,7 +115,8 @@ export default function SmartDiagnosis({
         const diagnosis = await analyzeCorrelations(
           supabase,
           activeDtcCodes,
-          sensorData
+          sensorData,
+          locale
         );
         setResult(diagnosis);
       } catch (err) {
@@ -308,10 +309,10 @@ function DiagnosisCard({
             <div className="flex items-center gap-2 text-xs font-medium">
               <CircleDollarSign className="h-3.5 w-3.5 text-emerald-500" />
               <span className="text-muted-foreground line-through">
-                {pattern.individual_cost}
+                {isAr ? pattern.individual_cost : (pattern.individual_cost_en || pattern.individual_cost)}
               </span>
               <span className="text-emerald-600 font-bold">
-                ← {pattern.smart_cost}
+                ← {isAr ? pattern.smart_cost : (pattern.smart_cost_en || pattern.smart_cost)}
               </span>
             </div>
           )}
@@ -349,7 +350,7 @@ function DiagnosisCard({
               {t('fixOrder')}
             </h4>
             <div className="text-sm leading-relaxed text-slate-700 whitespace-pre-line bg-slate-50 p-3 rounded-md border border-slate-100">
-              {pattern.fix_order}
+              {isAr ? pattern.fix_order : (pattern.fix_order_en || pattern.fix_order)}
             </div>
           </div>
 
@@ -396,7 +397,7 @@ function DiagnosisCard({
               <div className="flex items-center justify-between text-sm">
                 <span className="font-medium text-slate-600">{t('normalCost')}</span>
                 <span className="text-slate-500 line-through font-mono">
-                  {pattern.individual_cost}
+                  {isAr ? pattern.individual_cost : (pattern.individual_cost_en || pattern.individual_cost)}
                 </span>
               </div>
               <div className="flex items-center justify-between text-base font-bold text-emerald-700">
@@ -404,7 +405,7 @@ function DiagnosisCard({
                   <CircleDollarSign className="h-5 w-5" />
                   <span>{t('smartCost')}</span>
                 </div>
-                <span className="font-mono">{pattern.smart_cost}</span>
+                <span className="font-mono">{isAr ? pattern.smart_cost : (pattern.smart_cost_en || pattern.smart_cost)}</span>
               </div>
             </div>
           )}

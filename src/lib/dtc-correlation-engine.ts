@@ -24,12 +24,16 @@ export interface CorrelationPattern {
   diagnosis_ar: string;
   diagnosis_en: string;
   fix_order: string;
+  fix_order_en: string;
   individual_cost: string;
+  individual_cost_en: string;
   smart_cost: string;
+  smart_cost_en: string;
   risk_level: 'critical' | 'high' | 'medium' | 'low';
   risk_description_ar: string;
   risk_description_en: string;
   sensor_conditions: Record<string, { min?: number; max?: number; note?: string }>;
+  sensor_conditions_en: Record<string, { min?: number; max?: number; note?: string }>;
   vehicle_categories: string[];
 }
 
@@ -89,7 +93,8 @@ const RISK_PRIORITY: Record<string, number> = {
 export async function analyzeCorrelations(
   supabase: SupabaseClient,
   activeCodes: string[],
-  sensorData: SensorData = {}
+  sensorData: SensorData = {},
+  locale: 'ar' | 'en' = 'ar'
 ): Promise<DiagnosisResult> {
   if (activeCodes.length === 0) {
     return {
@@ -107,7 +112,7 @@ export async function analyzeCorrelations(
       diagnoses: [],
       uncorrelated_codes: activeCodes,
       overall_risk: 'none',
-      total_potential_savings_ar: 'كود واحد فقط — راجع التشخيص الفردي في المستوى الأول',
+      total_potential_savings_ar: locale === 'ar' ? 'كود واحد فقط — راجع التشخيص الفردي في المستوى الأول' : 'Only one code — check individual diagnosis',
     };
   }
 
@@ -125,7 +130,7 @@ export async function analyzeCorrelations(
     };
   }
 
-  const diagnoses = matchPatterns(patterns, normalizedCodes, sensorData);
+  const diagnoses = matchPatterns(patterns, normalizedCodes, sensorData, locale);
 
   const matchedCodesSet = new Set<string>();
   for (const diagnosis of diagnoses) {
@@ -155,7 +160,7 @@ export async function analyzeCorrelations(
     diagnoses,
     uncorrelated_codes: uncorrelatedCodes,
     overall_risk: overallRisk,
-    total_potential_savings_ar: calculateTotalSavings(diagnoses),
+    total_potential_savings_ar: calculateTotalSavings(diagnoses, locale),
   };
 }
 
@@ -186,7 +191,8 @@ async function fetchCorrelationPatterns(
 function matchPatterns(
   patterns: CorrelationPattern[],
   activeCodes: string[],
-  sensorData: SensorData
+  sensorData: SensorData,
+  locale: 'ar' | 'en'
 ): SmartDiagnosis[] {
   const diagnoses: SmartDiagnosis[] = [];
   const activeCodesSet = new Set(activeCodes);
@@ -206,6 +212,7 @@ function matchPatterns(
 
     const sensorWarnings = checkSensorConditions(
       pattern.sensor_conditions,
+      pattern.sensor_conditions_en,
       sensorData
     );
 
@@ -237,12 +244,14 @@ function matchPatterns(
 // ============================================================
 
 function checkSensorConditions(
-  conditions: Record<string, { min?: number; max?: number; note?: string }>,
+  conditionsAr: Record<string, { min?: number; max?: number; note?: string }>,
+  conditionsEn: Record<string, { min?: number; max?: number; note?: string }>,
   sensorData: SensorData
 ): SensorWarning[] {
   const warnings: SensorWarning[] = [];
+  const baseConditions = conditionsAr || {};
 
-  for (const [sensorKey, condition] of Object.entries(conditions)) {
+  for (const [sensorKey, condition] of Object.entries(baseConditions)) {
     const value = sensorData[sensorKey as keyof SensorData];
 
     if (value === null || value === undefined) {
@@ -266,12 +275,15 @@ function checkSensorConditions(
         unit: '',
       };
 
+      const noteAr = condition.note ?? 'يؤكد التشخيص';
+      const noteEn = conditionsEn?.[sensorKey]?.note ?? 'Confirms diagnosis';
+
       warnings.push({
         sensor: sensorKey,
         current_value: numValue,
         condition,
-        message_ar: `${label.ar}: ${numValue}${label.unit} — ${condition.note ?? 'يؤكد التشخيص'}`,
-        message_en: `${label.en}: ${numValue}${label.unit} — ${condition.note ?? 'Confirms diagnosis'}`,
+        message_ar: `${label.ar}: ${numValue}${label.unit} — ${noteAr}`,
+        message_en: `${label.en}: ${numValue}${label.unit} — ${noteEn}`,
       });
     }
   }
@@ -283,19 +295,22 @@ function checkSensorConditions(
 // SAVINGS CALCULATION
 // ============================================================
 
-function calculateTotalSavings(diagnoses: SmartDiagnosis[]): string {
+function calculateTotalSavings(diagnoses: SmartDiagnosis[], locale: 'ar' | 'en'): string {
   if (diagnoses.length === 0) return '';
 
   const savingsDescriptions = diagnoses
     .filter((d) => d.savings_potential)
     .map(
-      (d) =>
-        `التكلفة العادية: ${d.pattern.individual_cost} ← التكلفة الذكية: ${d.pattern.smart_cost}`
+      (d) => locale === 'ar' 
+        ? `التكلفة العادية: ${d.pattern.individual_cost} ← التكلفة الذكية: ${d.pattern.smart_cost}`
+        : `Normal Cost: ${d.pattern.individual_cost_en || d.pattern.individual_cost} ← Smart Cost: ${d.pattern.smart_cost_en || d.pattern.smart_cost}`
     );
 
   if (savingsDescriptions.length === 0) return '';
 
   return savingsDescriptions.length === 1
     ? savingsDescriptions[0]
-    : `${diagnoses.length} أنماط مكتشفة — تحقق من التفاصيل لمعرفة التوفير المحتمل`;
+    : locale === 'ar'
+      ? `${diagnoses.length} أنماط مكتشفة — تحقق من التفاصيل لمعرفة التوفير المحتمل`
+      : `${diagnoses.length} patterns detected — check details for potential savings`;
 }
