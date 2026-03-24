@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetAI — الخريطة الشاملة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06080C;--surface:#0C1018;--card:#111827;--border:#1E293B;
+  --text:#E2E8F0;--muted:#64748B;--accent:#22D3EE;--green:#22C55E;
+  --yellow:#FBBF24;--red:#EF4444;--purple:#A78BFA;--blue:#3B82F6;
+  --orange:#F97316;--pink:#EC4899;
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh}
+
+/* NAVIGATION */
+.nav{position:sticky;top:0;z-index:100;background:rgba(6,8,12,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-tab{padding:14px 18px;font-size:0.82rem;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all 0.2s}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* CONTAINER */
+.container{max-width:1100px;margin:0 auto;padding:32px 24px}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* HEADER */
+.page-header{margin-bottom:36px}
+.page-header h1{font-size:1.8rem;font-weight:900;margin-bottom:4px}
+.page-header p{color:var(--muted);font-size:0.92rem}
+
+/* PROGRESS HERO */
+.progress-hero{background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 50%,#0F172A 100%);border:1px solid #312E81;border-radius:16px;padding:32px;margin-bottom:32px;position:relative;overflow:hidden}
+.progress-hero::before{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(34,211,238,0.08),transparent);pointer-events:none}
+.ph-label{font-size:0.72rem;font-weight:800;letter-spacing:2px;color:var(--accent);margin-bottom:12px;text-transform:uppercase}
+.ph-percent{font-size:3.2rem;font-weight:900;color:#fff;line-height:1}
+.ph-bar{height:10px;background:#1E293B;border-radius:99px;margin:16px 0;overflow:hidden}
+.ph-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--accent));transition:width 0.8s ease}
+.ph-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+.ph-stat{text-align:center}
+.ph-stat-val{font-size:1.4rem;font-weight:900;color:#fff}
+.ph-stat-label{font-size:0.72rem;color:var(--muted)}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
+.card-title{font-size:1rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.card-title .icon{font-size:1.3rem}
+
+/* STATUS GRID */
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:700px){.status-grid{grid-template-columns:1fr}}
+.status-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;justify-content:space-between;align-items:center}
+.si-name{font-size:0.88rem;font-weight:700}
+.si-badge{font-size:0.72rem;font-weight:800;padding:4px 12px;border-radius:99px}
+.si-done{background:#052E16;color:#4ADE80;border:1px solid #166534}
+.si-pending{background:#1C1917;color:#FBBF24;border:1px solid #854D0E}
+.si-future{background:#1E1B2E;color:#A78BFA;border:1px solid #5B21B6}
+.si-not{background:#1A1A1A;color:#64748B;border:1px solid #334155}
+
+/* TIMELINE */
+.timeline{position:relative;padding-right:32px}
+.timeline::before{content:'';position:absolute;right:10px;top:0;bottom:0;width:3px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:28px}
+.tl-dot{position:absolute;right:-28px;top:6px;width:18px;height:18px;border-radius:50%;border:3px solid var(--border);background:var(--bg)}
+.tl-dot.done{background:var(--green);border-color:var(--green)}
+.tl-dot.current{background:var(--accent);border-color:var(--accent);box-shadow:0 0 12px rgba(34,211,238,0.4)}
+.tl-dot.future{background:var(--card);border-color:var(--muted)}
+.tl-phase{font-size:0.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.tl-title{font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:6px}
+.tl-desc{font-size:0.84rem;color:var(--muted);line-height:1.6}
+.tl-tasks{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.tl-tag{font-size:0.7rem;padding:3px 10px;border-radius:6px;font-weight:700}
+.tl-tag.done{background:#052E16;color:#4ADE80}
+.tl-tag.todo{background:#1C1917;color:#FBBF24}
+
+/* INFO BOX */
+.info-box{border-radius:12px;padding:20px;margin-bottom:16px;font-size:0.88rem;line-height:1.7}
+.info-green{background:#052E16;border:1px solid #166534;color:#BBF7D0}
+.info-yellow{background:#1C1917;border:1px solid #854D0E;color:#FEF08A}
+.info-blue{background:#0C1F3D;border:1px solid #1E40AF;color:#BFDBFE}
+.info-purple{background:#1E1B2E;border:1px solid #5B21B6;color:#DDD6FE}
+.info-red{background:#1F0A0A;border:1px solid #991B1B;color:#FECACA}
+
+/* PRICING TABLE */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.price-grid{grid-template-columns:1fr}}
+.price-card{background:var(--surface);border:2px solid var(--border);border-radius:14px;padding:24px;text-align:center;transition:border-color 0.2s}
+.price-card.recommended{border-color:var(--accent);position:relative}
+.price-card.recommended::after{content:'الأكثر طلباً';position:absolute;top:-12px;right:50%;transform:translateX(50%);background:var(--accent);color:#000;font-size:0.68rem;font-weight:800;padding:3px 14px;border-radius:99px}
+.pc-name{font-size:0.78rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.pc-price{font-size:2rem;font-weight:900;color:#fff}
+.pc-unit{font-size:0.78rem;color:var(--muted);margin-bottom:16px}
+.pc-features{text-align:right;font-size:0.82rem;color:var(--text);line-height:2}
+
+/* DEVICE CARD */
+.device-card{background:linear-gradient(135deg,#0F172A,#162032);border:2px solid var(--accent);border-radius:16px;padding:28px;margin-bottom:16px}
+.dc-name{font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:4px}
+.dc-sub{font-size:0.85rem;color:var(--accent);margin-bottom:20px}
+.dc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:600px){.dc-grid{grid-template-columns:1fr}}
+.dc-item{background:rgba(0,0,0,0.3);border-radius:8px;padding:12px}
+.dc-item-label{font-size:0.7rem;color:var(--muted);font-weight:700;margin-bottom:2px}
+.dc-item-val{font-size:0.9rem;font-weight:800;color:#fff}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--border);padding:18px 0;cursor:pointer}
+.faq-q{font-size:0.95rem;font-weight:800;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.faq-q .arrow{transition:transform 0.2s;color:var(--muted);font-size:0.8rem}
+.faq-a{font-size:0.86rem;color:var(--muted);line-height:1.8;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease}
+.faq-item.open .faq-a{max-height:600px;padding-top:12px}
+.faq-item.open .arrow{transform:rotate(180deg)}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:0.84rem}
+th{text-align:right;padding:10px 14px;background:var(--surface);color:var(--muted);font-weight:700;font-size:0.75rem;letter-spacing:0.5px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+tr:hover td{background:rgba(255,255,255,0.02)}
+
+/* DATA FLOW */
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:20px 0}
+.flow-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:0.8rem;font-weight:700;white-space:nowrap}
+.flow-arrow{color:var(--accent);font-weight:900;font-size:1.1rem}
+.flow-box.highlight{border-color:var(--accent);color:var(--accent)}
+
+/* SECTION DIVIDER */
+.section-divider{border:none;border-top:1px solid var(--border);margin:32px 0}
+
+/* CHECKLIST */
+.checklist-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);align-items:flex-start}
+.cl-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;flex-shrink:0;margin-top:2px}
+.cl-done{background:#052E16;color:#4ADE80}
+.cl-wait{background:#1C1917;color:#FBBF24}
+.cl-future{background:#1E1B2E;color:#A78BFA}
+.cl-text{font-size:0.86rem;font-weight:600}
+.cl-note{font-size:0.76rem;color:var(--muted);margin-top:2px}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .ph-stats{grid-template-columns:repeat(2,1fr)}
+  .ph-percent{font-size:2.4rem}
+  .nav-tab{padding:12px 14px;font-size:0.76rem}
+  .container{padding:20px 16px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-tab active" onclick="go(0)">📍 أين أنا الآن</div>
+    <div class="nav-tab" onclick="go(1)">🗺️ خارطة الطريق</div>
+    <div class="nav-tab" onclick="go(2)">💰 الخطط والدفع</div>
+    <div class="nav-tab" onclick="go(3)">🔌 الجهاز والبيانات</div>
+    <div class="nav-tab" onclick="go(4)">📢 التسويق والبيع</div>
+    <div class="nav-tab" onclick="go(5)">❓ أسئلتي المتكررة</div>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- PAGE 0: WHERE AM I NOW -->
+<!-- ============================================================ -->
+<div class="page active" id="p0">
+  <div class="page-header">
+    <h1>📍 أين أنا الآن — بالضبط</h1>
+    <p>ملخص شامل لكل ما تم إنجازه وما تبقى</p>
+  </div>
+
+  <div class="progress-hero">
+    <div class="ph-label">تقدم المشروع الكلي</div>
+    <div class="ph-percent">65%</div>
+    <div class="ph-bar"><div class="ph-fill" style="width:65%"></div></div>
+    <div style="font-size:0.84rem;color:var(--muted);margin-bottom:16px">MVP مكتمل + تشخيص ذكي. المتبقي: ربط بيانات حقيقية + بيع + إطلاق.</div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="ph-stat-val" style="color:var(--green)">11</div><div class="ph-stat-label">ميزة مكتملة</div></div>
+      <div class="ph-stat"><div class="ph-stat-val" style="color:var(--yellow)">4</div><div class="ph-stat-label">ميزة قيد التجهيز</div></div>
+      <div class="ph-stat"><div class="ph-stat-val" style="color:var(--purple)">5</div><div class="ph-stat-label">ميزة مستقبلية</div></div>
+      <div class="ph-stat"><div class="ph-stat-val" style="color:var(--accent)">14+</div><div class="ph-stat-label">جلسة برمجة</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">✅</span> ما تم إنجازه بالكامل</div>
+    <div class="status-grid">
+      <div class="status-item"><span class="si-name">تسجيل الدخول (Email + Google)</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">لوحة التحكم + Health Scores</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">تفاصيل السيارة + بيانات OBD</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">نظام التنبيهات + Realtime</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">تنبيهات تلقائية (SQL Trigger)</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">إضافة/تعديل/حذف المركبات</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">التقارير (Pie + Bar Charts)</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">ثنائي اللغة AR/EN + RTL</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">47 كود DTC + توصيات إصلاح</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">التشخيص الذكي (ربط الأكواد)</span><span class="si-badge si-done">✅ مكتمل</span></div>
+      <div class="status-item"><span class="si-name">Deploy على Vercel (حي الآن)</span><span class="si-badge si-done">✅ مكتمل</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">⏳</span> المرحلة الحالية — الخطوة القادمة</div>
+    <div class="status-grid">
+      <div class="status-item"><span class="si-name">شراء جهاز OBD (FMC003)</span><span class="si-badge si-pending">⏳ قريباً</span></div>
+      <div class="status-item"><span class="si-name">بناء OBD API Endpoint</span><span class="si-badge si-pending">⏳ جلسة واحدة</span></div>
+      <div class="status-item"><span class="si-name">صفحة الهبوط (Landing Page)</span><span class="si-badge si-pending">⏳ جلسة واحدة</span></div>
+      <div class="status-item"><span class="si-name">فيديو Demo + تواصل مع الشركات</span><span class="si-badge si-pending">⏳ بعد الجهاز</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🔮</span> يُبنى لاحقاً — بعد أول 10 عملاء</div>
+    <div class="status-grid">
+      <div class="status-item"><span class="si-name">إشعارات WhatsApp Business API</span><span class="si-badge si-future">🔮 لاحقاً</span></div>
+      <div class="status-item"><span class="si-name">نظام الدفع (Moyasar)</span><span class="si-badge si-future">🔮 لاحقاً</span></div>
+      <div class="status-item"><span class="si-name">إدارة الفريق والصلاحيات</span><span class="si-badge si-future">🔮 لاحقاً</span></div>
+      <div class="status-item"><span class="si-name">تقارير PDF أسبوعية تلقائية</span><span class="si-badge si-future">🔮 لاحقاً</span></div>
+      <div class="status-item"><span class="si-name">تطبيق الجوال</span><span class="si-badge si-not">❌ خارج MVP</span></div>
+    </div>
+  </div>
+
+  <div class="info-box info-blue">
+    <strong>💡 رأي المستشار:</strong> الميزات "المؤجلة" ليست ناقصة — هي مؤجلة عمداً. القاعدة: لا تبني ما لا يطلبه عميل يدفع. أثبت القيمة أولاً ببيانات حقيقية، ثم أضف الميزات بناء على طلب العملاء الفعليين.
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🔗</span> الرابط الحي</div>
+    <div style="font-size:1.1rem;font-weight:800;color:var(--accent);word-break:break-all">fleet-ai-platform.vercel.app</div>
+    <div style="font-size:0.82rem;color:var(--muted);margin-top:6px">يعمل الآن ببيانات تجريبية — جاهز للعرض على أي شخص</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE 1: ROADMAP -->
+<!-- ============================================================ -->
+<div class="page" id="p1">
+  <div class="page-header">
+    <h1>🗺️ خارطة الطريق — من البداية للنجاح</h1>
+    <p>كل مرحلة بالترتيب مع التوقيت والحالة</p>
+  </div>
+
+  <div class="timeline">
+    <!-- PHASE 0 -->
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-phase" style="color:var(--green)">المرحلة 0 — التحقق من السوق</div>
+      <div class="tl-title">✅ مكتملة</div>
+      <div class="tl-desc">تواصلت مع 5 شركات تأجير. تأكدت أن الأعطال المفاجئة هي المشكلة #1. حددت نموذج العمل والتسعير.</div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-phase" style="color:var(--green)">المرحلة 1 — بناء MVP</div>
+      <div class="tl-title">✅ مكتملة — 14+ جلسة برمجة</div>
+      <div class="tl-desc">الداشبورد كامل، Auth، تنبيهات، تقارير، ثنائي اللغة، 47 كود DTC، Realtime، Deploy على Vercel.</div>
+      <div class="tl-tasks">
+        <span class="tl-tag done">Auth ✅</span>
+        <span class="tl-tag done">Dashboard ✅</span>
+        <span class="tl-tag done">Alerts ✅</span>
+        <span class="tl-tag done">Reports ✅</span>
+        <span class="tl-tag done">AR/EN ✅</span>
+        <span class="tl-tag done">DTC ✅</span>
+        <span class="tl-tag done">Deploy ✅</span>
+      </div>
+    </div>
+
+    <!-- LEVEL 2 -->
+    <div class="tl-item">
+      <div class="tl-dot done"></div>
+      <div class="tl-phase" style="color:var(--green)">المستوى 2 — التشخيص الذكي</div>
+      <div class="tl-title">✅ مكتمل — محرك ربط الأكواد</div>
+      <div class="tl-desc">ربط أكواد DTC مع بعض لتشخيص السبب الجذري. يوفّر للعميل آلاف الريالات. هذا يميّز FleetAI عن 95% من المنافسين.</div>
+    </div>
+
+    <!-- PILOT - CURRENT -->
+    <div class="tl-item">
+      <div class="tl-dot current"></div>
+      <div class="tl-phase" style="color:var(--accent)">⚡ المرحلة الحالية — الـ Pilot</div>
+      <div class="tl-title">تحويل الديمو إلى منتج حقيقي</div>
+      <div class="tl-desc">شراء جهاز OBD حقيقي، ربطه بالداشبورد، تصوير فيديو Demo، التواصل مع الشركات الخمس، بناء صفحة هبوط.</div>
+      <div class="tl-tasks">
+        <span class="tl-tag todo">جهاز OBD ⏳</span>
+        <span class="tl-tag todo">API Endpoint ⏳</span>
+        <span class="tl-tag todo">فيديو Demo ⏳</span>
+        <span class="tl-tag todo">صفحة هبوط ⏳</span>
+        <span class="tl-tag todo">تواصل الشركات ⏳</span>
+      </div>
+    </div>
+
+    <!-- PILOT FREE -->
+    <div class="tl-item">
+      <div class="tl-dot future"></div>
+      <div class="tl-phase" style="color:var(--purple)">المرحلة القادمة — Pilot مجاني (3 أشهر)</div>
+      <div class="tl-title">5 سيارات لكل شركة مجاناً</div>
+      <div class="tl-desc">تركيب أجهزة حقيقية على سيارات الشركات. جمع ملاحظات. إثبات القيمة. خلال هذه الفترة نبني: إشعارات WhatsApp + تقارير PDF.</div>
+    </div>
+
+    <!-- MONETIZE -->
+    <div class="tl-item">
+      <div class="tl-dot future"></div>
+      <div class="tl-phase" style="color:var(--purple)">مرحلة الإيرادات — بعد إثبات القيمة</div>
+      <div class="tl-title">تحويل العملاء للاشتراك المدفوع</div>
+      <div class="tl-desc">دمج Moyasar للدفع. الشركات اللي جرّبت مجاناً وشافت القيمة — تتحول لاشتراك شهري. هنا يبدأ الربح.</div>
+    </div>
+
+    <!-- GROWTH -->
+    <div class="tl-item">
+      <div class="tl-dot future"></div>
+      <div class="tl-phase" style="color:var(--muted)">مرحلة النمو — التوسع</div>
+      <div class="tl-title">تطبيق جوال + توسع خليجي + AI تنبؤي</div>
+      <div class="tl-desc">بعد 20+ عميل يدفع. تطبيق iOS/Android. توسع للإمارات والكويت (Tap Payments). نماذج ML للتنبؤ بالأعطال.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE 2: PRICING & PAYMENTS -->
+<!-- ============================================================ -->
+<div class="page" id="p2">
+  <div class="page-header">
+    <h1>💰 الخطط والتسعير ونظام الدفع</h1>
+    <p>نموذج العمل وكيف نجمع الفلوس</p>
+  </div>
+
+  <div class="info-box info-yellow">
+    <strong>⚠️ نقطة مهمة:</strong> نظام الدفع الأوتوماتيكي (Moyasar) لا يُبنى الآن. في المرحلة الحالية (Pilot) — الدفع يدوي بتحويل بنكي. نبني الأتمتة بعد أول 10 عملاء يدفعون فعلاً.
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> خطط الاشتراك</div>
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="pc-name">Starter</div>
+        <div class="pc-price">60 <span style="font-size:0.8rem;color:var(--muted)">ريال</span></div>
+        <div class="pc-unit">/ سيارة / شهر</div>
+        <div class="pc-features">
+          ✅ مراقبة Health Score<br>
+          ✅ تنبيهات أساسية<br>
+          ✅ تقارير شهرية<br>
+          ✅ 1–2 مستخدمين<br>
+          <span style="color:var(--muted)">الأنسب لـ 5–20 سيارة</span>
+        </div>
+      </div>
+      <div class="price-card recommended">
+        <div class="pc-name">Professional</div>
+        <div class="pc-price">100 <span style="font-size:0.8rem;color:var(--muted)">ريال</span></div>
+        <div class="pc-unit">/ سيارة / شهر</div>
+        <div class="pc-features">
+          ✅ كل ميزات Starter<br>
+          ✅ تشخيص ذكي (ربط الأكواد)<br>
+          ✅ إشعارات WhatsApp<br>
+          ✅ تقارير أسبوعية PDF<br>
+          ✅ 5 مستخدمين<br>
+          <span style="color:var(--muted)">الأنسب لـ 20–100 سيارة</span>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="pc-name">Enterprise</div>
+        <div class="pc-price" style="font-size:1.4rem">تسعير مخصص</div>
+        <div class="pc-unit">حسب الاتفاق</div>
+        <div class="pc-features">
+          ✅ كل ميزات Professional<br>
+          ✅ AI تنبؤي<br>
+          ✅ API مفتوح<br>
+          ✅ مستخدمين غير محدود<br>
+          ✅ مدير حساب مخصص<br>
+          <span style="color:var(--muted)">الأنسب لـ 100+ سيارة</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;font-size:0.82rem;color:var(--muted)">
+      <strong>إيراد إضافي:</strong> بيع/تأجير جهاز OBD — تكلفة ~400 ريال، يُباع بـ 600–800 ريال أو يُؤجر بـ 25 ريال/شهر
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🏦</span> مراحل نظام الدفع</div>
+    
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">⏳</div>
+      <div>
+        <div class="cl-text">المرحلة 1: تحويل بنكي يدوي (الآن — Pilot)</div>
+        <div class="cl-note">فاتورة PDF بسيطة + تحويل مباشر. يثبت أن الناس تدفع فعلاً قبل بناء أي أتمتة.</div>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-future">🔮</div>
+      <div>
+        <div class="cl-text">المرحلة 2: دمج Moyasar (بعد 10 عملاء)</div>
+        <div class="cl-note">بوابة Moyasar MPG — تدعم مدى + Visa + Apple Pay + اشتراكات شهرية متكررة. رسوم: 2.5% + 1 ريال/معاملة. مرخّص SAMA.</div>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-future">🔮</div>
+      <div>
+        <div class="cl-text">المرحلة 3: Tap Payments (عند التوسع الخليجي)</div>
+        <div class="cl-note">يغطي الإمارات + الكويت + البحرين + قطر بعقد واحد. رسوم: 2.75% + 1 ريال.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">💬</span> مراحل إشعارات WhatsApp</div>
+    
+    <div class="checklist-item">
+      <div class="cl-icon cl-done">✅</div>
+      <div>
+        <div class="cl-text">الآن: تنبيهات داخل التطبيق (Realtime)</div>
+        <div class="cl-note">التنبيهات تظهر لحظياً في الداشبورد عبر Supabase Realtime. شغّال 100%.</div>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">⏳</div>
+      <div>
+        <div class="cl-text">قريباً: إشعارات WhatsApp يدوية (خلال الـ Pilot)</div>
+        <div class="cl-note">نرسل التنبيهات الحرجة يدوياً عبر واتساب. يكفي لـ 5 شركات تجريبية.</div>
+      </div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-future">🔮</div>
+      <div>
+        <div class="cl-text">لاحقاً: WhatsApp Business API + Twilio SMS (بعد 10 عملاء)</div>
+        <div class="cl-note">أتمتة كاملة — تنبيه واتساب تلقائي لما Health Score ينزل تحت 40. جلسة برمجة واحدة.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box info-green">
+    <strong>💡 مثال حسابي:</strong> شركة تأجير عندها 30 سيارة على خطة Professional (100 ريال/سيارة):<br>
+    الإيراد الشهري = 30 × 100 = <strong>3,000 ريال/شهر</strong><br>
+    الإيراد السنوي = <strong>36,000 ريال/سنة</strong> من عميل واحد فقط.<br>
+    + بيع 30 جهاز OBD = 30 × 400 ربح = <strong>12,000 ريال</strong> (مرة واحدة)
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE 3: DEVICE & DATA -->
+<!-- ============================================================ -->
+<div class="page" id="p3">
+  <div class="page-header">
+    <h1>🔌 الجهاز وتدفق البيانات</h1>
+    <p>كيف تنتقل البيانات من السيارة إلى الداشبورد</p>
+  </div>
+
+  <div class="device-card">
+    <div class="dc-name">Teltonika FMC003</div>
+    <div class="dc-sub">✅ معتمد من هيئة الاتصالات السعودية (CST) — Plug & Play — 4G LTE</div>
+    <div class="dc-grid">
+      <div class="dc-item"><div class="dc-item-label">الاتصال</div><div class="dc-item-val">4G LTE Cat 1 + 2G احتياطي</div></div>
+      <div class="dc-item"><div class="dc-item-label">التركيب</div><div class="dc-item-val">Plug & Play — مدخل OBD-II</div></div>
+      <div class="dc-item"><div class="dc-item-label">السعر التقريبي</div><div class="dc-item-val">400–450 ريال</div></div>
+      <div class="dc-item"><div class="dc-item-label">شريحة البيانات</div><div class="dc-item-val">Micro-SIM — ~30 ريال/شهر</div></div>
+      <div class="dc-item"><div class="dc-item-label">Bluetooth</div><div class="dc-item-val">4.0 LE (حساسات إضافية)</div></div>
+      <div class="dc-item"><div class="dc-item-label">بروتوكولات OBD</div><div class="dc-item-val">ISO 9141 / 14230 / 15765 (CAN)</div></div>
+      <div class="dc-item"><div class="dc-item-label">بطارية احتياطية</div><div class="dc-item-val">170 mAh Li-Ion</div></div>
+      <div class="dc-item"><div class="dc-item-label">الموزع في السعودية</div><div class="dc-item-val">Nexcel Saudi (nexcelsaudi.com)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📊</span> البيانات اللي يقرأها الجهاز ← Health Score</div>
+    <table>
+      <tr><th>البيان</th><th>وزنه في Health Score</th><th>هل FMC003 يوفره؟</th></tr>
+      <tr><td>أكواد DTC النشطة</td><td>30 نقطة</td><td style="color:var(--green);font-weight:800">✅ نعم</td></tr>
+      <tr><td>درجة حرارة المحرك</td><td>25 نقطة</td><td style="color:var(--green);font-weight:800">✅ نعم</td></tr>
+      <tr><td>أيام منذ آخر صيانة</td><td>20 نقطة</td><td style="color:var(--yellow);font-weight:800">⚠️ من قاعدة البيانات</td></tr>
+      <tr><td>جهد البطارية</td><td>15 نقطة</td><td style="color:var(--green);font-weight:800">✅ نعم</td></tr>
+      <tr><td>مستوى الوقود</td><td>10 نقطة</td><td style="color:var(--green);font-weight:800">✅ نعم (OEM)</td></tr>
+      <tr><td>RPM المحرك</td><td>إضافي</td><td style="color:var(--green);font-weight:800">✅ نعم</td></tr>
+      <tr><td>السرعة</td><td>إضافي</td><td style="color:var(--green);font-weight:800">✅ نعم</td></tr>
+      <tr><td>الموقع GPS</td><td>إضافي</td><td style="color:var(--green);font-weight:800">✅ نعم (GNSS)</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🔄</span> تدفق البيانات — من السيارة إلى الشاشة</div>
+    <div class="flow">
+      <div class="flow-box">🚗 السيارة</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box highlight">🔌 FMC003 (OBD)</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box">📡 4G LTE</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box highlight">☁️ Flespi (وسيط مجاني)</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box">🔗 Webhook</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box highlight">⚙️ FleetAI API</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box">🗄️ Supabase</div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-box highlight">📊 Dashboard</div>
+    </div>
+    <div class="info-box info-purple" style="margin-top:16px">
+      <strong>لماذا Flespi؟</strong> أجهزة Teltonika ترسل بيانات بصيغة ثنائية (Codec 8) عبر TCP — وليس JSON عبر HTTP. Flespi يعمل كوسيط مجاني: يستقبل البيانات الثنائية، يحولها لـ JSON نظيف، ويرسلها لسيرفرنا عبر webhook. بدونه نحتاج نبني TCP parser من الصفر.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🛒</span> خطوات شراء وتركيب الجهاز</div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">1</div>
+      <div><div class="cl-text">تواصل مع Nexcel Saudi واطلب FMC003</div><div class="cl-note">nexcelsaudi.com — موزع Teltonika المعتمد في السعودية. بديل: Getic.com (شحن دولي) أو Burhani Oasis (الإمارات)</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">2</div>
+      <div><div class="cl-text">اشترِ شريحة بيانات Micro-SIM</div><div class="cl-note">STC أو Mobily — باقة 1-2 GB/شهر (~30 ريال). تأكد أن PIN مُعطّل.</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">3</div>
+      <div><div class="cl-text">ركّب الشريحة + وصّل الجهاز بالكمبيوتر</div><div class="cl-note">USB أو Bluetooth (الباسورد: 5555). افتح Teltonika Configurator وأدخل إعدادات GPRS لسيرفر Flespi.</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">4</div>
+      <div><div class="cl-text">ركّب الجهاز في سيارتك</div><div class="cl-note">شبكه في مدخل OBD-II (تحت المقود). ما يحتاج أي أسلاك — Plug & Play.</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">5</div>
+      <div><div class="cl-text">نبني OBD API + Webhook — جلسة واحدة</div><div class="cl-note">route.ts بسيط في Next.js يستقبل بيانات Flespi ويحفظها في obd_readings + يحدّث Health Score.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📈</span> خطة تطور IoT</div>
+    <table>
+      <tr><th>المرحلة</th><th>البروتوكول</th><th>يتحمل</th><th>التكلفة</th></tr>
+      <tr><td style="color:var(--accent);font-weight:700">الآن (Pilot)</td><td>REST API كل دقيقة عبر Flespi</td><td>حتى 50 سيارة</td><td>مجاني</td></tr>
+      <tr><td style="color:var(--purple)">عند 100+ سيارة</td><td>MQTT + AWS IoT Core</td><td>100,000+ سيارة</td><td>$5-20/شهر</td></tr>
+    </table>
+    <div style="font-size:0.8rem;color:var(--muted);margin-top:10px">القرار المقفل: البنية مصممة من البداية للانتقال من REST إلى MQTT بدون تغيير كود الـ Frontend.</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE 4: MARKETING & SALES -->
+<!-- ============================================================ -->
+<div class="page" id="p4">
+  <div class="page-header">
+    <h1>📢 التسويق والبيع — كيف أتكلم عن مشروعي</h1>
+    <p>أدوات البيع وصفحة الهبوط والـ Pitch</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🎤</span> الـ Elevator Pitch — 30 ثانية</div>
+    <div style="background:var(--surface);border-right:4px solid var(--accent);padding:20px;border-radius:8px;font-size:1rem;line-height:1.8;color:#fff;font-weight:600">
+      "FleetAI يراقب صحة سياراتك 24/7 عبر جهاز صغير يُركّب في السيارة. يكشف المشاكل قبل ما تصير أعطال، وينبّهك على الواتساب. شركات تأجير مثلك تخسر +50,000 ريال سنوياً على أعطال مفاجئة — FleetAI يمنعها."
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🛡️</span> نقاط البيع الثلاث</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div style="background:var(--surface);border-radius:10px;padding:18px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:8px">🏥</div>
+        <div style="font-weight:800;color:#fff;margin-bottom:6px">تشخيص ذكي</div>
+        <div style="font-size:0.8rem;color:var(--muted)">ميكانيكي رقمي يشتغل 24/7. يقولك بالعربي إيش المشكلة وكم تكلّف.</div>
+      </div>
+      <div style="background:var(--surface);border-radius:10px;padding:18px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:8px">💸</div>
+        <div style="font-weight:800;color:#fff;margin-bottom:6px">يوفّر فلوس</div>
+        <div style="font-size:0.8rem;color:var(--muted)">مثال حقيقي: بدل ما تصرف 3,000 ريال — يقولك الحل بـ 50 ريال بس.</div>
+      </div>
+      <div style="background:var(--surface);border-radius:10px;padding:18px;text-align:center">
+        <div style="font-size:2rem;margin-bottom:8px">🌐</div>
+        <div style="font-weight:800;color:#fff;margin-bottom:6px">عربي 100%</div>
+        <div style="font-size:0.8rem;color:var(--muted)">أول منصة مراقبة أساطيل عربية بالكامل. لا حاجة لمترجم.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🌐</span> صفحة الهبوط — المحتوى المطلوب</div>
+    <div class="info-box info-blue" style="margin-bottom:16px">
+      <strong>متى نبنيها؟</strong> جلسة واحدة — بالتوازي مع انتظار وصول الجهاز. صفحة واحدة بهدف واحد: جمع بيانات المهتمين.
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon" style="background:#0C1F3D;color:var(--accent)">1</div>
+      <div><div class="cl-text">العنوان الرئيسي: "أوقف أعطال سياراتك قبل ما تصير"</div><div class="cl-note">+ زر "احجز عرض مجاني"</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon" style="background:#0C1F3D;color:var(--accent)">2</div>
+      <div><div class="cl-text">المشكلة: "85% من شركات التأجير تخسر +50,000 ريال/سنة"</div><div class="cl-note">إحصائية تلفت الانتباه فوراً</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon" style="background:#0C1F3D;color:var(--accent)">3</div>
+      <div><div class="cl-text">الحل: 3 نقاط — مراقبة 24/7 + تنبيهات واتساب + تشخيص ذكي</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon" style="background:#0C1F3D;color:var(--accent)">4</div>
+      <div><div class="cl-text">فيديو Demo: سيارتك الحقيقية + الداشبورد يتحدث لحظياً</div><div class="cl-note">30–60 ثانية — جوالك يكفي</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon" style="background:#0C1F3D;color:var(--accent)">5</div>
+      <div><div class="cl-text">دعوة: "جرّب FleetAI مجاناً 3 أشهر على 5 سيارات"</div><div class="cl-note">نموذج بسيط: اسم + شركة + رقم جوال</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📱</span> خطة التواصل مع الشركات الخمس</div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">1</div>
+      <div><div class="cl-text">أرسل فيديو Demo على واتساب + رابط صفحة الهبوط</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">2</div>
+      <div><div class="cl-text">انتظر 2-3 أيام. إذا ما ردّوا — تابع برسالة قصيرة</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">3</div>
+      <div><div class="cl-text">حدد موعد عرض (زيارة شخصية أو Zoom)</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">4</div>
+      <div><div class="cl-text">اعرض الداشبورد حي + وضّح خطة الـ Pilot المجاني</div></div>
+    </div>
+    <div class="checklist-item">
+      <div class="cl-icon cl-wait">5</div>
+      <div><div class="cl-text">ركّب 5 أجهزة على سياراتهم — Pilot مجاني 3 أشهر</div></div>
+    </div>
+  </div>
+
+  <div class="info-box info-green">
+    <strong>💡 القاعدة الذهبية:</strong> لا تبيع تقنية — بيع حلّ لمشكلة. صاحب الشركة لا يهمه Next.js أو PostgreSQL. يهمه: "كيف أوقف الأعطال المفاجئة وأحمي سياراتي؟"
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE 5: FAQ -->
+<!-- ============================================================ -->
+<div class="page" id="p5">
+  <div class="page-header">
+    <h1>❓ أسئلتي المتكررة — إجابات واضحة</h1>
+    <p>كل سؤال تسأله دائماً + الإجابة المباشرة</p>
+  </div>
+
+  <div class="card">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">هل الدفع جاهز الآن؟ متى نبني نظام Moyasar؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>لا، وهذا مقصود.</strong> في مرحلة الـ Pilot، الدفع يدوي (تحويل بنكي). نبني أتمتة الدفع بعد أول 10 عملاء يدفعون فعلاً. القاعدة: لا تبني نظام دفع أوتوماتيكي وأنت ما جمعت ريال واحد. البوابة المختارة: Moyasar (مدى + Visa + Apple Pay + اشتراكات متكررة). التكامل = جلسة برمجة واحدة عندما يحين الوقت.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">متى نربط إشعارات WhatsApp؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>على مرحلتين:</strong> الآن (Pilot) — نرسل تنبيهات حرجة يدوياً عبر واتساب. هذا يكفي لـ 5 شركات. بعد 10 عملاء — نربط WhatsApp Business API + Twilio SMS. التنبيه يصل تلقائياً لما Health Score ينزل تحت 40 أو يظهر كود DTC خطير. جلسة برمجة واحدة.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">إيش الناقص في المنتج الحالي؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>المنتج كـ MVP مكتمل 100%.</strong> الناقص هو "بيانات حقيقية" فقط. كل الميزات الأساسية شغّالة: Auth، Dashboard، Health Score، تنبيهات، تقارير، ثنائي اللغة، تشخيص ذكي. الخطوة الوحيدة: ربط جهاز OBD حقيقي = تحويل الديمو لمنتج حي.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">ليش ما نبني كل شيء قبل ما نبيع؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>لأن هذا أكبر خطأ يرتكبه المؤسسون.</strong> 90% من المشاريع تموت لأنها بنت كل شيء قبل أن تسأل: هل أحد يريد هذا؟ الاستراتيجية الصحيحة: ابنِ الحد الأدنى → أثبت أن الناس تريده → ثم أضف الميزات بناءً على طلب العملاء الفعليين. كل ميزة تبنيها بدون طلب عميل = وقت ضائع.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">ما الجهاز المناسب وكم سعره؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>Teltonika FMC003</strong> — معتمد من هيئة الاتصالات السعودية (CST). 4G LTE. Plug & Play بدون تركيب معقد. يقرأ كل بيانات Health Score (حرارة المحرك، أكواد DTC، جهد البطارية، مستوى الوقود، RPM). السعر: ~400-450 ريال + شريحة بيانات ~30 ريال/شهر. الموزع: Nexcel Saudi أو Getic.com.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">هل أبني صفحة هبوط؟ ومتى؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>نعم، والتوقيت: بالتوازي مع انتظار وصول الجهاز.</strong> صفحة واحدة بسيطة بـ 5 أقسام: عنوان + مشكلة + حل + فيديو + نموذج تواصل. الهدف: لما ترسل الفيديو على واتساب، يكون عندك رابط يوجّه المهتم له. جلسة برمجة واحدة.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">كيف أشرح المشروع لشخص غير تقني؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>جملة واحدة:</strong> "FleetAI = ميكانيكي رقمي يشتغل 24/7 على كل سياراتك." أو بتفصيل أكثر: "جهاز صغير يُركّب في السيارة يراقب صحتها ويرسل لك تنبيه لو فيها مشكلة — قبل ما تعطّل وتخسر فلوس." لا تذكر أي تقنية (Next.js، PostgreSQL، إلخ) — أبداً.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">ما هو الـ Health Score وكيف يُحسب؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>رقم من 0 إلى 100 يمثل صحة السيارة:</strong><br>• أكواد DTC النشطة: 30 نقطة (0 أكواد=30، كود=20، كودان=10، 3+=0)<br>• حرارة المحرك: 25 نقطة (70-95°C=25، 95-105=15، 105-115=5، >115=0)<br>• أيام منذ الصيانة: 20 نقطة (<30=20، 30-90=15، 90-180=10، >180=0)<br>• جهد البطارية: 15 نقطة (12.4-14.7V=15، 12-12.4=8، خارج=0)<br>• مستوى الوقود: 10 نقطة (>30%=10، 15-30%=6، <15%=2)<br><br><strong>الألوان:</strong> أخضر >70 | أصفر 40-70 | أحمر <40</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">ما التقنيات المستخدمة في البناء؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>البنية التقنية (مقفلة — لا تتغير):</strong><br>• واجهة المستخدم: Next.js 14 + TypeScript + Tailwind CSS + Shadcn/ui<br>• قاعدة البيانات: PostgreSQL عبر Supabase (مع RLS)<br>• المصادقة: Supabase Auth (Email + Google)<br>• التحديث اللحظي: Supabase Realtime<br>• الترجمة: next-intl (عربي افتراضي + إنجليزي)<br>• الرسوم البيانية: Recharts<br>• الاستضافة: Vercel + Supabase<br>• الخطوط: Cairo (عربي) + Inter (إنجليزي)<br>• الدفع (مستقبل): Moyasar<br>• IoT: REST API الآن ← MQTT + AWS IoT Core لاحقاً</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">كيف ينجح المشروع؟ ما الخطة؟ <span class="arrow">▼</span></div>
+      <div class="faq-a"><strong>الخطة واضحة:</strong><br>1. <strong>الآن:</strong> اشترِ جهاز OBD + اربطه بسيارتك + صوّر فيديو Demo<br>2. <strong>هذا الشهر:</strong> أرسل الفيديو للشركات الخمس + ابنِ صفحة هبوط<br>3. <strong>الشهر القادم:</strong> ابدأ Pilot مجاني (5 سيارات/شركة × 3 أشهر)<br>4. <strong>خلال 3 أشهر:</strong> اجمع ملاحظات + أضف WhatsApp + حسّن المنتج<br>5. <strong>بعد 3 أشهر:</strong> حوّل عملاء الـ Pilot لاشتراكات مدفوعة<br>6. <strong>بعد 10 عملاء:</strong> أتمت الدفع + أضف ميزات حسب الطلب<br><br><strong>مقياس النجاح:</strong> 3 شركات تأجير تدفع اشتراك شهري = المشروع ناجح وجاهز للتوسع.</div>
+    </div>
+  </div>
+
+  <div class="info-box info-green" style="margin-top:20px">
+    <strong>📌 الرابط الحي:</strong> fleet-ai-platform.vercel.app<br>
+    <strong>📌 GitHub:</strong> majxd/fleet-ai-platform<br>
+    <strong>📌 الجهاز:</strong> Teltonika FMC003 (4G LTE — معتمد CST)<br>
+    <strong>📌 الموزع:</strong> Nexcel Saudi (nexcelsaudi.com)<br>
+    <strong>📌 الدفع:</strong> Moyasar (يُبنى بعد 10 عملاء)<br>
+    <strong>📌 الإشعارات:</strong> WhatsApp Business API (يُبنى بعد الـ Pilot)
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function go(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+  document.querySelectorAll('.nav-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleFaq(el){
+  el.classList.toggle('open');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FleetAI — عرض المشروع</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#03060B;--surface:#080D16;--card:#0D1420;
+  --border:rgba(255,255,255,0.06);--border-h:rgba(255,255,255,0.12);
+  --text:#CBD5E1;--white:#F8FAFC;--muted:#475569;
+  --cyan:#06B6D4;--cyan-g:rgba(6,182,212,0.1);
+  --green:#10B981;--green-g:rgba(16,185,129,0.1);
+  --amber:#F59E0B;--red:#EF4444;
+  --purple:#8B5CF6;--blue:#3B82F6;
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+::selection{background:var(--cyan);color:#000}
+
+/* ---- HERO ---- */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(6,182,212,0.07),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);pointer-events:none}
+.hero::after{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,0.05),transparent 70%);bottom:-100px;right:-100px;pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--cyan-g);border:1px solid rgba(6,182,212,0.2);border-radius:99px;padding:6px 20px;font-size:0.78rem;font-weight:700;color:var(--cyan);margin-bottom:28px;letter-spacing:0.5px}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;color:var(--white);line-height:1.15;margin-bottom:16px;letter-spacing:-1px}
+.hero h1 span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:clamp(0.95rem,2vw,1.15rem);color:var(--muted);max-width:600px;line-height:1.8;margin-bottom:40px}
+.hero-link{display:inline-flex;align-items:center;gap:8px;background:var(--cyan);color:#000;font-weight:800;font-size:0.9rem;padding:14px 32px;border-radius:12px;text-decoration:none;transition:all 0.2s;letter-spacing:0.3px}
+.hero-link:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(6,182,212,0.3)}
+.scroll-hint{position:absolute;bottom:32px;color:var(--muted);font-size:0.78rem;animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---- SECTIONS ---- */
+section{max-width:1000px;margin:0 auto;padding:80px 24px}
+.section-label{font-size:0.72rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.section-title{font-family:'Outfit',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:var(--white);margin-bottom:12px;letter-spacing:-0.5px}
+.section-desc{color:var(--muted);font-size:0.95rem;max-width:650px;margin-bottom:40px;line-height:1.7}
+
+/* ---- STAT GRID ---- */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px}
+@media(max-width:700px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center;transition:border-color 0.2s}
+.stat-card:hover{border-color:var(--border-h)}
+.sc-val{font-family:'Outfit',sans-serif;font-size:2rem;font-weight:900;color:var(--white);margin-bottom:4px}
+.sc-label{font-size:0.78rem;color:var(--muted);font-weight:600}
+
+/* ---- PROBLEM ---- */
+.problem-card{background:linear-gradient(135deg,#1A0A0A,#0D1420);border:1px solid rgba(239,68,68,0.15);border-radius:20px;padding:40px;margin-bottom:32px}
+.problem-card h3{font-size:1.2rem;font-weight:800;color:var(--red);margin-bottom:16px}
+.problem-list{list-style:none;font-size:0.92rem;line-height:2.2}
+.problem-list li::before{content:'✕';color:var(--red);font-weight:900;margin-left:10px;display:inline-block;width:20px}
+
+/* ---- SOLUTION ---- */
+.solution-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.solution-grid{grid-template-columns:1fr}}
+.sol-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all 0.2s}
+.sol-card:hover{border-color:rgba(6,182,212,0.3);transform:translateY(-2px)}
+.sol-icon{font-size:2rem;margin-bottom:14px}
+.sol-title{font-size:1rem;font-weight:800;color:var(--white);margin-bottom:8px}
+.sol-desc{font-size:0.82rem;color:var(--muted);line-height:1.7}
+
+/* ---- TRACTION ---- */
+.traction-item{display:flex;gap:20px;align-items:flex-start;padding:24px 0;border-bottom:1px solid var(--border)}
+.traction-item:last-child{border-bottom:none}
+.ti-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.ti-green{background:var(--green-g);border:1px solid rgba(16,185,129,0.2)}
+.ti-title{font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px}
+.ti-desc{font-size:0.84rem;color:var(--muted);line-height:1.6}
+
+/* ---- BUSINESS MODEL ---- */
+.bm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.bm-grid{grid-template-columns:1fr}}
+.bm-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;position:relative}
+.bm-card.featured{border-color:var(--cyan);background:linear-gradient(180deg,rgba(6,182,212,0.06),var(--card))}
+.bm-card.featured::before{content:'الأكثر طلباً';position:absolute;top:-10px;right:50%;transform:translateX(50%);background:var(--cyan);color:#000;font-size:0.65rem;font-weight:800;padding:3px 14px;border-radius:99px;white-space:nowrap}
+.bm-name{font-size:0.75rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.bm-price{font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:900;color:var(--white)}
+.bm-unit{font-size:0.82rem;color:var(--muted);margin-bottom:20px}
+.bm-list{text-align:right;font-size:0.82rem;line-height:2.2;color:var(--text)}
+
+/* ---- TECH ---- */
+.tech-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.tech-chip{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:0.82rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.tech-chip .tc-dot{width:8px;height:8px;border-radius:50%}
+
+/* ---- ROADMAP MINI ---- */
+.rm-item{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+.rm-dot{width:12px;height:12px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.rm-done{background:var(--green)}
+.rm-current{background:var(--cyan);box-shadow:0 0 10px rgba(6,182,212,0.4)}
+.rm-future{background:var(--muted)}
+.rm-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.rm-text{font-size:0.9rem;font-weight:700;color:var(--white)}
+.rm-sub{font-size:0.8rem;color:var(--muted)}
+
+/* ---- DEVICE ---- */
+.device-hero{background:linear-gradient(135deg,#0D1420,#0C1F3D);border:1px solid rgba(59,130,246,0.15);border-radius:20px;padding:40px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.dh-info h3{font-size:1.5rem;font-weight:900;color:var(--white);margin-bottom:6px}
+.dh-info p{color:var(--blue);font-size:0.88rem;font-weight:600}
+.dh-specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dh-spec{background:rgba(0,0,0,0.3);border-radius:8px;padding:10px 14px;min-width:160px}
+.dh-spec-label{font-size:0.68rem;color:var(--muted);font-weight:700}
+.dh-spec-val{font-size:0.88rem;font-weight:800;color:var(--white)}
+
+/* ---- MARKET ---- */
+.market-num{font-family:'Outfit',sans-serif;font-size:3rem;font-weight:900;color:var(--white);line-height:1}
+.market-sub{color:var(--muted);font-size:0.88rem;margin-top:4px}
+
+/* ---- CTA ---- */
+.cta{text-align:center;padding:80px 24px 100px;position:relative}
+.cta::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(6,182,212,0.06),transparent);top:-100px;left:50%;transform:translateX(-50%);pointer-events:none}
+.cta h2{font-family:'Outfit',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:var(--white);margin-bottom:16px}
+.cta p{color:var(--muted);font-size:1rem;margin-bottom:32px}
+.cta-info{display:inline-flex;flex-direction:column;gap:8px;text-align:center;font-size:0.9rem;color:var(--text)}
+.cta-info a{color:var(--cyan);text-decoration:none;font-weight:700;font-size:1.1rem}
+
+/* ---- FOOTER ---- */
+.footer{text-align:center;padding:20px;font-size:0.75rem;color:var(--muted);border-top:1px solid var(--border)}
+
+/* ---- DIVIDER ---- */
+.divider{width:60px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:99px;margin-bottom:40px}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-badge"><span class="dot"></span> المنصة حية الآن — fleet-ai-platform.vercel.app</div>
+  <h1>
+    أول منصة <span>مراقبة أساطيل ذكية</span><br>
+    مصممة للسوق العربي
+  </h1>
+  <p class="hero-sub">
+    FleetAI يراقب صحة سيارات التأجير 24/7 عبر أجهزة OBD + تشخيص ذكي بالذكاء الاصطناعي. يكشف المشاكل قبل أن تصبح أعطالاً مكلفة.
+  </p>
+  <a href="https://fleet-ai-platform.vercel.app" class="hero-link" target="_blank">شاهد المنصة الحية ←</a>
+  <div class="scroll-hint">▼ اسحب للأسفل</div>
+</div>
+
+<!-- ===== NUMBERS ===== -->
+<section>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="sc-val" style="color:var(--green)">11</div>
+      <div class="sc-label">ميزة مكتملة وتعمل</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-val" style="color:var(--cyan)">47</div>
+      <div class="sc-label">كود عطل مع تشخيص عربي</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-val" style="color:var(--purple)">14+</div>
+      <div class="sc-label">جلسة تطوير مكتملة</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-val" style="color:var(--amber)">5</div>
+      <div class="sc-label">شركات مهتمة بالتجربة</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROBLEM ===== -->
+<section>
+  <div class="section-label">المشكلة</div>
+  <div class="section-title">شركات التأجير تخسر الآلاف على أعطال مفاجئة</div>
+  <div class="section-desc">85% من شركات تأجير السيارات في السعودية تعاني من نفس المشكلة: أعطال غير متوقعة تكلّف عشرات الآلاف سنوياً وتضرّ بالسمعة.</div>
+
+  <div class="problem-card">
+    <h3>الواقع الحالي لشركات التأجير</h3>
+    <ul class="problem-list">
+      <li>لا يعرفون حالة سياراتهم حتى تعطّل فجأة</li>
+      <li>يدفعون آلاف الريالات لإصلاح مشاكل كان يمكن منعها</li>
+      <li>الميكانيكي يشخّص "بالحدس" — أحياناً يغيّر قطع ما تحتاج تغيير</li>
+      <li>المستأجر يعطّل السيارة بقيادة عنيفة وما أحد يعرف</li>
+      <li>لا توجد منصة مراقبة عربية — كل الحلول بالإنجليزية وبعقود طويلة</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== SOLUTION ===== -->
+<section>
+  <div class="section-label">الحل</div>
+  <div class="section-title">FleetAI — ميكانيكي رقمي يشتغل 24/7</div>
+  <div class="section-desc">جهاز صغير يُركّب في السيارة + منصة ذكية تراقب وتشخّص وتنبّه — بالعربي.</div>
+
+  <div class="solution-grid">
+    <div class="sol-card">
+      <div class="sol-icon">🏥</div>
+      <div class="sol-title">Health Score لكل سيارة</div>
+      <div class="sol-desc">رقم من 0-100 يعكس صحة السيارة لحظياً. أخضر = سليمة. أصفر = انتبه. أحمر = أوقفها الآن. يُحسب من 5 معايير حقيقية من بيانات المحرك.</div>
+    </div>
+    <div class="sol-card">
+      <div class="sol-icon">🔗</div>
+      <div class="sol-title">تشخيص ذكي يوفّر فلوس</div>
+      <div class="sol-desc">بدل ما يقول "كود P0301" ويتركك تبحث — يقول: "إشعال خاطئ + كاتاليزر = صلّح البوجي بـ 50 ريال بدل ما تغيّر الكاتاليزر بـ 3,000 ريال."</div>
+    </div>
+    <div class="sol-card">
+      <div class="sol-icon">📲</div>
+      <div class="sol-title">تنبيهات فورية واتساب</div>
+      <div class="sol-desc">لما سيارة تحتاج انتباه — تنبيه يوصلك على الواتساب مباشرة. بالعربي، واضح، مع خطوات الإصلاح والتكلفة التقريبية.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRACTION ===== -->
+<section>
+  <div class="section-label">الإنجاز</div>
+  <div class="section-title">ما تم بناؤه حتى الآن</div>
+  <div class="divider"></div>
+
+  <div class="traction-item">
+    <div class="ti-icon ti-green">✅</div>
+    <div><div class="ti-title">MVP كامل ويعمل على الإنترنت</div><div class="ti-desc">تسجيل دخول + داشبورد + تفاصيل السيارات + تنبيهات + تقارير + ثنائي اللغة (عربي/إنجليزي). جاهز للعرض.</div></div>
+  </div>
+  <div class="traction-item">
+    <div class="ti-icon ti-green">✅</div>
+    <div><div class="ti-title">47 كود عطل DTC بتوصيات عربية كاملة</div><div class="ti-desc">كل كود عطل مشروح بالعربي مع خطوات الإصلاح وتكلفة تقريبية. يغطي: المحرك، الوقود، القير، التبريد، الكهرباء، الفرامل، الانبعاثات.</div></div>
+  </div>
+  <div class="traction-item">
+    <div class="ti-icon ti-green">✅</div>
+    <div><div class="ti-title">محرك تشخيص ذكي — ربط الأكواد</div><div class="ti-desc">يربط أكواد الأعطال مع بعض لتشخيص السبب الجذري. يوفّر للعميل آلاف الريالات بمنع الإصلاحات غير الضرورية. هذه الميزة غير موجودة في 95% من المنافسين.</div></div>
+  </div>
+  <div class="traction-item">
+    <div class="ti-icon ti-green">✅</div>
+    <div><div class="ti-title">5 شركات تأجير أبدت اهتمامها بالتجربة</div><div class="ti-desc">تم التحقق من المشكلة مع 5 شركات تأجير في السعودية. أكدوا أن الأعطال المفاجئة هي مشكلتهم #1. ينتظرون الـ Pilot.</div></div>
+  </div>
+  <div class="traction-item">
+    <div class="ti-icon ti-green">✅</div>
+    <div><div class="ti-title">جهاز OBD محدد ومعتمد سعودياً</div><div class="ti-desc">Teltonika FMC003 — 4G LTE، معتمد من هيئة الاتصالات (CST)، Plug & Play بدون تركيب معقد، يقرأ كل البيانات المطلوبة.</div></div>
+  </div>
+</section>
+
+<!-- ===== BUSINESS MODEL ===== -->
+<section>
+  <div class="section-label">نموذج العمل</div>
+  <div class="section-title">اشتراك شهري لكل سيارة + بيع الأجهزة</div>
+  <div class="section-desc">إيراد متكرر (SaaS) + إيراد لمرة واحدة من الأجهزة. كل سيارة تُضاف = إيراد شهري إضافي.</div>
+
+  <div class="bm-grid">
+    <div class="bm-card">
+      <div class="bm-name">Starter</div>
+      <div class="bm-price">60 <span style="font-size:0.7rem;color:var(--muted)">ريال</span></div>
+      <div class="bm-unit">/ سيارة / شهر</div>
+      <div class="bm-list">
+        ✅ مراقبة Health Score<br>
+        ✅ تنبيهات أساسية<br>
+        ✅ تقارير شهرية<br>
+        الأنسب لـ 5–20 سيارة
+      </div>
+    </div>
+    <div class="bm-card featured">
+      <div class="bm-name">Professional</div>
+      <div class="bm-price">100 <span style="font-size:0.7rem;color:var(--muted)">ريال</span></div>
+      <div class="bm-unit">/ سيارة / شهر</div>
+      <div class="bm-list">
+        ✅ كل ميزات Starter<br>
+        ✅ تشخيص ذكي<br>
+        ✅ إشعارات واتساب<br>
+        ✅ تقارير أسبوعية PDF<br>
+        الأنسب لـ 20–100 سيارة
+      </div>
+    </div>
+    <div class="bm-card">
+      <div class="bm-name">Enterprise</div>
+      <div class="bm-price" style="font-size:1.4rem">تسعير مخصص</div>
+      <div class="bm-unit">حسب الاتفاق</div>
+      <div class="bm-list">
+        ✅ كل ميزات Professional<br>
+        ✅ AI تنبؤي<br>
+        ✅ API مفتوح<br>
+        ✅ مدير حساب مخصص<br>
+        الأنسب لـ 100+ سيارة
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:24px">
+    <div style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;font-weight:700">📊 مثال — إيرادات من 10 عملاء</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;text-align:center">
+      <div>
+        <div style="font-family:'Outfit';font-size:1.6rem;font-weight:900;color:var(--green)">50,000</div>
+        <div style="font-size:0.78rem;color:var(--muted)">ريال / شهر<br>(10 شركات × 50 سيارة × 100 ريال)</div>
+      </div>
+      <div>
+        <div style="font-family:'Outfit';font-size:1.6rem;font-weight:900;color:var(--cyan)">600,000</div>
+        <div style="font-size:0.78rem;color:var(--muted)">ريال / سنة<br>إيراد متكرر</div>
+      </div>
+      <div>
+        <div style="font-family:'Outfit';font-size:1.6rem;font-weight:900;color:var(--amber)">200,000</div>
+        <div style="font-size:0.78rem;color:var(--muted)">ريال إضافية<br>من بيع 500 جهاز OBD</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARKET ===== -->
+<section>
+  <div class="section-label">السوق</div>
+  <div class="section-title">سوق تأجير السيارات في السعودية والخليج</div>
+  <div class="divider"></div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:32px">
+    <div>
+      <div class="market-num" style="color:var(--cyan)">+500</div>
+      <div class="market-sub">شركة تأجير في السعودية</div>
+    </div>
+    <div>
+      <div class="market-num" style="color:var(--green)">0</div>
+      <div class="market-sub">منافس عربي متخصص بالتأجير</div>
+    </div>
+    <div>
+      <div class="market-num" style="color:var(--amber)">60+</div>
+      <div class="market-sub">ريال/سيارة أقل تكلفة من المنافسين الأجانب</div>
+    </div>
+  </div>
+
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;font-size:0.88rem;line-height:1.8">
+    <strong style="color:var(--white)">الميزة التنافسية:</strong> لا يوجد منافس عربي متخصص في مراقبة أساطيل التأجير. المنافسون الأجانب (Samsara, Verizon Connect) لا يدعمون العربية، يفرضون عقوداً طويلة (2-3 سنوات)، ومسعّرون لأسواق أوروبا وأمريكا. FleetAI مصمم من الصفر للسوق العربي: واجهة عربية كاملة، تشخيص بالعربي، تسعير مناسب، بدون عقود طويلة.
+  </div>
+</section>
+
+<!-- ===== TECH OVERVIEW ===== -->
+<section>
+  <div class="section-label">البنية التقنية</div>
+  <div class="section-title">بنية حديثة وجاهزة للتوسع</div>
+  <div class="divider"></div>
+
+  <div class="tech-row">
+    <div class="tech-chip"><span class="tc-dot" style="background:var(--cyan)"></span>Next.js 14</div>
+    <div class="tech-chip"><span class="tc-dot" style="background:var(--blue)"></span>TypeScript</div>
+    <div class="tech-chip"><span class="tc-dot" style="background:var(--green)"></span>PostgreSQL / Supabase</div>
+    <div class="tech-chip"><span class="tc-dot" style="background:var(--purple)"></span>Supabase Auth</div>
+    <div class="tech-chip"><span class="tc-dot" style="background:var(--amber)"></span>Realtime WebSocket</div>
+    <div class="tech-chip"><span class="tc-dot" style="background:var(--red)"></span>Tailwind CSS + RTL</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px">
+      <div style="font-size:0.88rem;font-weight:800;color:var(--white);margin-bottom:8px">🔌 اتصال IoT</div>
+      <div style="font-size:0.82rem;color:var(--muted);line-height:1.7">الآن: REST API كل دقيقة (يكفي لـ 50 سيارة). لاحقاً: MQTT + AWS IoT Core (يتحمل 100,000+ سيارة). البنية مصممة للانتقال السلس.</div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px">
+      <div style="font-size:0.88rem;font-weight:800;color:var(--white);margin-bottom:8px">💳 الدفع</div>
+      <div style="font-size:0.82rem;color:var(--muted);line-height:1.7">Moyasar (مرخّص SAMA) — مدى + Visa + Apple Pay + اشتراكات متكررة. للتوسع الخليجي: Tap Payments يغطي 6 دول.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DEVICE ===== -->
+<section>
+  <div class="section-label">الجهاز</div>
+  <div class="section-title">Teltonika FMC003 — معتمد سعودياً</div>
+  <div class="divider"></div>
+
+  <div class="device-hero">
+    <div class="dh-info">
+      <h3>Teltonika FMC003</h3>
+      <p>✅ معتمد من هيئة الاتصالات والفضاء (CST) — 4G LTE — Plug & Play</p>
+    </div>
+    <div class="dh-specs">
+      <div class="dh-spec"><div class="dh-spec-label">الاتصال</div><div class="dh-spec-val">4G LTE + 2G</div></div>
+      <div class="dh-spec"><div class="dh-spec-label">التركيب</div><div class="dh-spec-val">Plug & Play</div></div>
+      <div class="dh-spec"><div class="dh-spec-label">التكلفة</div><div class="dh-spec-val">~400 ريال</div></div>
+      <div class="dh-spec"><div class="dh-spec-label">البيانات الشهرية</div><div class="dh-spec-val">~30 ريال</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROADMAP ===== -->
+<section>
+  <div class="section-label">خارطة الطريق</div>
+  <div class="section-title">أين نحن وإلى أين نتجه</div>
+  <div class="divider"></div>
+
+  <div class="rm-item"><div class="rm-dot rm-done"></div><div><div class="rm-label" style="color:var(--green)">مكتمل</div><div class="rm-text">التحقق من السوق مع 5 شركات</div></div></div>
+  <div class="rm-item"><div class="rm-dot rm-done"></div><div><div class="rm-label" style="color:var(--green)">مكتمل</div><div class="rm-text">MVP كامل + تشخيص ذكي + Deploy</div></div></div>
+  <div class="rm-item"><div class="rm-dot rm-current"></div><div><div class="rm-label" style="color:var(--cyan)">⚡ الآن</div><div class="rm-text">ربط بيانات حقيقية + فيديو Demo + تواصل الشركات</div></div></div>
+  <div class="rm-item"><div class="rm-dot rm-future"></div><div><div class="rm-label" style="color:var(--muted)">الربع القادم</div><div class="rm-text">Pilot مجاني — 5 سيارات لكل شركة (3 أشهر)</div></div></div>
+  <div class="rm-item"><div class="rm-dot rm-future"></div><div><div class="rm-label" style="color:var(--muted)">بعد 3 أشهر</div><div class="rm-text">تحويل عملاء الـ Pilot لاشتراكات مدفوعة</div></div></div>
+  <div class="rm-item"><div class="rm-dot rm-future"></div><div><div class="rm-label" style="color:var(--muted)">2027</div><div class="rm-text">تطبيق جوال + توسع خليجي + AI تنبؤي</div></div></div>
+</section>
+
+<!-- ===== CTA ===== -->
+<div class="cta">
+  <h2>جاهز للنقاش؟</h2>
+  <p>FleetAI منتج حي الآن — وجاهز لشراكة تنقله للمرحلة التالية.</p>
+  <div class="cta-info">
+    <a href="https://fleet-ai-platform.vercel.app" target="_blank">fleet-ai-platform.vercel.app</a>
+    <span style="margin-top:12px;color:var(--muted);font-size:0.85rem">للتواصل والنقاش — تواصل معنا مباشرة</span>
+  </div>
+</div>
+
+<div class="footer">
+  FleetAI © 2026 — منصة مراقبة الأساطيل الذكية
+</div>
+
+</body>
+</html>
